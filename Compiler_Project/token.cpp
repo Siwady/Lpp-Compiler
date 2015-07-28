@@ -15,11 +15,16 @@ string Token::GetTypeString(TokenType type)
     {
         case Eof: return "EOF";break;
         case Id: return "Id";break;
+        //ReservedWords
         case entero: return "Entero";break;
         case real: return "Real";break;
         case caracter: return "Caracter";break;
         case booleano: return "Booleano";break;
         case cadena: return "Cadena";break;
+        case inicio: return "inicio";break;
+        case fin: return "fin";break;
+        case escriba: return "escriba";break;
+
 
         default: return "Unknown Token";
     }

@@ -4,6 +4,11 @@
 #include <map>
 #include <iostream>
 #include "lexicalexception.h"
+#include <iterator>
+#include <utility>
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
 
 using namespace std;
 
@@ -23,11 +28,11 @@ private:
     int Position;
     int Column;
     int Row;
-    map<TokenType,string> ReserverdWords;
+    map<string,TokenType> ReserverdWords;
     char GetCurrentSymbol();
     char GetNextSymbol();
     void InitializeReservedWords();
-    void Contains(string token);
+    bool Contains(string lexeme);
 
 };
 

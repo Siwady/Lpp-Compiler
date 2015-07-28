@@ -36,7 +36,6 @@ Token *Lexer::GetToken()
     while(true){
         switch (state) {
             case 0:
-
                 if(symbol=='\0'){
                     token->Type=Eof;
                     token->Column=column;
@@ -55,6 +54,16 @@ Token *Lexer::GetToken()
                     token->Lexeme+=symbol;
                     symbol = GetNextSymbol();
                     state = 4;
+                }
+                else if(isspace(symbol)){
+                    symbol = GetNextSymbol();
+                    column=this->Column-1;
+                }
+                else if(symbol=='\n'){
+                    /*symbol = GetNextSymbol();
+
+                    this->Row++;
+                    this->Column=column=0;*/
                 }
                 break;
 
@@ -92,6 +101,8 @@ Token *Lexer::GetToken()
                 {
                     token->Lexeme+= symbol;
                     token->Type=real;
+                    token->Column=column;
+                    token->Row=this->Row;
                     symbol = GetNextSymbol();
                 }
                 else
@@ -106,14 +117,19 @@ Token *Lexer::GetToken()
                     symbol = GetNextSymbol();
                 }
                 else{
-
+                    token->Type=Id;
+                    token->Column=column;
+                    token->Row=this->Row;
+                    if(Contains(token->Lexeme))
+                    {
+                        token->Type=ReserverdWords.at(token->Lexeme);
+                    }
                     return token;
                 }
                 break;
 
         }
     }
-    cout<<symbol;
     return token;
 }
 
@@ -134,6 +150,7 @@ char Lexer::GetNextSymbol()
     if(currentSymbol=='\n'){
         this->Row++;
         this->Column=0;
+
     }else{
         this->Column++;
     }
@@ -143,9 +160,21 @@ char Lexer::GetNextSymbol()
 
 void Lexer::InitializeReservedWords()
 {
-    this->ReserverdWords.insert(make_pair(Id,"Id"));
-    this->ReserverdWords.insert(make_pair(entero,"entero"));
-    this->ReserverdWords.insert(make_pair(real,"real"));
+    this->ReserverdWords.insert(make_pair("id",Id));
+    this->ReserverdWords.insert(make_pair("inicio",inicio));
+    this->ReserverdWords.insert(make_pair("fin",fin));
+    this->ReserverdWords.insert(make_pair("escriba",escriba));
+}
+
+bool Lexer::Contains(string lexeme)
+{
+    auto search=this->ReserverdWords.find(lexeme);
+
+    if(search!=this->ReserverdWords.end())
+    {
+        return true;
+    }
+    return false;
 }
 
 

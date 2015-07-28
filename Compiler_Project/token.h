@@ -6,7 +6,7 @@
 using namespace std;
 
 enum TokenType{
-    Eof,Id,
+    Eof,Id,Error,
 
     //Operators
     Op_Sum,Op_Div,Op_Sub,Op_Mult,Op_LogicalY,Op_LogicalO, Op_Exp,
