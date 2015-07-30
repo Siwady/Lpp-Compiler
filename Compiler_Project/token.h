@@ -23,6 +23,7 @@ enum TokenType{
     Op_LessThan,
     Op_GreaterOrEqualThan,
     Op_LessOrEqualThan,
+    Op_NotEqual,
     mod,
     Div,
 

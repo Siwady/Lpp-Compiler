@@ -75,7 +75,7 @@ bool Lexer::Contains(Map maps, string lexeme)
 Token *Lexer::GetHTMLToken()
 {
     int state=0;
-    char symbol = GetCurrentSymbol();
+    char symbol =GetCurrentSymbol();
     string lexeme = "";
     int column =this->Column;
     int row=this->Row;
@@ -91,9 +91,10 @@ Token *Lexer::GetHTMLToken()
                     state=1;
                 }else if(symbol=='\n')
                 {
+
                     token->Lexeme+=symbol;
                     this->Row++;
-                    this->Column=0;
+                    this->Column=-1;
                     column=0;
                     symbol=GetNextSymbol();
                 }
@@ -163,7 +164,7 @@ Token *Lexer::GetHTMLToken()
                 {
                     token->Lexeme+=symbol;
                     this->Row++;
-                    this->Column=0;
+                    this->Column=-1;
                     column=0;
                     symbol=GetNextSymbol();
                 }
@@ -199,7 +200,7 @@ Token *Lexer::GetLppToken()
                 }else if(symbol=='\n')
                 {
                     this->Row++;
-                    this->Column=0;
+                    this->Column=-1;
                     column=0;
                     symbol=GetNextSymbol();
 
@@ -210,9 +211,12 @@ Token *Lexer::GetLppToken()
                     symbol = GetNextSymbol();
                     state = 5;
                 }
-                else if(isalpha(symbol))
+                else if(isalpha(symbol) || symbol=='_')
                 {
+                    token->Lexeme+=symbol;
+                    symbol=GetNextSymbol();
                     state = 8;
+
                 }else if(symbol=='"')
                 {
                     token->Lexeme+=symbol;
@@ -245,20 +249,25 @@ Token *Lexer::GetLppToken()
                     symbol = GetNextSymbol();
                     state = 22;
                 }
-                else if(Contains(this->PunctualSymbols,string(1,symbol)))  //sigue malo
+                else if(Contains(this->PunctualSymbols,string(1,symbol)))
                 {
+
                     token->Type=PunctualSymbols[string(1,symbol)];
                     token->Column=column;
                     token->Row=this->Row;
                     token->Lexeme=symbol;
                     symbol = GetNextSymbol();
-                    //this->Column--;
+
+
                     return token;
                 }
                 else if(isspace(symbol)){
 
                     symbol = GetNextSymbol();
-                    //column=this->Column-1;
+                    column=this->Column;
+                }else
+                {
+                    throw LexicalException("Invalid Symbol");
                 }
                 break;
 
@@ -307,10 +316,11 @@ Token *Lexer::GetLppToken()
                 break;
 
             case 8:
-                if (isdigit(symbol) || isalpha(symbol))
+                if (isdigit(symbol) || isalpha(symbol) || symbol=='_')
                 {
                     token->Lexeme+= symbol;
                     token->Type=Id;
+                    token->Column=column;
                     symbol = GetNextSymbol();
                 }
                 else{
@@ -351,7 +361,7 @@ Token *Lexer::GetLppToken()
                 break;
 
             case 11:
-                cout<<symbol;
+
                 if(symbol=='\'' || symbol=='\0')
                 {
                     throw LexicalException("se esperaba un caracter");
@@ -384,10 +394,19 @@ Token *Lexer::GetLppToken()
             case 14:
                 if(symbol=='=' || symbol=='-')
                 {
-
                     token->Lexeme += symbol;
                     //symbol = GetNextSymbol();
                     state = 15;
+                }else if(symbol=='>')
+                {
+
+                    token->Lexeme+=symbol;
+                    token->Column=column;
+                    token->Row=this->Row;
+                    token->Type=Op_NotEqual;
+                    symbol = GetNextSymbol();
+                    return token;
+
                 }else
                 {
                     token->Type=Op_LessThan;
@@ -464,6 +483,8 @@ Token *Lexer::GetLppToken()
                 if(symbol=='\n')
                 {
                     token->Lexeme="";
+                    this->Column=-1;
+                    column=0;
                     symbol = GetNextSymbol();
                     state = 4;
                 }else if(symbol!='\0')
@@ -588,6 +609,8 @@ void Lexer::InitializeReservedWords()
     this->ReserverdWords.insert(make_pair("lectura",lectura));
     this->ReserverdWords.insert(make_pair("escritura",escritura));
     this->ReserverdWords.insert(make_pair("no",no));
+    this->ReserverdWords.insert(make_pair("o",Op_LogicalO));
+    this->ReserverdWords.insert(make_pair("y",Op_LogicalY));
 }
 
 void Lexer::InitializePunctualSymbols()

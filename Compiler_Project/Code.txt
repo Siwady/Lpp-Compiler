@@ -1,21 +1,11 @@
 <HMTL>
  <Body>
-<% 
-si (zona ='A') o (zona ='a') entonces
-comis<-0.06 * ventas
-sino si (zona='B') o (zona='b') entonces
-comis<-0.08 * ventas
-sino si (zona='C') o (zona='c') entonces
-comis<-0.09 * ventas
-sino
-comis<-0
-fin si
-fin si
-fin si
+<% ____
+inicio fin
+a<-"a" //dojsaodjasodjas
+fin
 %>
 
-<div>
-<%  escriba "hola"%>
-</div>
+
 </body>
 </HMTL>

@@ -81,6 +81,7 @@ string Token::GetTypeString(TokenType type)
         case Const_caracter: return "Const_caracter";break;
         case Const_entero: return "Const_entero";break;
         case Const_real: return "Const_real";break;
+        case Op_NotEqual: return "Op_NotEqual";break;
 
         default: return "Unknown Token";
     }
