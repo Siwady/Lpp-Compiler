@@ -28,12 +28,18 @@ private:
     int Position;
     int Column;
     int Row;
-    map<string,TokenType> ReserverdWords;
+    typedef map<string,TokenType> Map;
+    Map ReserverdWords;
+    Map PunctualSymbols;
     char GetCurrentSymbol();
     char GetNextSymbol();
     void InitializeReservedWords();
-    bool Contains(string lexeme);
-
+    void InitializePunctualSymbols();
+    bool Contains(Map maps,string lexeme);
+    bool isHtml;
+    Token *GetHTMLToken();
+    Token *GetLppToken();
+    string ToLowerCase(string word);
 };
 
 
