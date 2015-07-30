@@ -1,11 +1,3 @@
-<HMTL>
- <Body>
-<% ____
-inicio fin
-a<-"a" //dojsaodjasodjas
-fin
+
+<%
 %>
-
-
-</body>
-</HMTL>

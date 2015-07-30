@@ -478,12 +478,13 @@ Token *Lexer::GetLppToken()
                     return token;
                 }
                 break;
-//comentarios
+
             case 19:
                 if(symbol=='\n')
                 {
                     token->Lexeme="";
                     this->Column=-1;
+                    this->Row++;
                     column=0;
                     symbol = GetNextSymbol();
                     state = 4;
@@ -507,7 +508,14 @@ Token *Lexer::GetLppToken()
                 {
                     token->Lexeme+=symbol;
                     symbol = GetNextSymbol();
+
                     state = 21;
+                }else if(symbol=='\n')
+                {
+                    this->Row++;
+                    this->Column=-1;
+                    column=0;
+                    symbol=GetNextSymbol();
                 }else if(symbol!='\0')
                 {
                     token->Lexeme+=symbol;
@@ -523,6 +531,7 @@ Token *Lexer::GetLppToken()
                 {
                     token->Lexeme="";
                     symbol = GetNextSymbol();
+                    column=this->Column;
                     state=4;
                 }else if(symbol!='\0')
                 {
