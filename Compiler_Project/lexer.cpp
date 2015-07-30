@@ -620,6 +620,7 @@ void Lexer::InitializeReservedWords()
     this->ReserverdWords.insert(make_pair("no",no));
     this->ReserverdWords.insert(make_pair("o",Op_LogicalO));
     this->ReserverdWords.insert(make_pair("y",Op_LogicalY));
+    this->ReserverdWords.insert(make_pair("var",var));
 }
 
 void Lexer::InitializePunctualSymbols()

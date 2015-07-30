@@ -27,6 +27,7 @@ enum TokenType{
     mod,
     Div,
 
+    var,
     colon,
     Equal,
     LeftParent,
