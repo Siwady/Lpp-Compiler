@@ -1,8 +1,1 @@
-<%
-procedimiento ingreso( var reg_alumno alum )
-inicio
-escriba " Ingresar el nombre "
-escriba "Ingresar la nota examen "
-escriba "Ingresar la nota acumulada "
-fin
-%>
+<%ó%>

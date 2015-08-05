@@ -67,7 +67,6 @@ enum TokenType{
     escribir,
     verdadero,
     falso,
-    nueva_linea,
     LeftBrackets,
     RightBrackets,
     comma,

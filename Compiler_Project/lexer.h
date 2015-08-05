@@ -2,7 +2,6 @@
 #define LEXER_H
 #include "token.h"
 #include <map>
-#include <iostream>
 #include "lexicalexception.h"
 #include <iterator>
 #include <utility>

@@ -186,7 +186,6 @@ Token *Lexer::GetLppToken()
     string lexeme = "";
     int column =this->Column;
     Token * token=new Token();
-
     while(true){
         switch (state) {
             case 4:
@@ -203,10 +202,8 @@ Token *Lexer::GetLppToken()
                     this->Column=-1;
                     column=0;
                     symbol=GetNextSymbol();
-
                 }
                 else if(isdigit(symbol)){
-
                     token->Lexeme+=symbol;
                     symbol = GetNextSymbol();
                     state = 5;
@@ -251,18 +248,15 @@ Token *Lexer::GetLppToken()
                 }
                 else if(Contains(this->PunctualSymbols,string(1,symbol)))
                 {
-
                     token->Type=PunctualSymbols[string(1,symbol)];
                     token->Column=column;
                     token->Row=this->Row;
                     token->Lexeme=symbol;
                     symbol = GetNextSymbol();
 
-
                     return token;
                 }
                 else if(isspace(symbol)){
-
                     symbol = GetNextSymbol();
                     column=this->Column;
                 }else
@@ -342,6 +336,9 @@ Token *Lexer::GetLppToken()
                     token->Lexeme += symbol;
                     symbol = GetNextSymbol();
                     state = 10;
+                }else if(symbol=='\n')
+                {
+                    throw LexicalException("se esperaba \"");
                 }else if(symbol!='\0')
                 {
                     token->Lexeme+= symbol;
@@ -362,7 +359,7 @@ Token *Lexer::GetLppToken()
 
             case 11:
 
-                if(symbol=='\'' || symbol=='\0')
+                if(symbol=='\'' || symbol=='\0' ||symbol=='\n')
                 {
                     throw LexicalException("se esperaba un caracter");
                 }else
@@ -610,7 +607,6 @@ void Lexer::InitializeReservedWords()
     this->ReserverdWords.insert(make_pair("mod",mod));
     this->ReserverdWords.insert(make_pair("entonces",entonces));
     this->ReserverdWords.insert(make_pair("escriba",escriba));
-    this->ReserverdWords.insert(make_pair("nueva_linea",nueva_linea));
     this->ReserverdWords.insert(make_pair("es",es));
     this->ReserverdWords.insert(make_pair("archivo",archivo));
     this->ReserverdWords.insert(make_pair("secuencial",secuencial));

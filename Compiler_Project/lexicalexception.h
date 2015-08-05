@@ -9,7 +9,7 @@ class LexicalException:public exception
 {
 public:
     string Message;
-    LexicalException(string message) : Message(message) {}
+    LexicalException(string message="Lexical Exception") : Message(message) {}
 
     ~LexicalException() throw () {}
     const char* what() const throw() { return Message.c_str();}
