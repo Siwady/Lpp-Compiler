@@ -17,28 +17,29 @@ public:
     Lexer(string input);
     Lexer();
     ~Lexer();
-
+    typedef map<string,TokenType> Map;
     string Input;
     Token *GetToken();
-
+    bool Contains(Map maps,string lexeme);
+    string ToLowerCase(string word);
 
 private:
     char Symbol;
     int Position;
     int Column;
     int Row;
-    typedef map<string,TokenType> Map;
+
     Map ReserverdWords;
     Map PunctualSymbols;
     char GetCurrentSymbol();
     char GetNextSymbol();
     void InitializeReservedWords();
     void InitializePunctualSymbols();
-    bool Contains(Map maps,string lexeme);
+
     bool isHtml;
     Token *GetHTMLToken();
     Token *GetLppToken();
-    string ToLowerCase(string word);
+
 };
 
 

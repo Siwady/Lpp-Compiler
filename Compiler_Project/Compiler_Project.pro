@@ -18,9 +18,13 @@ TEMPLATE = app
 SOURCES += main.cpp \
     lexer.cpp \
     token.cpp \
-    lexicalexception.cpp
+    lexicalexception.cpp \
+    parser.cpp \
+    parserexception.cpp
 
 HEADERS += \
     lexer.h \
     token.h \
-    lexicalexception.h
+    lexicalexception.h \
+    parser.h \
+    parserexception.h
