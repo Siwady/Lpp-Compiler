@@ -18,6 +18,8 @@ private:
     typedef map<string,TokenType> Map;
     Map TypeWords;
     void InitializeTypeWords();
+    Map StatementWords;
+    void InitializeStatementWords();
 
     void Program_Code();
     void Lpp_Program();
@@ -28,8 +30,19 @@ private:
     void Declare_Variables();
     void Variables_Group();
     void ID_List();
+    void Array_Size();
+    void Integer_List();
+    void Methods_List();
+    void Method();
+    void Method_Body();
+    void Params_List();
+    void Declare_Params();
+    void Param_Group();
+    void Param();
 
     void Statement_List();
+    void Statement();
+    void Statement_Si();
 
 };
 

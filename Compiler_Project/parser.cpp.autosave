@@ -352,7 +352,7 @@ void Parser::Params_List()
     if(CurrentToken->Type==LeftParent)
     {
         ConsumeToken();
-        Declare_Variables();
+        Declare_Params();
         if(CurrentToken->Type==RightParent)
         {
             ConsumeToken();
@@ -364,9 +364,99 @@ void Parser::Params_List()
     }
 }
 
+void Parser::Declare_Params()
+{
+    Param();
+    Param_Group();
+}
+
+void Parser::Param_Group()
+{
+    if(CurrentToken->Type==comma)
+    {
+        ConsumeToken();
+        Param();
+        Param_Group();
+    }else
+    {
+        //Epsilon
+    }
+}
+
+void Parser::Param()
+{
+    if(CurrentToken->Type==var)
+    {
+        Type();
+        if(CurrentToken->Type==Id)
+        {
+            ConsumeToken();
+        }else
+            throw ParserException("se esperaba un ID,Fila:"+CurrentToken->Row+",Columna:"+CurrentToken->Column);
+       
+    }else if(Lex.Contains(TypeWords,Lex.ToLowerCase(CurrentToken->Lexeme)))
+    {
+        Type();
+        if(CurrentToken->Type==Id)
+        {
+            ConsumeToken();
+        }else
+            throw ParserException("se esperaba un ID,Fila:"+CurrentToken->Row+",Columna:"+CurrentToken->Column);     
+    }else
+        throw ParserException("se esperaba var o un Tipo de dato,Fila:"+CurrentToken->Row+",Columna:"+CurrentToken->Column);
+}
+
 
 void Parser::Statement_List()
 {
+    if(Lex.Contains(StatementWords,Lex.ToLowerCase(CurrentToken->Lexeme)))
+    {
+        Statement();
+        Statement_List();
+    }else
+    {
+        //Epsilon
+    }
+}
 
+void Parser::Statement()
+{
+    if(CurrentToken->Type==si)
+    {
+        Statement_Si();
+    }else if(CurrentToken->Type==mientras)
+    {
+        Statement_Mientras();
+    }else if(CurrentToken->Type==llamar)
+    {
+        Statement_Llamar();
+    }else if(CurrentToken->Type==caso)
+    {
+        Statement_Case();
+    }else if(CurrentToken->Type==abrir)
+    {
+        Statement_Abrir_Archivo();
+    }else if(CurrentToken->Type==escribir)
+    {
+        Statement_Escribir_Archivo();
+    }else if(CurrentToken->Type==leer)
+    {
+        Statement_Leer_Archivo();
+    }else if(CurrentToken->Type==para)
+    {
+        Statement_Para();
+    }else if(CurrentToken->Type==repita)
+    {
+        Statement_Repita();
+    }else if(CurrentToken->Type==Id)
+    {
+        Statement_Assignment();
+    }else if(CurrentToken->Type==escriba)
+    {
+        Statement_Escriba();
+    }else if(CurrentToken->Type==cerrar)
+    {
+        Statement_Cerrar_Archivo();
+    }
 }
 
