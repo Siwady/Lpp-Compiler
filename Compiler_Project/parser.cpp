@@ -27,19 +27,20 @@ void Parser::InitializeTypeWords()
 
 void Parser::InitializeStatementWords()
 {
-    this->TypeWords.insert(make_pair("si",si));
-    this->TypeWords.insert(make_pair("mientras",mientras));
-    this->TypeWords.insert(make_pair("llamar",llamar));
-    this->TypeWords.insert(make_pair("caso",caso));
-    this->TypeWords.insert(make_pair("abrir",abrir));
-    this->TypeWords.insert(make_pair("escribir",escribir));
-    this->TypeWords.insert(make_pair("leer",leer));
-    this->TypeWords.insert(make_pair("para",para));
-    this->TypeWords.insert(make_pair("repita",repita));
-    this->TypeWords.insert(make_pair("id",Id));
-    this->TypeWords.insert(make_pair("escriba",escriba));
-    this->TypeWords.insert(make_pair("cerrar",cerrar));
+    this->StatementWords.insert(make_pair("si",si));
+    this->StatementWords.insert(make_pair("mientras",mientras));
+    this->StatementWords.insert(make_pair("llamar",llamar));
+    this->StatementWords.insert(make_pair("caso",caso));
+    this->StatementWords.insert(make_pair("abrir",abrir));
+    this->StatementWords.insert(make_pair("escribir",escribir));
+    this->StatementWords.insert(make_pair("leer",leer));
+    this->StatementWords.insert(make_pair("para",para));
+    this->StatementWords.insert(make_pair("repita",repita));
+    this->StatementWords.insert(make_pair("id",Id));
+    this->StatementWords.insert(make_pair("escriba",escriba));
+    this->StatementWords.insert(make_pair("cerrar",cerrar));
 }
+
 
 void Parser::Parse()
 {
@@ -597,6 +598,323 @@ void Parser::Simple_Variable()
 
 void Parser::Compuest_Variable()
 {
+    if(CurrentToken->Type==dot)
+    {
+        ConsumeToken();
+        Variable();
+    }else
+    {
+        //Epsilon
+    }
+}
 
+void Parser::Array_Variable()
+{
+    if(CurrentToken->Type==LeftBrackets)
+    {
+        ConsumeToken();
+        Expression_List();
+        if(CurrentToken->Type==RightBrackets)
+        {
+            ConsumeToken();
+        }else
+        {
+            throw ParserException(string("se esperaba ],Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+        }
+    }else
+    {
+        //Epsilon
+    }
+}
+
+void Parser::Expression_List()
+{
+    if(CurrentToken->Type==Id ||CurrentToken->Type==Const_entero || CurrentToken->Type==Const_cadena || CurrentToken->Type==Const_caracter || CurrentToken->Type==Const_real ||CurrentToken->Type==verdadero ||CurrentToken->Type==falso ||CurrentToken->Type==LeftParent)
+    {
+        Expression();
+        Expression_Group();
+    }else
+    {
+        //Epsilon
+    }
+}
+
+void Parser::Expression_Group()
+{
+    if(CurrentToken->Type==comma)
+    {
+        ConsumeToken();
+        Expression();
+        Expression_Group();
+    }else
+    {
+        //Epsilon
+    }
+}
+
+void Parser::Statement_Mientras()
+{
+    if(CurrentToken->Type==mientras)
+    {
+        ConsumeToken();
+        Expression();
+        if(CurrentToken->Type==haga)
+        {
+            ConsumeToken();
+            Statement_List();
+            if(CurrentToken->Type==fin)
+            {
+                ConsumeToken();
+                if(CurrentToken->Type==mientras)
+                {
+                    ConsumeToken();
+                }else
+                {
+                    throw ParserException(string("se esperaba Mientras,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+                }
+            }else
+            {
+                throw ParserException(string("se esperaba Fin,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+            }
+        }else
+        {
+            throw ParserException(string("se esperaba Haga,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+        }
+    }
+}
+
+void Parser::Statement_Repita()
+{
+    if(CurrentToken->Type==repita)
+    {
+        ConsumeToken();
+        Statement_List();
+        if(CurrentToken->Type==hasta)
+        {
+            ConsumeToken();
+            Expression();
+        }else
+        {
+            throw ParserException(string("se esperaba Hasta,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+        }
+    }
+}
+
+void Parser::Statement_Llamar()
+{
+    if(CurrentToken->Type==llamar)
+    {
+        ConsumeToken();
+        if(CurrentToken->Type==Id)
+        {
+            ConsumeToken();
+            Params_List();
+        }else
+        {
+            throw ParserException(string("se esperaba un ID,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+        }
+    }
+}
+
+void Parser::Statement_Assignment()
+{
+    if(CurrentToken->Type==Id)
+    {
+        Variable();
+        if(CurrentToken->Type==Op_Assignment)
+        {
+            ConsumeToken();
+            Expression();
+        }else
+        {
+            throw ParserException(string("se esperaba <-,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+        }
+    }
+}
+
+void Parser::Statement_Case()
+{
+    if(CurrentToken->Type==caso)
+    {
+        ConsumeToken();
+        Variable();
+        Case_List();
+        Sino_Case();
+        if(CurrentToken->Type==fin)
+        {
+            ConsumeToken();
+            if(CurrentToken->Type==caso)
+            {
+                ConsumeToken();
+            }else
+            {
+                throw ParserException(string("se esperaba Caso,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+            }
+        }else
+        {
+            throw ParserException(string("se esperaba Fin Caso,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+        }
+    }
+}
+
+void Parser::Case_List()
+{
+    Define_Case();
+    Case_Group();
+}
+
+void Parser::Define_Case()
+{
+    Literal_List();
+    if(CurrentToken->Type==colon)
+    {
+        ConsumeToken();
+        Statement_List();
+    }else
+    {
+        throw ParserException(string("se esperaba :,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+    }
+}
+
+void Parser::Case_Group()
+{
+    if(CurrentToken->Type==Const_entero ||CurrentToken->Type==Const_real || CurrentToken->Type==Const_caracter || CurrentToken->Type==Const_cadena)
+    {
+        Define_Case();
+        Case_Group();
+    }else
+    {
+        //Epsilon
+    }
+}
+
+void Parser::Literal_List()
+{
+    Literal();
+    Literal_Group();
+}
+
+void Parser::Literal_Group()
+{
+    if(CurrentToken->Type==comma)
+    {
+        ConsumeToken();
+        Literal();
+        Literal_Group();
+    }else
+    {
+        //Epsilon
+    }
+}
+
+void Parser::Literal()
+{
+    if(CurrentToken->Type==Const_entero ||CurrentToken->Type==Const_real || CurrentToken->Type==Const_caracter || CurrentToken->Type==Const_cadena)
+    {
+        ConsumeToken();
+    }else
+    {
+        throw ParserException(string("se esperaba una Literal,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+    }
+}
+
+void Parser::Sino_Case()
+{
+    if(CurrentToken->Type==sino)
+    {
+        ConsumeToken();
+        if(CurrentToken->Type==colon)
+        {
+            ConsumeToken();
+            Statement_List();
+        }else
+        {
+            throw ParserException(string("se esperaba :,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+        }
+    }else
+    {
+        //Epsilon
+    }
+}
+
+void Parser::Statement_Escriba()
+{
+    if(CurrentToken->Type==escriba)
+    {
+        ConsumeToken();
+        Expression_List();
+    }else
+    {
+        throw ParserException(string("se esperaba Escriba,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+    }
+}
+
+void Parser::Statement_Abrir_Archivo()
+{
+    if(CurrentToken->Type==abrir)
+    {
+        ConsumeToken();
+        Expression();
+        if(CurrentToken->Type==como)
+        {
+            ConsumeToken();
+            Variable();
+            Operation_List();
+        }else
+        {
+            throw ParserException(string("se esperaba Como,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+        }
+    }else
+    {
+        throw ParserException(string("se esperaba Abrir,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+    }
+}
+
+void Parser::Operation_List()
+{
+    if(CurrentToken->Type==para)
+    {
+        ConsumeToken();
+        Operation();
+        Operation_Group();
+    }else
+    {
+        //Epsilon
+    }
+}
+
+void Parser::Operation_Group()
+{
+    if(CurrentToken->Type==comma)
+    {
+        ConsumeToken();
+        Operation();
+    }else
+    {
+        //Epsilon
+    }
+}
+
+void Parser::Operation()
+{
+    if(CurrentToken->Type==lectura ||CurrentToken->Type==escritura)
+    {
+        ConsumeToken();
+    }else
+    {
+        throw ParserException(string("se esperaba Escritura o Lectura,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+    }
+}
+
+void Parser::Statement_Cerrar_Archivo()
+{
+    if(CurrentToken->Type==cerrar)
+    {
+        ConsumeToken();
+        Variable();
+    }else
+    {
+        throw ParserException(string("se esperaba Cerrar,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+    }
 }
 

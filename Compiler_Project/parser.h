@@ -49,6 +49,27 @@ private:
     void Variable();
     void Simple_Variable();
     void Compuest_Variable();
+    void Array_Variable();
+    void Expression_List();
+    void Expression_Group();
+    void Statement_Mientras();
+    void Statement_Repita();
+    void Statement_Llamar();
+    void Statement_Assignment();
+    void Statement_Case();
+    void Case_List();
+    void Define_Case();
+    void Case_Group();
+    void Literal_List();
+    void Literal_Group();
+    void Literal();
+    void Sino_Case();
+    void Statement_Escriba();
+    void Statement_Abrir_Archivo();
+    void Operation_List();
+    void Operation_Group();
+    void Operation();
+    void Statement_Cerrar_Archivo();
 };
 
 #endif // PARSER_H
