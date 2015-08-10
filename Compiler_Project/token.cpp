@@ -61,6 +61,7 @@ string Token::GetTypeString(TokenType type)
         case abrir: return "abrir";break;
         case cerrar: return "cerrar";break;
         case escribir: return "escribir";break;
+        case leer: return "leer";break;
         case verdadero: return "verdadero";break;
         case falso: return "falso";break;
         case es: return "es";break;

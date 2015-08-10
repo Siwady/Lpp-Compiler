@@ -43,7 +43,12 @@ private:
     void Statement_List();
     void Statement();
     void Statement_Si();
-
+    void Statement_Sino();
+    void Statement_SinoP();
+    void Statement_Para();
+    void Variable();
+    void Simple_Variable();
+    void Compuest_Variable();
 };
 
 #endif // PARSER_H

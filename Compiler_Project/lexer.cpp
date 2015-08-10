@@ -601,6 +601,7 @@ void Lexer::InitializeReservedWords()
     this->ReserverdWords.insert(make_pair("abrir",abrir));
     this->ReserverdWords.insert(make_pair("cerrar",cerrar));
     this->ReserverdWords.insert(make_pair("escribir",escribir));
+    this->ReserverdWords.insert(make_pair("leer",leer));
     this->ReserverdWords.insert(make_pair("verdadero",verdadero));
     this->ReserverdWords.insert(make_pair("falso",falso));
     this->ReserverdWords.insert(make_pair("div",Div));

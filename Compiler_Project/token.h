@@ -65,6 +65,7 @@ enum TokenType{
     abrir,
     cerrar,
     escribir,
+    leer,
     verdadero,
     falso,
     LeftBrackets,
