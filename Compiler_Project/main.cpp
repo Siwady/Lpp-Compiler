@@ -27,7 +27,11 @@ int main(int argc, char *argv[])
         }
         std::cout<<currentToken->ToString()<<"\n";*/
 
+        cout<<"Parser Works";
     }catch (LexicalException& e)
+    {
+        cout << e.what() << '\n';
+    }catch (ParserException& e)
     {
         cout << e.what() << '\n';
     }catch (exception& e)

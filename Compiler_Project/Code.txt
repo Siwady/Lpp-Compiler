@@ -1,1 +1,11 @@
-<%ó%>
+<%
+   para L <- 1 hasta 5 haga
+	para c <- 1 hasta 4 haga
+            escriba a
+	fin para 
+   Fin Para
+%>
+<body>
+<%
+   
+%>

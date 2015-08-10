@@ -4,8 +4,8 @@ Parser::Parser(Lexer *lex)
 {
     this->Lex=lex;
     InitializeTypeWords();
+    InitializeStatementWords();
     ConsumeToken();
-
 }
 
 void Parser::ConsumeToken()
@@ -53,8 +53,10 @@ void Parser::Parse()
 
 void Parser::Program_Code()
 {
-    if(CurrentToken->Type== tipo ||CurrentToken->Type== registro || Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)) || CurrentToken->Type== procedimiento  ||CurrentToken->Type== funcion)
+
+    if(CurrentToken->Type== tipo ||CurrentToken->Type== registro || Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)) || CurrentToken->Type== procedimiento  ||CurrentToken->Type== funcion ||CurrentToken->Type== Id ||Lex->Contains(StatementWords,Lex->ToLowerCase(CurrentToken->Lexeme))|| CurrentToken->Type==Id)
     {
+
         Lpp_Program();
         Program_Code();
     }else if(CurrentToken->Type==Html)
@@ -78,7 +80,7 @@ void Parser::Program_Header()
     if(CurrentToken->Type==tipo || CurrentToken->Type==registro)
     {
         Types_List();
-    }else if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)))
+    }else if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)) || CurrentToken->Type==Id)
     {
         Declare_Variables();
     }else if(CurrentToken->Type== procedimiento  ||CurrentToken->Type== funcion)
@@ -113,7 +115,7 @@ void Parser::Types_Structure()
            if(CurrentToken->Type==es)
            {
                ConsumeToken();
-               if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)))
+               if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)) || CurrentToken->Type==Id)
                {
                     Type();
                }else{
@@ -131,7 +133,7 @@ void Parser::Types_Structure()
         if(CurrentToken->Type==Id)
         {
             ConsumeToken();
-            if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)))
+            if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)) || CurrentToken->Type==Id)
             {
                 Declare_Variables();
                 if(CurrentToken->Type==fin)
@@ -195,7 +197,7 @@ void Parser::Type()
                     if(CurrentToken->Type==de)
                     {
                         ConsumeToken();
-                        if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)))
+                        if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme))|| CurrentToken->Type==Id)
                         {
                             Type();
                         }else{
@@ -219,22 +221,26 @@ void Parser::Type()
         if(CurrentToken->Type==de)
         {
             ConsumeToken();
-            if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)))
+            if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme))|| CurrentToken->Type==Id)
             {
                 Type();
             }else{
                 throw ParserException(string("se esperaba un tipo,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
             }
         }
+    }else if(CurrentToken->Type==Id ||CurrentToken->Type==entero ||CurrentToken->Type==real||CurrentToken->Type==booleano|| CurrentToken->Type==caracter)
+    {
+
+        ConsumeToken();
     }else
     {
-        ConsumeToken();
+        throw ParserException(string("se esperaba un tipo,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
 void Parser::Declare_Variables()
 {
-    if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)))
+    if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme))|| CurrentToken->Type==Id)
     {
         Variables_Group();
         Declare_Variables();
@@ -247,7 +253,7 @@ void Parser::Declare_Variables()
 
 void Parser::Variables_Group()
 {
-    if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)))
+    if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme))||CurrentToken->Type==Id)
     {
         Type();
         if(CurrentToken->Type==Id)
@@ -258,6 +264,8 @@ void Parser::Variables_Group()
         }else{
             throw ParserException(string("se esperaba un Id,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
         }
+    }else{
+        throw ParserException(string("se esperaba un Tipo,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
@@ -316,6 +324,8 @@ void Parser::Methods_List()
         Declare_Variables();
         Method_Body();
         Methods_List();
+    }else{
+        throw ParserException(string("se esperaba Funcion  o Procedimiento,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
@@ -348,6 +358,8 @@ void Parser::Method()
         }else{
             throw ParserException(string("se esperaba un ID,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
         }
+    }else{
+        throw ParserException(string("se esperaba Funcion o Procedimiento,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
@@ -356,7 +368,7 @@ void Parser::Method_Body()
     if(CurrentToken->Type==inicio)
     {
         ConsumeToken();
-        if(Lex->Contains(StatementWords,Lex->ToLowerCase(CurrentToken->Lexeme)))
+        if(Lex->Contains(StatementWords,Lex->ToLowerCase(CurrentToken->Lexeme))|| CurrentToken->Type==Id)
         {
             Statement_List();
         }else
@@ -416,7 +428,7 @@ void Parser::Param()
         }else{
             throw ParserException(string("se esperaba un ID,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
         }
-    }else if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)))
+    }else if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme))|| CurrentToken->Type==Id)
     {
         Type();
         if(CurrentToken->Type==Id)
@@ -433,7 +445,7 @@ void Parser::Param()
 
 void Parser::Statement_List()
 {
-    if(Lex->Contains(StatementWords,Lex->ToLowerCase(CurrentToken->Lexeme)))
+    if(Lex->Contains(StatementWords,Lex->ToLowerCase(CurrentToken->Lexeme))|| CurrentToken->Type==Id)
     {
         Statement();
         Statement_List();
@@ -488,6 +500,7 @@ void Parser::Statement_Si()
 {
     if(CurrentToken->Type==si)
     {
+
         ConsumeToken();
         Expression();
         if(CurrentToken->Type==entonces)
@@ -510,6 +523,8 @@ void Parser::Statement_Si()
         }else{
             throw ParserException(string("se esperaba entonces,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
         }
+    }else{
+        throw ParserException(string("se esperaba Si ,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
@@ -575,6 +590,8 @@ void Parser::Statement_Para()
         }else{
             throw ParserException(string("se esperaba <-,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
         }
+    }else{
+        throw ParserException(string("se esperaba un Para ,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
@@ -680,6 +697,8 @@ void Parser::Statement_Mientras()
         {
             throw ParserException(string("se esperaba Haga,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
         }
+    }else{
+        throw ParserException(string("se esperaba Mientras,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
@@ -697,6 +716,8 @@ void Parser::Statement_Repita()
         {
             throw ParserException(string("se esperaba Hasta,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
         }
+    }else{
+        throw ParserException(string("se esperaba Repita,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
@@ -713,6 +734,8 @@ void Parser::Statement_Llamar()
         {
             throw ParserException(string("se esperaba un ID,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
         }
+    }else{
+        throw ParserException(string("se esperaba Llamar,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
@@ -754,6 +777,8 @@ void Parser::Statement_Case()
         {
             throw ParserException(string("se esperaba Fin Caso,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
         }
+    }else{
+        throw ParserException(string("se esperaba Caso,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
@@ -842,6 +867,7 @@ void Parser::Statement_Escriba()
     if(CurrentToken->Type==escriba)
     {
         ConsumeToken();
+        Expression();
         Expression_List();
     }else
     {
@@ -980,7 +1006,7 @@ void Parser::Expression()
 
 void Parser::Expression_With_Operators()
 {
-    if(CurrentToken->Type==Op_Sum ||CurrentToken->Type==Op_Sub || CurrentToken->Type==Op_Mult || CurrentToken->Type==Op_Div || CurrentToken->Type==Op_Exp || CurrentToken->Type==mod || CurrentToken->Type==Div || CurrentToken->Type==Op_LogicalY || CurrentToken->Type==Op_LogicalO)
+    if(CurrentToken->Type==Op_Sum ||CurrentToken->Type==Op_Sub || CurrentToken->Type==Op_Mult || CurrentToken->Type==Op_Div || CurrentToken->Type==Op_Exp || CurrentToken->Type==mod || CurrentToken->Type==Div || CurrentToken->Type==Op_LogicalY || CurrentToken->Type==Op_LogicalO||CurrentToken->Type==Equal)
     {
         Operator();
         Factor();
@@ -993,9 +1019,11 @@ void Parser::Expression_With_Operators()
 
 void Parser::Operator()
 {
-    if(CurrentToken->Type==Op_Sum ||CurrentToken->Type==Op_Sub || CurrentToken->Type==Op_Mult || CurrentToken->Type==Op_Div || CurrentToken->Type==Op_Exp || CurrentToken->Type==mod || CurrentToken->Type==Div || CurrentToken->Type==Op_LogicalY || CurrentToken->Type==Op_LogicalO)
+    if(CurrentToken->Type==Op_Sum ||CurrentToken->Type==Op_Sub || CurrentToken->Type==Op_Mult || CurrentToken->Type==Op_Div || CurrentToken->Type==Op_Exp || CurrentToken->Type==mod || CurrentToken->Type==Div || CurrentToken->Type==Op_LogicalY || CurrentToken->Type==Op_LogicalO||CurrentToken->Type==Equal)
     {
         ConsumeToken();
+    }else{
+        throw ParserException(string("se esperaba un operador ,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
