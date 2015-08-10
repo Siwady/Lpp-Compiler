@@ -7,8 +7,8 @@
 class Parser
 {
 public:
-    Parser(Lexer lex);
-    Lexer Lex;
+    Parser(Lexer* lex);
+    Lexer* Lex;
     Token *CurrentToken;
     void ConsumeToken();
     void Parse();
@@ -70,6 +70,15 @@ private:
     void Operation_Group();
     void Operation();
     void Statement_Cerrar_Archivo();
+    void Statement_Escribir_Archivo();
+    void Statement_Leer_Archivo();
+    void Variable_List();
+    void Expression();
+    void Expression_With_Operators();
+    void Operator();
+    void Factor();
+    void Id_Factor();
+    void Variable_Factor();
 };
 
 #endif // PARSER_H

@@ -1,6 +1,6 @@
 #include "parser.h"
 
-Parser::Parser(Lexer lex)
+Parser::Parser(Lexer *lex)
 {
     this->Lex=lex;
     InitializeTypeWords();
@@ -10,7 +10,7 @@ Parser::Parser(Lexer lex)
 
 void Parser::ConsumeToken()
 {
-    this->CurrentToken = this->Lex.GetToken();
+    this->CurrentToken = this->Lex->GetToken();
 }
 
 void Parser::InitializeTypeWords()
@@ -53,7 +53,7 @@ void Parser::Parse()
 
 void Parser::Program_Code()
 {
-    if(CurrentToken->Type== tipo ||CurrentToken->Type== registro || Lex.Contains(TypeWords,Lex.ToLowerCase(CurrentToken->Lexeme)) || CurrentToken->Type== procedimiento  ||CurrentToken->Type== funcion)
+    if(CurrentToken->Type== tipo ||CurrentToken->Type== registro || Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)) || CurrentToken->Type== procedimiento  ||CurrentToken->Type== funcion)
     {
         Lpp_Program();
         Program_Code();
@@ -78,7 +78,7 @@ void Parser::Program_Header()
     if(CurrentToken->Type==tipo || CurrentToken->Type==registro)
     {
         Types_List();
-    }else if(Lex.Contains(TypeWords,Lex.ToLowerCase(CurrentToken->Lexeme)))
+    }else if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)))
     {
         Declare_Variables();
     }else if(CurrentToken->Type== procedimiento  ||CurrentToken->Type== funcion)
@@ -113,7 +113,7 @@ void Parser::Types_Structure()
            if(CurrentToken->Type==es)
            {
                ConsumeToken();
-               if(Lex.Contains(TypeWords,Lex.ToLowerCase(CurrentToken->Lexeme)))
+               if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)))
                {
                     Type();
                }else{
@@ -131,7 +131,7 @@ void Parser::Types_Structure()
         if(CurrentToken->Type==Id)
         {
             ConsumeToken();
-            if(Lex.Contains(TypeWords,Lex.ToLowerCase(CurrentToken->Lexeme)))
+            if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)))
             {
                 Declare_Variables();
                 if(CurrentToken->Type==fin)
@@ -195,7 +195,7 @@ void Parser::Type()
                     if(CurrentToken->Type==de)
                     {
                         ConsumeToken();
-                        if(Lex.Contains(TypeWords,Lex.ToLowerCase(CurrentToken->Lexeme)))
+                        if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)))
                         {
                             Type();
                         }else{
@@ -219,7 +219,7 @@ void Parser::Type()
         if(CurrentToken->Type==de)
         {
             ConsumeToken();
-            if(Lex.Contains(TypeWords,Lex.ToLowerCase(CurrentToken->Lexeme)))
+            if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)))
             {
                 Type();
             }else{
@@ -234,7 +234,7 @@ void Parser::Type()
 
 void Parser::Declare_Variables()
 {
-    if(Lex.Contains(TypeWords,Lex.ToLowerCase(CurrentToken->Lexeme)))
+    if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)))
     {
         Variables_Group();
         Declare_Variables();
@@ -247,7 +247,7 @@ void Parser::Declare_Variables()
 
 void Parser::Variables_Group()
 {
-    if(Lex.Contains(TypeWords,Lex.ToLowerCase(CurrentToken->Lexeme)))
+    if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)))
     {
         Type();
         if(CurrentToken->Type==Id)
@@ -356,7 +356,7 @@ void Parser::Method_Body()
     if(CurrentToken->Type==inicio)
     {
         ConsumeToken();
-        if(Lex.Contains(StatementWords,Lex.ToLowerCase(CurrentToken->Lexeme)))
+        if(Lex->Contains(StatementWords,Lex->ToLowerCase(CurrentToken->Lexeme)))
         {
             Statement_List();
         }else
@@ -416,7 +416,7 @@ void Parser::Param()
         }else{
             throw ParserException(string("se esperaba un ID,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
         }
-    }else if(Lex.Contains(TypeWords,Lex.ToLowerCase(CurrentToken->Lexeme)))
+    }else if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)))
     {
         Type();
         if(CurrentToken->Type==Id)
@@ -433,7 +433,7 @@ void Parser::Param()
 
 void Parser::Statement_List()
 {
-    if(Lex.Contains(StatementWords,Lex.ToLowerCase(CurrentToken->Lexeme)))
+    if(Lex->Contains(StatementWords,Lex->ToLowerCase(CurrentToken->Lexeme)))
     {
         Statement();
         Statement_List();
@@ -916,5 +916,137 @@ void Parser::Statement_Cerrar_Archivo()
     {
         throw ParserException(string("se esperaba Cerrar,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
+}
+
+void Parser::Statement_Escribir_Archivo()
+{
+    if(CurrentToken->Type==escribir)
+    {
+        ConsumeToken();
+        Expression();
+        if(CurrentToken->Type==comma)
+        {
+            ConsumeToken();
+            Expression_List();
+        }else
+        {
+            throw ParserException(string("se esperaba , ,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+        }
+    }else
+    {
+        throw ParserException(string("se esperaba Escribir,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+    }
+}
+
+void Parser::Statement_Leer_Archivo()
+{
+    if(CurrentToken->Type==leer)
+    {
+        ConsumeToken();
+        Variable();
+        if(CurrentToken->Type==comma)
+        {
+            ConsumeToken();
+            Variable();
+            Variable_List();
+        }else
+        {
+            throw ParserException(string("se esperaba , ,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+        }
+    }else
+    {
+        throw ParserException(string("se esperaba Leer,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+    }
+}
+
+void Parser::Variable_List()
+{
+    if(CurrentToken->Type==comma)
+    {
+        ConsumeToken();
+        Variable();
+        Variable_List();
+    }else
+    {
+        //Epsilon
+    }
+}
+
+void Parser::Expression()
+{
+    Factor();
+    Expression_With_Operators();
+}
+
+void Parser::Expression_With_Operators()
+{
+    if(CurrentToken->Type==Op_Sum ||CurrentToken->Type==Op_Sub || CurrentToken->Type==Op_Mult || CurrentToken->Type==Op_Div || CurrentToken->Type==Op_Exp || CurrentToken->Type==mod || CurrentToken->Type==Div || CurrentToken->Type==Op_LogicalY || CurrentToken->Type==Op_LogicalO)
+    {
+        Operator();
+        Factor();
+        Expression_With_Operators();
+    }else
+    {
+        //Epsilon
+    }
+}
+
+void Parser::Operator()
+{
+    if(CurrentToken->Type==Op_Sum ||CurrentToken->Type==Op_Sub || CurrentToken->Type==Op_Mult || CurrentToken->Type==Op_Div || CurrentToken->Type==Op_Exp || CurrentToken->Type==mod || CurrentToken->Type==Div || CurrentToken->Type==Op_LogicalY || CurrentToken->Type==Op_LogicalO)
+    {
+        ConsumeToken();
+    }
+}
+
+void Parser::Factor()
+{
+    if(CurrentToken->Type==Id)
+    {
+        ConsumeToken();
+        Id_Factor();
+    }else if(CurrentToken->Type==LeftParent)
+    {
+        ConsumeToken();
+        Expression();
+        if(CurrentToken->Type==RightParent)
+        {
+            ConsumeToken();
+        }else
+        {
+            throw ParserException(string("se esperaba ) ,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+        }
+    }else if(CurrentToken->Type==Const_entero || CurrentToken->Type==Const_cadena || CurrentToken->Type==Const_caracter || CurrentToken->Type==Const_real || CurrentToken->Type==verdadero || CurrentToken->Type==falso)
+    {
+        ConsumeToken();
+    }else
+    {
+        throw ParserException(string("se esperaba un Factor,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+    }
+}
+
+void Parser::Id_Factor()
+{
+     if(CurrentToken->Type==LeftParent)
+     {
+         ConsumeToken();
+         Expression_List();
+         if(CurrentToken->Type==RightParent)
+         {
+             ConsumeToken();
+         }
+     }else if(CurrentToken->Type==LeftBrackets || CurrentToken->Type==dot)
+     {
+         Variable_Factor();
+     }else
+     {
+          //Epsilon
+     }
+}
+
+void Parser::Variable_Factor()
+{
+    Array_Variable();
+    Compuest_Variable();
 }
 

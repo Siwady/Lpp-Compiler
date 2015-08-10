@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
+#include "parser.h"
 
 int main(int argc, char *argv[])
 {
@@ -14,19 +15,22 @@ int main(int argc, char *argv[])
 
         Lexer* lex=new Lexer(code);
 
-        Token *currentToken = lex->GetToken();
+        Parser* parser=new Parser(lex);
+        parser->Parse();
+
+        /*Token *currentToken = lex->GetToken();
 
         while (currentToken->Type != Eof)
         {
            cout<<currentToken->ToString()<<"\n";
            currentToken = lex->GetToken();
         }
-        std::cout<<currentToken->ToString()<<"\n";
+        std::cout<<currentToken->ToString()<<"\n";*/
 
-    }catch (exception& e)
+    }catch (LexicalException& e)
     {
         cout << e.what() << '\n';
-    }catch (LexicalException& e)
+    }catch (exception& e)
     {
         cout << e.what() << '\n';
     }

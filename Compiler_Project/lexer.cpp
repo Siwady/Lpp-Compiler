@@ -51,12 +51,7 @@ char Lexer::GetNextSymbol()
     this->Position++;
     char currentSymbol=GetCurrentSymbol();
 
-    /*if(currentSymbol=='\n'){
-        this->Row++;
-        this->Column=0;
-    }else{*/
-        this->Column++;
-    //}
+    this->Column++;
 
     return currentSymbol;
 }

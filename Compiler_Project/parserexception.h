@@ -9,7 +9,7 @@ class ParserException:public exception
 {
 public:
     string Message;
-    ParserException(string message="Parser Exception") : Message(message) {}
+    ParserException(string message="Syntax Error") : Message(message) {}
 
     ~ParserException() throw () {}
     const char* what() const throw() { return Message.c_str();}
