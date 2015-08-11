@@ -78,7 +78,8 @@ enum TokenType{
     escritura,
     como,
     no,
-    dot
+    dot,
+    declarar
 };
 
 class Token

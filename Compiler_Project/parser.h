@@ -27,14 +27,15 @@ private:
     void Types_List();
     void Types_Structure();
     void Type();
+    void Declare();
     void Declare_Variables();
     void Variables_Group();
     void ID_List();
     void Array_Size();
     void Integer_List();
     void Methods_List();
-    void Method();
     void Method_Body();
+    void Function_Body();
     void Params_List();
     void Declare_Params();
     void Param_Group();
@@ -74,11 +75,21 @@ private:
     void Statement_Leer_Archivo();
     void Variable_List();
     void Expression();
-    void Expression_With_Operators();
-    void Operator();
+    void ExpressionP();
+    void Bool_Expression();
+    void Bool_ExpressionP();
+    void Basic_Expression();
+    void Basic_ExpressionP();
     void Factor();
-    void Id_Factor();
+    void FactorP();
+    void Exp_Op();
+    void Exp_OpP();
+    void LogicalNot();
+
+    void Term();
+    void Id_Term();
     void Variable_Factor();
+    void Const_Negative();
 };
 
 #endif // PARSER_H

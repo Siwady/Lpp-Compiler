@@ -54,9 +54,8 @@ void Parser::Parse()
 void Parser::Program_Code()
 {
 
-    if(CurrentToken->Type== tipo ||CurrentToken->Type== registro || Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)) || CurrentToken->Type== procedimiento  ||CurrentToken->Type== funcion ||CurrentToken->Type== Id ||Lex->Contains(StatementWords,Lex->ToLowerCase(CurrentToken->Lexeme))|| CurrentToken->Type==Id)
+    if(CurrentToken->Type== tipo ||CurrentToken->Type== registro || CurrentToken->Type== procedimiento  ||CurrentToken->Type== funcion ||CurrentToken->Type== Id ||Lex->Contains(StatementWords,Lex->ToLowerCase(CurrentToken->Lexeme))|| CurrentToken->Type==Id ||CurrentToken->Type==declarar)
     {
-
         Lpp_Program();
         Program_Code();
     }else if(CurrentToken->Type==Html)
@@ -80,9 +79,9 @@ void Parser::Program_Header()
     if(CurrentToken->Type==tipo || CurrentToken->Type==registro)
     {
         Types_List();
-    }else if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)) || CurrentToken->Type==Id)
+    }else if(CurrentToken->Type==declarar)
     {
-        Declare_Variables();
+        Declare();
     }else if(CurrentToken->Type== procedimiento  ||CurrentToken->Type== funcion)
     {
         Methods_List();
@@ -133,23 +132,18 @@ void Parser::Types_Structure()
         if(CurrentToken->Type==Id)
         {
             ConsumeToken();
-            if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)) || CurrentToken->Type==Id)
+            Declare();
+            if(CurrentToken->Type==fin)
             {
-                Declare_Variables();
-                if(CurrentToken->Type==fin)
+                ConsumeToken();
+                if(CurrentToken->Type==registro)
                 {
                     ConsumeToken();
-                    if(CurrentToken->Type==registro)
-                    {
-                        ConsumeToken();
-                    }else{
-                        throw ParserException(string("se esperaba registro,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
-                    }
                 }else{
-                    throw ParserException(string("se esperaba fin,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+                    throw ParserException(string("se esperaba registro,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
                 }
             }else{
-                throw ParserException(string("se esperaba un tipo,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+                throw ParserException(string("se esperaba fin,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
             }
         }else{
             throw ParserException(string("se esperaba un ID,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
@@ -230,25 +224,32 @@ void Parser::Type()
         }
     }else if(CurrentToken->Type==Id ||CurrentToken->Type==entero ||CurrentToken->Type==real||CurrentToken->Type==booleano|| CurrentToken->Type==caracter)
     {
-
         ConsumeToken();
+    }else if(CurrentToken->Type==Op_Sub)
+    {
+        ConsumeToken();
+        Const_Negative();
     }else
     {
         throw ParserException(string("se esperaba un tipo,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
-void Parser::Declare_Variables()
+void Parser::Declare()
 {
-    if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme))|| CurrentToken->Type==Id)
+    if(CurrentToken->Type==declarar)
     {
-        Variables_Group();
+        ConsumeToken();
         Declare_Variables();
-    }
-    else
+    }else
     {
         //Epsilon
     }
+}
+
+void Parser::Declare_Variables()
+{
+    Variables_Group();
 }
 
 void Parser::Variables_Group()
@@ -318,20 +319,21 @@ void Parser::Integer_List()
 
 void Parser::Methods_List()
 {
-    if(CurrentToken->Type==funcion || CurrentToken->Type==procedimiento)
+    if(CurrentToken->Type==procedimiento)
     {
-        Method();
-        Declare_Variables();
-        Method_Body();
-        Methods_List();
-    }else{
-        throw ParserException(string("se esperaba Funcion  o Procedimiento,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
-    }
-}
+        ConsumeToken();
+        if(CurrentToken->Type==Id)
+        {
+            ConsumeToken();
+            Params_List();
+            Declare();
+            Method_Body();
+            Methods_List();
+        }else{
+            throw ParserException(string("se esperaba un ID ,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+        }
 
-void Parser::Method()
-{
-    if(CurrentToken->Type==funcion)
+    }else if( CurrentToken->Type==funcion)
     {
         ConsumeToken();
         if(CurrentToken->Type==Id)
@@ -342,26 +344,21 @@ void Parser::Method()
             {
                 ConsumeToken();
                 Type();
+                Declare();
+                Function_Body();
+                Methods_List();
             }else{
-                throw ParserException(string("se esperaba : ,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+                throw ParserException(string("se esperaba :  ,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
             }
         }else{
-            throw ParserException(string("se esperaba un ID,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
-        }
-    }else if(CurrentToken->Type==procedimiento)
-    {
-        ConsumeToken();
-        if(CurrentToken->Type==Id)
-        {
-            ConsumeToken();
-            Params_List();
-        }else{
-            throw ParserException(string("se esperaba un ID,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+            throw ParserException(string("se esperaba un ID ,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
         }
     }else{
-        throw ParserException(string("se esperaba Funcion o Procedimiento,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+        //Epsilon
     }
 }
+
+
 
 void Parser::Method_Body()
 {
@@ -371,10 +368,44 @@ void Parser::Method_Body()
         if(Lex->Contains(StatementWords,Lex->ToLowerCase(CurrentToken->Lexeme))|| CurrentToken->Type==Id)
         {
             Statement_List();
+
         }else
         {
             //Epsilon
+
         }
+        if(CurrentToken->Type==fin)
+        {
+            ConsumeToken();
+        }else{
+            throw ParserException(string("se esperaba Fin,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+        }
+    }else{
+        throw ParserException(string("se esperaba Inicio,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+    }
+}
+
+void Parser::Function_Body()
+{
+    if(CurrentToken->Type==inicio)
+    {
+        ConsumeToken();
+        Statement_List();
+
+        if(CurrentToken->Type==retorne)
+        {
+            ConsumeToken();
+            Expression();
+            if(CurrentToken->Type==fin)
+            {
+                ConsumeToken();
+            }else{
+                throw ParserException(string("se esperaba Fin,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+            }
+        }else{
+            throw ParserException(string("se esperaba Retorne,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+        }
+
     }else{
         throw ParserException(string("se esperaba Inicio,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
@@ -419,8 +450,10 @@ void Parser::Param_Group()
 
 void Parser::Param()
 {
+
     if(CurrentToken->Type==var)
     {
+        ConsumeToken();
         Type();
         if(CurrentToken->Type==Id)
         {
@@ -646,13 +679,13 @@ void Parser::Array_Variable()
 
 void Parser::Expression_List()
 {
-    if(CurrentToken->Type==Id ||CurrentToken->Type==Const_entero || CurrentToken->Type==Const_cadena || CurrentToken->Type==Const_caracter || CurrentToken->Type==Const_real ||CurrentToken->Type==verdadero ||CurrentToken->Type==falso ||CurrentToken->Type==LeftParent)
+    if(CurrentToken->Type==Id ||CurrentToken->Type==Const_entero||CurrentToken->Type==Op_Sub || CurrentToken->Type==Const_cadena || CurrentToken->Type==Const_caracter || CurrentToken->Type==Const_real ||CurrentToken->Type==verdadero ||CurrentToken->Type==falso ||CurrentToken->Type==LeftParent)
     {
         Expression();
         Expression_Group();
     }else
     {
-        //Epsilon
+        throw ParserException(string("se esperaba una expresion,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
@@ -867,7 +900,6 @@ void Parser::Statement_Escriba()
     if(CurrentToken->Type==escriba)
     {
         ConsumeToken();
-        Expression();
         Expression_List();
     }else
     {
@@ -1000,39 +1032,166 @@ void Parser::Variable_List()
 
 void Parser::Expression()
 {
-    Factor();
-    Expression_With_Operators();
+    Bool_Expression();
+    ExpressionP();
 }
 
-void Parser::Expression_With_Operators()
+void Parser::ExpressionP()
 {
-    if(CurrentToken->Type==Op_Sum ||CurrentToken->Type==Op_Sub || CurrentToken->Type==Op_Mult || CurrentToken->Type==Op_Div || CurrentToken->Type==Op_Exp || CurrentToken->Type==mod || CurrentToken->Type==Div || CurrentToken->Type==Op_LogicalY || CurrentToken->Type==Op_LogicalO||CurrentToken->Type==Equal)
+    if(CurrentToken->Type==Op_LogicalY)
     {
-        Operator();
-        Factor();
-        Expression_With_Operators();
+        ConsumeToken();
+        Bool_Expression();
+        ExpressionP();
+    }else if(CurrentToken->Type==Op_LogicalO)
+    {
+        ConsumeToken();
+        Bool_Expression();
+        ExpressionP();
     }else
     {
         //Epsilon
     }
 }
 
-void Parser::Operator()
+void Parser::Bool_Expression()
 {
-    if(CurrentToken->Type==Op_Sum ||CurrentToken->Type==Op_Sub || CurrentToken->Type==Op_Mult || CurrentToken->Type==Op_Div || CurrentToken->Type==Op_Exp || CurrentToken->Type==mod || CurrentToken->Type==Div || CurrentToken->Type==Op_LogicalY || CurrentToken->Type==Op_LogicalO||CurrentToken->Type==Equal)
+    Basic_Expression();
+    Bool_ExpressionP();
+}
+
+void Parser::Bool_ExpressionP()
+{
+    if(CurrentToken->Type==Op_LessThan)
     {
         ConsumeToken();
-    }else{
-        throw ParserException(string("se esperaba un operador ,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+        Basic_Expression();
+        Bool_ExpressionP();
+    }else if(CurrentToken->Type==Op_GreaterThan)
+    {
+        ConsumeToken();
+        Basic_Expression();
+        Bool_ExpressionP();
+    }else if(CurrentToken->Type==Op_LessOrEqualThan)
+    {
+        ConsumeToken();
+        Basic_Expression();
+        Bool_ExpressionP();
+    }else if(CurrentToken->Type==Op_GreaterOrEqualThan)
+    {
+        ConsumeToken();
+        Basic_Expression();
+        Bool_ExpressionP();
+    }else if(CurrentToken->Type==Equal)
+    {
+        ConsumeToken();
+        Basic_Expression();
+        Bool_ExpressionP();
+    }else
+    {
+        //Epsilon
+    }
+}
+
+void Parser::Basic_Expression()
+{
+    Factor();
+    Basic_ExpressionP();
+}
+
+void Parser::Basic_ExpressionP()
+{
+    if(CurrentToken->Type==Op_Sum)
+    {
+        ConsumeToken();
+        Factor();
+        Basic_ExpressionP();
+    }else if(CurrentToken->Type==Op_Sub)
+    {
+        ConsumeToken();
+        Factor();
+        Basic_ExpressionP();
+    }else
+    {
+        //Epsilon
     }
 }
 
 void Parser::Factor()
 {
+    Exp_Op();
+    FactorP();
+}
+
+void Parser::FactorP()
+{
+    if(CurrentToken->Type==Op_Mult)
+    {
+        ConsumeToken();
+        Exp_Op();
+        FactorP();
+    }else if(CurrentToken->Type==Op_Div)
+    {
+        ConsumeToken();
+        Exp_Op();
+        FactorP();
+    }else if(CurrentToken->Type==Div)
+    {
+        ConsumeToken();
+        Exp_Op();
+        FactorP();
+    }else if(CurrentToken->Type==mod)
+    {
+        ConsumeToken();
+        Exp_Op();
+        FactorP();
+    }else
+    {
+        //Epsilon
+    }
+}
+
+void Parser::Exp_Op()
+{
+    LogicalNot();
+    Exp_OpP();
+}
+
+void Parser::Exp_OpP()
+{
+    if(CurrentToken->Type==Op_Exp)
+    {
+        ConsumeToken();
+        LogicalNot();
+        Exp_OpP();
+    }else
+    {
+        //Epsilon
+    }
+}
+
+void Parser::LogicalNot()
+{
+    if(CurrentToken->Type==no)
+    {
+        ConsumeToken();
+        Term();
+    }else if(CurrentToken->Type==Id || CurrentToken->Type==Const_entero ||CurrentToken->Type==Op_Sub || CurrentToken->Type==Const_cadena || CurrentToken->Type==Const_caracter || CurrentToken->Type==Const_real || CurrentToken->Type==verdadero || CurrentToken->Type==falso || CurrentToken->Type==LeftParent)
+    {
+        Term();
+    }else
+    {
+        throw ParserException(string("se esperaba un termino,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+    }
+}
+
+
+void Parser::Term()
+{
     if(CurrentToken->Type==Id)
     {
         ConsumeToken();
-        Id_Factor();
+        Id_Term();
     }else if(CurrentToken->Type==LeftParent)
     {
         ConsumeToken();
@@ -1047,13 +1206,17 @@ void Parser::Factor()
     }else if(CurrentToken->Type==Const_entero || CurrentToken->Type==Const_cadena || CurrentToken->Type==Const_caracter || CurrentToken->Type==Const_real || CurrentToken->Type==verdadero || CurrentToken->Type==falso)
     {
         ConsumeToken();
+    }else if(CurrentToken->Type==Op_Sub)
+    {
+        ConsumeToken();
+        Const_Negative();
     }else
     {
         throw ParserException(string("se esperaba un Factor,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
-void Parser::Id_Factor()
+void Parser::Id_Term()
 {
      if(CurrentToken->Type==LeftParent)
      {
@@ -1076,5 +1239,24 @@ void Parser::Variable_Factor()
 {
     Array_Variable();
     Compuest_Variable();
+}
+
+void Parser::Const_Negative()
+{
+    if(CurrentToken->Type==Const_entero || CurrentToken->Type==Const_real || CurrentToken->Type==Id)
+    {
+        ConsumeToken();
+    }else if(CurrentToken->Type==LeftParent)
+    {
+        ConsumeToken();
+        Expression_List();
+        if(CurrentToken->Type==RightParent)
+        {
+            ConsumeToken();
+        }
+    }else
+    {
+        throw ParserException(string("Tipos de datos incompatibles,real, un Id o un ( ,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+    }
 }
 
