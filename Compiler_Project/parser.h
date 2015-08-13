@@ -27,6 +27,7 @@ private:
     void Types_List();
     void Types_Structure();
     void Type();
+    void Arch_Type();
     void Declare();
     void Declare_Variables();
     void Variables_Group();
@@ -43,6 +44,7 @@ private:
 
     void Statement_List();
     void Statement();
+    void Statement_Return();
     void Statement_Si();
     void Statement_Sino();
     void Statement_SinoP();

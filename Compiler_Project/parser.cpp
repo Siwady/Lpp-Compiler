@@ -39,6 +39,7 @@ void Parser::InitializeStatementWords()
     this->StatementWords.insert(make_pair("id",Id));
     this->StatementWords.insert(make_pair("escriba",escriba));
     this->StatementWords.insert(make_pair("cerrar",cerrar));
+    this->StatementWords.insert(make_pair("retorne",retorne));
 }
 
 
@@ -47,13 +48,12 @@ void Parser::Parse()
     Program_Code();
     if (CurrentToken->Type != Eof)
     {
-        throw ParserException(string("se esperaba EOF,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+        throw ParserException(string("Error sintactico,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
 void Parser::Program_Code()
 {
-
     if(CurrentToken->Type== tipo ||CurrentToken->Type== registro || CurrentToken->Type== procedimiento  ||CurrentToken->Type== funcion ||CurrentToken->Type== Id ||Lex->Contains(StatementWords,Lex->ToLowerCase(CurrentToken->Lexeme))|| CurrentToken->Type==Id ||CurrentToken->Type==declarar)
     {
         Lpp_Program();
@@ -114,7 +114,7 @@ void Parser::Types_Structure()
            if(CurrentToken->Type==es)
            {
                ConsumeToken();
-               if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)) || CurrentToken->Type==Id)
+               if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)) || CurrentToken->Type==Id ||CurrentToken->Type==secuencial)
                {
                     Type();
                }else{
@@ -191,6 +191,7 @@ void Parser::Type()
                     if(CurrentToken->Type==de)
                     {
                         ConsumeToken();
+
                         if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme))|| CurrentToken->Type==Id)
                         {
                             Type();
@@ -212,16 +213,8 @@ void Parser::Type()
     }else if(CurrentToken->Type==archivo)
     {
         ConsumeToken();
-        if(CurrentToken->Type==de)
-        {
-            ConsumeToken();
-            if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme))|| CurrentToken->Type==Id)
-            {
-                Type();
-            }else{
-                throw ParserException(string("se esperaba un tipo,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
-            }
-        }
+        Arch_Type();
+
     }else if(CurrentToken->Type==Id ||CurrentToken->Type==entero ||CurrentToken->Type==real||CurrentToken->Type==booleano|| CurrentToken->Type==caracter)
     {
         ConsumeToken();
@@ -235,12 +228,29 @@ void Parser::Type()
     }
 }
 
+void Parser::Arch_Type()
+{
+    if(CurrentToken->Type==de)
+    {
+        ConsumeToken();
+        Type();
+
+    }else if(CurrentToken->Type==secuencial)
+    {
+        ConsumeToken();
+    }else
+    {
+        throw ParserException(string("se esperaba De o Secuencial,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+    }
+}
+
 void Parser::Declare()
 {
     if(CurrentToken->Type==declarar)
     {
         ConsumeToken();
         Declare_Variables();
+        Declare();
     }else
     {
         //Epsilon
@@ -345,7 +355,7 @@ void Parser::Methods_List()
                 ConsumeToken();
                 Type();
                 Declare();
-                Function_Body();
+                Method_Body();
                 Methods_List();
             }else{
                 throw ParserException(string("se esperaba :  ,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
@@ -526,6 +536,24 @@ void Parser::Statement()
     }else if(CurrentToken->Type==cerrar)
     {
         Statement_Cerrar_Archivo();
+    }else if(CurrentToken->Type==retorne)
+    {
+        Statement_Return();
+    }else
+    {
+        throw ParserException(string("se esperaba una sentencia,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+    }
+}
+
+void Parser::Statement_Return()
+{
+    if(CurrentToken->Type==retorne)
+    {
+        ConsumeToken();
+        Expression();
+    }else
+    {
+        throw ParserException(string("se esperaba Retorne,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
@@ -536,6 +564,7 @@ void Parser::Statement_Si()
 
         ConsumeToken();
         Expression();
+
         if(CurrentToken->Type==entonces)
         {
             ConsumeToken();
@@ -696,7 +725,10 @@ void Parser::Expression_Group()
         ConsumeToken();
         Expression();
         Expression_Group();
-    }else
+    }/*else if(CurrentToken->Type==Op_Exp ||CurrentToken->Type==Op_Sum  ||CurrentToken->Type==Op_Div ||CurrentToken->Type==Op_Mult ||CurrentToken->Type==Op_GreaterThan||CurrentToken->Type==Op_GreaterOrEqualThan ||CurrentToken->Type==Op_LessOrEqualThan ||CurrentToken->Type==Op_LessThan ||CurrentToken->Type==Op_LogicalO ||CurrentToken->Type==Op_LogicalY ||CurrentToken->Type==Op_NotEqual ||CurrentToken->Type==Equal || CurrentToken->Type==Id ||CurrentToken->Type==Const_entero||CurrentToken->Type==Op_Sub || CurrentToken->Type==Const_cadena || CurrentToken->Type==Const_caracter || CurrentToken->Type==Const_real ||CurrentToken->Type==verdadero ||CurrentToken->Type==falso ||CurrentToken->Type==LeftParent)
+    {
+        Expression_List();
+    }*/ else
     {
         //Epsilon
     }
@@ -1032,10 +1064,16 @@ void Parser::Variable_List()
 
 void Parser::Expression()
 {
-    Bool_Expression();
-    ExpressionP();
-}
 
+    if(CurrentToken->Type==Id ||CurrentToken->Type==Const_entero||CurrentToken->Type==Op_Sub || CurrentToken->Type==Const_cadena || CurrentToken->Type==Const_caracter || CurrentToken->Type==Const_real ||CurrentToken->Type==verdadero ||CurrentToken->Type==falso ||CurrentToken->Type==LeftParent)
+    {
+        Bool_Expression();
+        ExpressionP();
+    }else
+    {
+        throw ParserException(string("se esperaba una expresion,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+    }
+}
 void Parser::ExpressionP()
 {
     if(CurrentToken->Type==Op_LogicalY)
@@ -1083,6 +1121,11 @@ void Parser::Bool_ExpressionP()
         Basic_Expression();
         Bool_ExpressionP();
     }else if(CurrentToken->Type==Equal)
+    {
+        ConsumeToken();
+        Basic_Expression();
+        Bool_ExpressionP();
+    }else if(CurrentToken->Type==Op_NotEqual)
     {
         ConsumeToken();
         Basic_Expression();
@@ -1161,6 +1204,7 @@ void Parser::Exp_OpP()
 {
     if(CurrentToken->Type==Op_Exp)
     {
+
         ConsumeToken();
         LogicalNot();
         Exp_OpP();
@@ -1196,6 +1240,7 @@ void Parser::Term()
     {
         ConsumeToken();
         Expression();
+       // Expression_List();
         if(CurrentToken->Type==RightParent)
         {
             ConsumeToken();

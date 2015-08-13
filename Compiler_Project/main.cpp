@@ -12,7 +12,6 @@ int main(int argc, char *argv[])
     {
         ifstream myCode("C:/Users/ESiwady/Documents/UNITEC/CompiladoresI/Lpp-Compiler/Compiler_Project/Code.txt");
         string code((istreambuf_iterator<char>(myCode) ),(istreambuf_iterator<char>()));
-
         Lexer* lex=new Lexer(code);
 
         Parser* parser=new Parser(lex);
@@ -27,7 +26,7 @@ int main(int argc, char *argv[])
         }
         std::cout<<currentToken->ToString()<<"\n";*/
 
-        cout<<"Parser Works";
+        cout<<"Parser Works!!!";
     }catch (LexicalException& e)
     {
         cout << e.what() << '\n';

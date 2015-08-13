@@ -240,6 +240,15 @@ Token *Lexer::GetLppToken()
                     token->Lexeme+=symbol;
                     symbol = GetNextSymbol();
                     state = 22;
+                }else if(symbol=='^')
+                {
+                    lexeme=token->Lexeme;
+                    token->Lexeme+=symbol;
+                    token->Column=column;
+                    token->Row=this->Row;
+                    symbol = GetNextSymbol();
+                    token->Type=Op_Exp;
+                    return token;
                 }
                 else if(Contains(this->PunctualSymbols,string(1,symbol)))
                 {
@@ -404,7 +413,7 @@ Token *Lexer::GetLppToken()
                     token->Type=Op_LessThan;
                     token->Column=column;
                     token->Row=this->Row;
-                    symbol = GetNextSymbol();
+                    //symbol = GetNextSymbol();
                     return token;
                 }
                 break;
@@ -438,7 +447,7 @@ Token *Lexer::GetLppToken()
                     token->Type=Op_GreaterThan;
                     token->Column=column;
                     token->Row=this->Row;
-                    symbol=GetNextSymbol();
+                    //symbol=GetNextSymbol();
                     return token;
                 }
                 break;
@@ -547,7 +556,6 @@ Token *Lexer::GetLppToken()
                     throw LexicalException("se esperaba >");
                 }
                 break;
-
         }
     }
     return token;
