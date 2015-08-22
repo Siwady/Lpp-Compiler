@@ -54,6 +54,7 @@ private:
     void Compuest_Variable();
     void Array_Variable();
     void Expression_List();
+    void Expression_ListFunctions();
     void Expression_Group();
     void Statement_Mientras();
     void Statement_Repita();

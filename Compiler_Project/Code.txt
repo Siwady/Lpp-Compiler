@@ -1,6 +1,6 @@
 <%
 	tipo Arch es archivo secuencial
-	
+	tipo ArchEnteros es archivo de entero
 	registro Empleado
 		DECLARAR cadena[50] nombre
 		DECLARAR real sueldo
@@ -11,14 +11,14 @@
 	DECLARAR Arch ArchEmple
 	DECLARAR caracter resp
 
-	abrir "empleados.txt" como archemple para escritura
+	abrir arc como archemple para escritura
 	
 	repita
 		Escriba "Nombre del emnpleado..:"
 		
-		Escriba "Sueldo del empleado...:"
+		Escriba "Sueldo del empleado...:
 		
-		Escriba "Sexo ..:"
+		Escriba "Edad..:"
 		
 		escribir archemple, emple.nombre
 		escribir archemple, emple.sueldo
@@ -26,13 +26,13 @@
 		repita 
 			Escriba "Desea Continuar ..:"
 			
-			a<-2+3
+			a.d.f.d.d.d.d.d[aass()]<-2+3
 			
 		hasta (resp="S") o (resp="N")
 	hasta resp='N'
 	
 	cerrar archemple
-	declarar entero a
+	DECLARAR entero a
 	
 %>
 <body>
@@ -45,7 +45,7 @@
 		fin para
 	fin
 	
-	funcion Potencia(entero base , entero expo): entero
+	funcion Potencia( entero base , entero expo): entero
 		DECLARAR entero i, resp
 	inicio
 		resp<- 1
@@ -61,18 +61,37 @@
 	funcion comision(caracter zona,real ventas) : real
 		Declarar real vcomis
 	inicio
-	caso zona
-		'A' : vcomis<-0.05 * ventas + 1
-		'B' : vcomis<-0.06 * ventas / 2
-		'C' : vcomis<-0.09 * ventas^2 
-	Fin Caso
-	retorne vcomis
+		caso zona
+			'A' : vcomis<-0.05 * ventas + 1
+			'B' : vcomis[vcomis[vcomis[vcomis[vcomis[34,vcomis[4]]]]]]<-0.06 * ventas / 2
+			'C' : vcomis<-(0.09 * ventas)^2 
+		Fin Caso
+		
+		retorne vcomis
 	fin
 %>
 <body>
 <%
 	si a<>1 entonces
 		escriba "son distintos ",a," de:", 1
+		s<- -1
+		llamar func(a[1,1].carro,b[getCurrentCar(0),4].L,1)
+		sino si a<> no Verdadero entonces
+			escriba "es verdadero"
+		fin si
 	fin si
+	
+	mientras no fda(archemple) haga
+		leer archemple,emple.nombre
+		leer archemple,emple.sueldo
+		leer archemple,emple.sexo
+		llamar asteriscos(emple)
+	fin mientras
+	
+	DECLARAR arreglo[10] de entero numero
+	
 %>
 <body>
+
+
+

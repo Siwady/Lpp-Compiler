@@ -659,6 +659,7 @@ void Parser::Statement_Para()
 
 void Parser::Variable()
 {
+
     Simple_Variable();
     Compuest_Variable();
 }
@@ -668,6 +669,7 @@ void Parser::Simple_Variable()
     if(CurrentToken->Type==Id)
     {
         ConsumeToken();
+
         Array_Variable();
     }else
     {
@@ -677,10 +679,12 @@ void Parser::Simple_Variable()
 
 void Parser::Compuest_Variable()
 {
+
     if(CurrentToken->Type==dot)
     {
         ConsumeToken();
         Variable();
+
     }else
     {
         //Epsilon
@@ -692,10 +696,12 @@ void Parser::Array_Variable()
     if(CurrentToken->Type==LeftBrackets)
     {
         ConsumeToken();
+
         Expression_List();
         if(CurrentToken->Type==RightBrackets)
         {
             ConsumeToken();
+
         }else
         {
             throw ParserException(string("se esperaba ],Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
@@ -708,13 +714,27 @@ void Parser::Array_Variable()
 
 void Parser::Expression_List()
 {
-    if(CurrentToken->Type==Id ||CurrentToken->Type==Const_entero||CurrentToken->Type==Op_Sub || CurrentToken->Type==Const_cadena || CurrentToken->Type==Const_caracter || CurrentToken->Type==Const_real ||CurrentToken->Type==verdadero ||CurrentToken->Type==falso ||CurrentToken->Type==LeftParent)
+    if(CurrentToken->Type==Id ||CurrentToken->Type==Const_entero||CurrentToken->Type==Op_Sub || CurrentToken->Type==Const_cadena || CurrentToken->Type==Const_caracter || CurrentToken->Type==Const_real ||CurrentToken->Type==verdadero ||CurrentToken->Type==falso ||CurrentToken->Type==LeftParent || CurrentToken->Type==no)
     {
+
         Expression();
         Expression_Group();
     }else
     {
         throw ParserException(string("se esperaba una expresion,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+    }
+}
+
+void Parser::Expression_ListFunctions()
+{
+    if(CurrentToken->Type==Id ||CurrentToken->Type==Const_entero||CurrentToken->Type==Op_Sub || CurrentToken->Type==Const_cadena || CurrentToken->Type==Const_caracter || CurrentToken->Type==Const_real ||CurrentToken->Type==verdadero ||CurrentToken->Type==falso ||CurrentToken->Type==LeftParent || CurrentToken->Type==no)
+    {
+
+        Expression();
+        Expression_Group();
+    }else
+    {
+        //throw ParserException(string("se esperaba una expresion,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
@@ -794,7 +814,7 @@ void Parser::Statement_Llamar()
         if(CurrentToken->Type==Id)
         {
             ConsumeToken();
-            Params_List();
+            Expression_List();
         }else
         {
             throw ParserException(string("se esperaba un ID,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
@@ -1065,9 +1085,10 @@ void Parser::Variable_List()
 void Parser::Expression()
 {
 
-    if(CurrentToken->Type==Id ||CurrentToken->Type==Const_entero||CurrentToken->Type==Op_Sub || CurrentToken->Type==Const_cadena || CurrentToken->Type==Const_caracter || CurrentToken->Type==Const_real ||CurrentToken->Type==verdadero ||CurrentToken->Type==falso ||CurrentToken->Type==LeftParent)
+    if(CurrentToken->Type==Id ||CurrentToken->Type==Const_entero||CurrentToken->Type==Op_Sub || CurrentToken->Type==Const_cadena || CurrentToken->Type==Const_caracter || CurrentToken->Type==Const_real ||CurrentToken->Type==verdadero ||CurrentToken->Type==falso ||CurrentToken->Type==LeftParent|| CurrentToken->Type==no)
     {
         Bool_Expression();
+
         ExpressionP();
     }else
     {
@@ -1239,8 +1260,9 @@ void Parser::Term()
     }else if(CurrentToken->Type==LeftParent)
     {
         ConsumeToken();
-        Expression();
-       // Expression_List();
+        //Expression();
+
+        Expression_List();
         if(CurrentToken->Type==RightParent)
         {
             ConsumeToken();
@@ -1266,13 +1288,14 @@ void Parser::Id_Term()
      if(CurrentToken->Type==LeftParent)
      {
          ConsumeToken();
-         Expression_List();
+         Expression_ListFunctions();
          if(CurrentToken->Type==RightParent)
          {
              ConsumeToken();
          }
      }else if(CurrentToken->Type==LeftBrackets || CurrentToken->Type==dot)
      {
+
          Variable_Factor();
      }else
      {
@@ -1282,6 +1305,7 @@ void Parser::Id_Term()
 
 void Parser::Variable_Factor()
 {
+
     Array_Variable();
     Compuest_Variable();
 }
