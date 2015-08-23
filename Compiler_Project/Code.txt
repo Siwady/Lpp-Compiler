@@ -16,7 +16,7 @@
 	repita
 		Escriba "Nombre del emnpleado..:"
 		
-		Escriba "Sueldo del empleado...:
+		Escriba "Sueldo del empleado...:"
 		
 		Escriba "Edad..:"
 		
