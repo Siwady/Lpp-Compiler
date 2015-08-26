@@ -1,4 +1,10 @@
 #include "parser.h"
+#include "IdNode.h"
+#include "EnteroNode.h"
+#include "CadenaNode.h"
+#include "CaracterNode.h"
+#include "RealNode.h"
+#include "BooleanoNode.h"
 
 
 Parser::Parser(Lexer *lex)
@@ -250,7 +256,7 @@ void Parser::Declare()
     {
         ConsumeToken();
         Declare_Variables();
-        Declare();
+        //Declare();
     }else
     {
         //Epsilon
@@ -338,7 +344,7 @@ void Parser::Methods_List()
             Params_List();
             Declare();
             Method_Body();
-            Methods_List();
+            //Methods_List();
         }else{
             throw ParserException(string("se esperaba un ID ,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
         }
@@ -356,7 +362,7 @@ void Parser::Methods_List()
                 Type();
                 Declare();
                 Method_Body();
-                Methods_List();
+                //Methods_List();
             }else{
                 throw ParserException(string("se esperaba :  ,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
             }
@@ -1252,8 +1258,9 @@ void Parser::Term()
 {
     if(CurrentToken->Type==Id)
     {
+		string id = CurrentToken->Lexeme;
         ConsumeToken();
-        Id_Term();
+        Id_Term(id);
     }else if(CurrentToken->Type==LeftParent)
     {
         ConsumeToken();
@@ -1269,7 +1276,30 @@ void Parser::Term()
         }
     }else if(CurrentToken->Type==Const_entero || CurrentToken->Type==Const_cadena || CurrentToken->Type==Const_caracter || CurrentToken->Type==Const_real || CurrentToken->Type==verdadero || CurrentToken->Type==falso)
     {
-        ConsumeToken();
+		string node=CurrentToken->Lexeme;
+		ConsumeToken();
+		/*if (CurrentToken->Type == Const_entero)
+		{
+			return new EnteroNode(atoi(node.c_str()));
+		}
+		else if (CurrentToken->Type == Const_cadena)
+		{
+			return new CadenaNode(node);
+		}
+		else if (CurrentToken->Type == Const_caracter)
+		{
+			return new CaracterNode(node.at(0));
+		}
+		else if (CurrentToken->Type == Const_real)
+		{
+			return new RealNode(atof(node.c_str()));
+		}
+		else if (CurrentToken->Type == falso || CurrentToken->Type==verdadero)
+		{
+			return new BooleanoNode(node);
+		}*/
+        
+
     }else if(CurrentToken->Type==Op_Sub)
     {
         ConsumeToken();
@@ -1280,7 +1310,7 @@ void Parser::Term()
     }
 }
 
-void Parser::Id_Term()
+void Parser::Id_Term(string id)
 {
      if(CurrentToken->Type==LeftParent)
      {
@@ -1291,12 +1321,12 @@ void Parser::Id_Term()
              ConsumeToken();
          }
      }else if(CurrentToken->Type==LeftBrackets || CurrentToken->Type==dot)
+		 
      {
-
-         Variable_Factor();
+         return Variable_Factor();
      }else
      {
-          //Epsilon
+		// return id_node;//Expsilon
      }
 }
 

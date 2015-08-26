@@ -4,6 +4,8 @@
 #include "parserexception.h"
 
 
+class ExpressionNode;
+
 class Parser
 {
 public:
@@ -77,22 +79,22 @@ private:
     void Statement_Escribir_Archivo();
     void Statement_Leer_Archivo();
     void Variable_List();
-    void Expression();
-    void ExpressionP();
-    void Bool_Expression();
-    void Bool_ExpressionP();
-    void Basic_Expression();
-    void Basic_ExpressionP();
-    void Factor();
-    void FactorP();
-    void Exp_Op();
-    void Exp_OpP();
-    void LogicalNot();
+	void Expression();
+	void ExpressionP();
+	void Bool_Expression();
+	void Bool_ExpressionP();
+	void Basic_Expression();
+	void Basic_ExpressionP();
+	void Factor();
+	void FactorP();
+	void Exp_Op();
+	void Exp_OpP();
+	void LogicalNot();
 
-    void Term();
-    void Id_Term();
-    void Variable_Factor();
-    void Const_Negative();
+	void Term();
+	void Id_Term(string id);
+	void Variable_Factor();
+	void Const_Negative();
 };
 
 #endif // PARSER_H

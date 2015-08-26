@@ -26,7 +26,7 @@
 		repita 
 			Escriba "Desea Continuar ..:"
 			
-			a.d.f.d.d.d.d.d[aass()]<-2+3
+			a.d.f.d.d.d.d.d[aass()]<- a.d.f.d.d.d.d.d
 			
 		hasta (resp="S") o (resp="N")
 	hasta resp='N'
@@ -44,6 +44,7 @@
 			escriba "*"
 		fin para
 	fin
+	
 	
 	funcion Potencia( entero base , entero expo): entero
 		DECLARAR entero i, resp

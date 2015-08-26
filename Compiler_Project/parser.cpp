@@ -91,32 +91,34 @@ void Parser::Program_Header()
     }
 }
 
-void Parser::Types_List()
+list<StructureNode*>* Parser::Types_List(list<StructureNode*>* ls)
 {
     if(CurrentToken->Type==tipo || CurrentToken->Type==registro)
     {
-       Types_Structure();
-       Types_List();
+       ls->push_back(Types_Structure());
+       return Types_List(ls);
     }else
     {
-        //Epsilon
+        return ls;//Epsilon
     }
 }
 
-void Parser::Types_Structure()
+StructureNode* Parser::Types_Structure()
 {
     if(CurrentToken->Type==tipo)
     {
        ConsumeToken();
        if(CurrentToken->Type==Id)
        {
+           string id=CurrentToken->Lexeme;
            ConsumeToken();
            if(CurrentToken->Type==es)
            {
                ConsumeToken();
                if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)) || CurrentToken->Type==Id ||CurrentToken->Type==secuencial)
                {
-                    Type();
+                    TypeStructureNode* type=new TypeStructureNode(id,Type());
+                    return type;
                }else{
                    throw ParserException(string("se esperaba un tipo,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
                }
@@ -131,14 +133,18 @@ void Parser::Types_Structure()
         ConsumeToken();
         if(CurrentToken->Type==Id)
         {
+            string id=CurrentToken->Lexeme;
             ConsumeToken();
-            Declare();
+            list<DeclareVariableNode*>* ls=new list<DeclareVariableNode*>();
+            ls=Declare(ls);
             if(CurrentToken->Type==fin)
             {
                 ConsumeToken();
                 if(CurrentToken->Type==registro)
                 {
                     ConsumeToken();
+                    RegisterStructureNode* reg=new RegisterStructureNode(id,ls);
+                    return reg;
                 }else{
                     throw ParserException(string("se esperaba registro,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
                 }
@@ -153,7 +159,7 @@ void Parser::Types_Structure()
     }
 }
 
-void Parser::Type()
+TypeNode *Parser::Type()
 {
     if(CurrentToken->Type==cadena)
     {
@@ -163,10 +169,13 @@ void Parser::Type()
             ConsumeToken();
             if(CurrentToken->Type==Const_entero)
             {
+                int size=atoi(CurrentToken->Lexeme.c_str());
                 ConsumeToken();
                 if(CurrentToken->Type==RightBrackets)
                 {
                     ConsumeToken();
+                    CadenaTypeNode* type=new CadenaTypeNode(size);
+                    return type;
                 }else{
                     throw ParserException(string("se esperaba ],Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
                 }
@@ -184,7 +193,7 @@ void Parser::Type()
             ConsumeToken();
             if(CurrentToken->Type==Const_entero)
             {
-                Array_Size();
+                list<int>* dim=Array_Size();
                 if(CurrentToken->Type==RightBrackets)
                 {
                     ConsumeToken();
@@ -194,7 +203,9 @@ void Parser::Type()
 
                         if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme))|| CurrentToken->Type==Id)
                         {
-                            Type();
+                            TypeNode* t=Type();
+                            ArrayTypeNode* type=new ArrayTypeNode(t,dim);
+                            return type;
                         }else{
                             throw ParserException(string("se esperaba un tipo,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
                         }
@@ -213,64 +224,72 @@ void Parser::Type()
     }else if(CurrentToken->Type==archivo)
     {
         ConsumeToken();
-        Arch_Type();
+        return Arch_Type();
 
     }else if(CurrentToken->Type==Id ||CurrentToken->Type==entero ||CurrentToken->Type==real||CurrentToken->Type==booleano|| CurrentToken->Type==caracter)
     {
+        SimpeTypeNode* type=new SimpeTypeNode(Lex->ToLowerCase(CurrentToken->Lexeme));
         ConsumeToken();
-    }else if(CurrentToken->Type==Op_Sub)
+        return type;
+    }/*else if(CurrentToken->Type==Op_Sub)
     {
         ConsumeToken();
         Const_Negative();
-    }else
+    }*/else
     {
         throw ParserException(string("se esperaba un tipo,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
-void Parser::Arch_Type()
+TypeNode* Parser::Arch_Type()
 {
     if(CurrentToken->Type==de)
     {
         ConsumeToken();
-        Type();
+        return Type();
 
     }else if(CurrentToken->Type==secuencial)
     {
+        SimpeTypeNode* type=new SimpeTypeNode("secuencial");
         ConsumeToken();
+        return type;
     }else
     {
         throw ParserException(string("se esperaba De o Secuencial,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
-void Parser::Declare()
+list<DeclareVariableNode*>* Parser::Declare(list<DeclareVariableNode*>* ls)
 {
     if(CurrentToken->Type==declarar)
     {
         ConsumeToken();
-        Declare_Variables();
-        Declare();
+        ls->push_back(Declare_Variables());
+        return Declare(ls);
     }else
     {
-        //Epsilon
+        return ls;//Epsilon
     }
 }
 
-void Parser::Declare_Variables()
+DeclareVariableNode* Parser::Declare_Variables()
 {
-    Variables_Group();
+    return Variables_Group();
 }
 
-void Parser::Variables_Group()
+DeclareVariableNode* Parser::Variables_Group()
 {
     if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme))||CurrentToken->Type==Id)
     {
-        Type();
+        TypeNode* type=Type();
         if(CurrentToken->Type==Id)
         {
+            list<string>* ids=new list<string>();
+            ids->push_back(CurrentToken->Lexeme);
             ConsumeToken();
-            ID_List();
+            ids=ID_List(ids);
+            DeclareVariableNode* declare=new DeclareVariableNode(type,ids);
+            return declare;
 
         }else{
             throw ParserException(string("se esperaba un Id,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
@@ -280,44 +299,50 @@ void Parser::Variables_Group()
     }
 }
 
-void Parser::ID_List()
+list<string>* Parser::ID_List(list<string>* ls)
 {
     if(CurrentToken->Type==comma)
     {
         ConsumeToken();
         if(CurrentToken->Type==Id)
         {
+            ls->push_back(CurrentToken->Lexeme);
             ConsumeToken();
-            ID_List();
+            return ID_List(ls);
         }else{
             throw ParserException(string("se esperaba un Id,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
         }
     }else
     {
-        //Epsilon
+        return ls;//Epsilon
     }
 }
 
-void Parser::Array_Size()
+list<int>* Parser::Array_Size()
 {
     if(CurrentToken->Type==Const_entero)
     {
+        list<int>* ls=new list<int>();
+        ls->push_back(atoi(CurrentToken->Lexeme.c_str()));
         ConsumeToken();
-        Integer_List();
+
+        return Integer_List(ls);
     }else{
         throw ParserException(string("se esperaba una constante entera,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
-void Parser::Integer_List()
+list<int> *Parser::Integer_List(list<int> * ls)
 {
     if(CurrentToken->Type==comma)
     {
         ConsumeToken();
         if(CurrentToken->Type==Const_entero)
         {
+            ls->push_back(atoi(CurrentToken->Lexeme.c_str()));
             ConsumeToken();
-            Integer_List();
+
+            return Integer_List(ls);
         }else{
             throw ParserException(string("se esperaba una constante entera,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
         }
@@ -327,18 +352,21 @@ void Parser::Integer_List()
     }
 }
 
-void Parser::Methods_List()
+StatementNode* Parser::Methods_List()
 {
     if(CurrentToken->Type==procedimiento)
     {
         ConsumeToken();
+        ProcedureNode* proc=new ProcedureNode();
         if(CurrentToken->Type==Id)
         {
+            proc->ID=CurrentToken->Lexeme;
             ConsumeToken();
-            Params_List();
-            Declare();
-            Method_Body();
-            Methods_List();
+            proc->Params=Params_List();
+            proc->Variables=Declare();
+            proc->Statements=Method_Body();
+            return proc;
+            //Methods_List();
         }else{
             throw ParserException(string("se esperaba un ID ,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
         }
@@ -346,17 +374,20 @@ void Parser::Methods_List()
     }else if( CurrentToken->Type==funcion)
     {
         ConsumeToken();
+        FunctionNode* func=new FunctionNode();
         if(CurrentToken->Type==Id)
         {
+            func->ID=CurrentToken->Lexeme;
             ConsumeToken();
-            Params_List();
+            func->Params=Params_List();
             if(CurrentToken->Type==colon)
             {
                 ConsumeToken();
-                Type();
-                Declare();
-                Method_Body();
-                Methods_List();
+                func->ReturnType=Type();
+                func->Variables=Declare();
+                func->Statements=Method_Body();
+                return func;
+                //Methods_List();
             }else{
                 throw ParserException(string("se esperaba :  ,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
             }
@@ -370,23 +401,23 @@ void Parser::Methods_List()
 
 
 
-void Parser::Method_Body()
+list<StatementNode *> *Parser::Method_Body()
 {
     if(CurrentToken->Type==inicio)
     {
         ConsumeToken();
+        list<StatementNode*>* ls=new list<StatementNode*>();
         if(Lex->Contains(StatementWords,Lex->ToLowerCase(CurrentToken->Lexeme))|| CurrentToken->Type==Id)
         {
-            Statement_List();
-
+            ls=Statement_List(ls);
         }else
         {
             //Epsilon
-
         }
         if(CurrentToken->Type==fin)
         {
             ConsumeToken();
+            return ls;
         }else{
             throw ParserException(string("se esperaba Fin,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
         }
@@ -395,7 +426,7 @@ void Parser::Method_Body()
     }
 }
 
-void Parser::Function_Body()
+/*void Parser::Function_Body()
 {
     if(CurrentToken->Type==inicio)
     {
@@ -420,63 +451,71 @@ void Parser::Function_Body()
         throw ParserException(string("se esperaba Inicio,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
-
-void Parser::Params_List()
+*/
+list<ParameterNode *> *Parser::Params_List()
 {
+    list<ParameterNode*>* ls=Declare_Params();
     if(CurrentToken->Type==LeftParent)
     {
         ConsumeToken();
-        Declare_Params();
         if(CurrentToken->Type==RightParent)
         {
             ConsumeToken();
+            return ls;
         }else{
            throw ParserException(string("se esperaba ),Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
         }
     }else
     {
-        //Epsilon
+        return ls;//Epsilon
     }
 }
 
-void Parser::Declare_Params()
+list<ParameterNode*>* Parser::Declare_Params()
 {
-    Param();
-    Param_Group();
+    list<ParameterNode*>* params=new list<ParameterNode*>();
+    params->push_back(Param());
+    return Param_Group(params);
 }
 
-void Parser::Param_Group()
+list<ParameterNode *> *Parser::Param_Group(list<ParameterNode*>* ls)
 {
     if(CurrentToken->Type==comma)
     {
         ConsumeToken();
-        Param();
-        Param_Group();
+        ls->push_back(Param());
+        return Param_Group(ls);
     }else
     {
-        //Epsilon
+        return ls;//Epsilon
     }
 }
 
-void Parser::Param()
+ParameterNode *Parser::Param()
 {
 
     if(CurrentToken->Type==var)
     {
         ConsumeToken();
-        Type();
+        string t=Type();
         if(CurrentToken->Type==Id)
         {
+            string id=CurrentToken->Lexeme;
             ConsumeToken();
+            ParameterNode* param=new ParameterNode(t,id,true);
+            return param;
         }else{
             throw ParserException(string("se esperaba un ID,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
         }
     }else if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme))|| CurrentToken->Type==Id)
     {
-        Type();
+        string t=Type();
         if(CurrentToken->Type==Id)
         {
+            string id=CurrentToken->Lexeme;
             ConsumeToken();
+            ParameterNode* param=new ParameterNode(t,id,false);
+            return param;
         }else{
             throw ParserException(string("se esperaba un ID,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
         }
@@ -486,96 +525,99 @@ void Parser::Param()
 }
 
 
-void Parser::Statement_List()
+list<StatementNode *> *Parser::Statement_List(list<StatementNode *> * sl)
 {
     if(Lex->Contains(StatementWords,Lex->ToLowerCase(CurrentToken->Lexeme))|| CurrentToken->Type==Id)
     {
-        Statement();
-        Statement_List();
+        sl->push_back(Statement());
+        sl=Statement_List(sl);
     }else
     {
-        //Epsilon
+        return sl;//Epsilon
     }
 }
 
-void Parser::Statement()
+StatementNode *Parser::Statement()
 {
     if(CurrentToken->Type==si)
     {
-        Statement_Si();
+        return Statement_Si();
     }else if(CurrentToken->Type==mientras)
     {
-        Statement_Mientras();
+        return Statement_Mientras();
     }else if(CurrentToken->Type==llamar)
     {
-        Statement_Llamar();
+        return Statement_Llamar();
     }else if(CurrentToken->Type==caso)
     {
-        Statement_Case();
+        return Statement_Case();
     }else if(CurrentToken->Type==abrir)
     {
-        Statement_Abrir_Archivo();
+        return Statement_Abrir_Archivo();
     }else if(CurrentToken->Type==escribir)
     {
-        Statement_Escribir_Archivo();
+        return Statement_Escribir_Archivo();
     }else if(CurrentToken->Type==leer)
     {
-        Statement_Leer_Archivo();
+        return Statement_Leer_Archivo();
     }else if(CurrentToken->Type==para)
     {
-        Statement_Para();
+        return Statement_Para();
     }else if(CurrentToken->Type==repita)
     {
-        Statement_Repita();
+        return Statement_Repita();
     }else if(CurrentToken->Type==Id)
     {
-        Statement_Assignment();
+       return  Statement_Assignment();
     }else if(CurrentToken->Type==escriba)
     {
-        Statement_Escriba();
+        return Statement_Escriba();
     }else if(CurrentToken->Type==cerrar)
     {
-        Statement_Cerrar_Archivo();
+        return Statement_Cerrar_Archivo();
     }else if(CurrentToken->Type==retorne)
     {
-        Statement_Return();
+        return Statement_Return();
     }else
     {
         throw ParserException(string("se esperaba una sentencia,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
-void Parser::Statement_Return()
+StatementNode *Parser::Statement_Return()
 {
     if(CurrentToken->Type==retorne)
     {
         ConsumeToken();
-        Expression();
+        StatementReturnNode* statement=new StatementReturnNode(Expression());
+        return statement;
     }else
     {
         throw ParserException(string("se esperaba Retorne,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
-void Parser::Statement_Si()
+StatementNode *Parser::Statement_Si()
 {
     if(CurrentToken->Type==si)
     {
-
         ConsumeToken();
-        Expression();
+        ExpressionNode* e=Expression();
 
         if(CurrentToken->Type==entonces)
         {
             ConsumeToken();
-            Statement_List();
+            list<StatementNode*>* lsSi=new list<StatementNode*>();
+            lsSi=Statement_List(lsSi);
             Statement_Sino();
             if(CurrentToken->Type==fin)
             {
                 ConsumeToken();
                 if(CurrentToken->Type==si)
                 {
+                    StatementSiNode* statement=new StatementSiNode(e,lsSi,);
                     ConsumeToken();
+
                 }else{
                     throw ParserException(string("se esperaba si,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
                 }
@@ -613,30 +655,32 @@ void Parser::Statement_SinoP()
     }
 }
 
-void Parser::Statement_Para()
+StatementNode *Parser::Statement_Para()
 {
     if(CurrentToken->Type==para)
     {
         ConsumeToken();
-        Variable();
+        VariableNode* var=Variable();
         if(CurrentToken->Type==Op_Assignment)
         {
             ConsumeToken();
-            Expression();
+            ExpressionNode* first=Expression();
             if(CurrentToken->Type==hasta)
             {
                 ConsumeToken();
-                Expression();
+                ExpressionNode* second=Expression();
                 if(CurrentToken->Type==haga)
                 {
                     ConsumeToken();
-                    Statement_List();
+                    list<StatementNode*>* ls=new list<StatementNode*>();
+                    StatementParaNode* statement=new StatementParaNode(var,first,second,Statement_List(ls));
                     if(CurrentToken->Type==fin)
                     {
                         ConsumeToken();
                         if(CurrentToken->Type==para)
                         {
                             ConsumeToken();
+                            return statement;
                         }else{
                             throw ParserException(string("se esperaba Para,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
                         }
@@ -657,119 +701,127 @@ void Parser::Statement_Para()
     }
 }
 
-void Parser::Variable()
+VariableNode* Parser::Variable()
 {
-
-    Simple_Variable();
-    Compuest_Variable();
+    VariableNode* e=Simple_Variable();
+    return Compuest_Variable(e);
 }
 
-void Parser::Simple_Variable()
+VariableNode* Parser::Simple_Variable()
 {
     if(CurrentToken->Type==Id)
     {
         ConsumeToken();
-
-        Array_Variable();
+        return Array_Variable(CurrentToken->Lexeme);
     }else
     {
         throw ParserException(string("se esperaba un ID,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
-void Parser::Compuest_Variable()
+VariableNode *Parser::Compuest_Variable(VariableNode* expressionNode)
 {
 
     if(CurrentToken->Type==dot)
     {
         ConsumeToken();
-        Variable();
-
+        VariableNode* e=Variable();
+        RegisterVariableNode* reg=new RegisterVariableNode(expressionNode,e);
+        return reg;
     }else
     {
-        //Epsilon
+        return expressionNode;//Epsilon
     }
 }
 
-void Parser::Array_Variable()
+VariableNode* Parser::Array_Variable(string id)
 {
     if(CurrentToken->Type==LeftBrackets)
     {
         ConsumeToken();
 
-        Expression_List();
+        ArrayVariableNode* arr=new ArrayVariableNode(Expression_List(),id);
         if(CurrentToken->Type==RightBrackets)
         {
             ConsumeToken();
-
+            return arr;
         }else
         {
             throw ParserException(string("se esperaba ],Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
         }
     }else
     {
+        SimpleVariableNode *e =new SimpleVariableNode(id);
+        return e;
         //Epsilon
     }
 }
 
-void Parser::Expression_List()
+list<ExpressionNode *> *Parser::Expression_List()
 {
     if(CurrentToken->Type==Id ||CurrentToken->Type==Const_entero||CurrentToken->Type==Op_Sub || CurrentToken->Type==Const_cadena || CurrentToken->Type==Const_caracter || CurrentToken->Type==Const_real ||CurrentToken->Type==verdadero ||CurrentToken->Type==falso ||CurrentToken->Type==LeftParent || CurrentToken->Type==no)
     {
-
-        Expression();
-        Expression_Group();
+        ExpressionNode* e=Expression();
+        list<ExpressionNode*> *ls=new list<ExpressionNode*>();
+        ls->push_back(e);
+        ls=Expression_Group(ls);
+        return ls;
     }else
     {
         throw ParserException(string("se esperaba una expresion,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
-void Parser::Expression_ListFunctions()
+list<ExpressionNode *> *Parser::Expression_ListFunctions(string id)
 {
+    list<ExpressionNode*> *lst=new list<ExpressionNode*>();
     if(CurrentToken->Type==Id ||CurrentToken->Type==Const_entero||CurrentToken->Type==Op_Sub || CurrentToken->Type==Const_cadena || CurrentToken->Type==Const_caracter || CurrentToken->Type==Const_real ||CurrentToken->Type==verdadero ||CurrentToken->Type==falso ||CurrentToken->Type==LeftParent || CurrentToken->Type==no)
     {
+        ExpressionNode* e=Expression();
 
-        Expression();
-        Expression_Group();
+        lst->push_back(e);
+        lst=Expression_Group(lst);
+        return lst;
     }else
     {
-        //throw ParserException(string("se esperaba una expresion,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+        return lst;//throw ParserException(string("se esperaba una expresion,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
-void Parser::Expression_Group()
+list<ExpressionNode *> *Parser::Expression_Group(list<ExpressionNode *> *ls)
 {
     if(CurrentToken->Type==comma)
     {
         ConsumeToken();
-        Expression();
-        Expression_Group();
-    }/*else if(CurrentToken->Type==Op_Exp ||CurrentToken->Type==Op_Sum  ||CurrentToken->Type==Op_Div ||CurrentToken->Type==Op_Mult ||CurrentToken->Type==Op_GreaterThan||CurrentToken->Type==Op_GreaterOrEqualThan ||CurrentToken->Type==Op_LessOrEqualThan ||CurrentToken->Type==Op_LessThan ||CurrentToken->Type==Op_LogicalO ||CurrentToken->Type==Op_LogicalY ||CurrentToken->Type==Op_NotEqual ||CurrentToken->Type==Equal || CurrentToken->Type==Id ||CurrentToken->Type==Const_entero||CurrentToken->Type==Op_Sub || CurrentToken->Type==Const_cadena || CurrentToken->Type==Const_caracter || CurrentToken->Type==Const_real ||CurrentToken->Type==verdadero ||CurrentToken->Type==falso ||CurrentToken->Type==LeftParent)
+        ExpressionNode* e=Expression();
+        ls->push_back(e);
+        ls=Expression_Group(ls);
+        return ls;
+    }else
     {
-        Expression_List();
-    }*/ else
-    {
-        //Epsilon
+        return ls;//Epsilon
     }
 }
 
-void Parser::Statement_Mientras()
+StatementNode *Parser::Statement_Mientras()
 {
     if(CurrentToken->Type==mientras)
     {
         ConsumeToken();
-        Expression();
+        ExpressionNode* expr=Expression();
         if(CurrentToken->Type==haga)
         {
             ConsumeToken();
-            Statement_List();
+            list<StatementNode*>* ls= new list<StatementNode*>();
+            ls=Statement_List(ls);
             if(CurrentToken->Type==fin)
             {
                 ConsumeToken();
                 if(CurrentToken->Type==mientras)
                 {
                     ConsumeToken();
+                    StatementMientrasNode* statement=new StatementMientrasNode(expr,ls);
+                    return statement;
                 }else
                 {
                     throw ParserException(string("se esperaba Mientras,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
@@ -787,16 +839,18 @@ void Parser::Statement_Mientras()
     }
 }
 
-void Parser::Statement_Repita()
+StatementNode *Parser::Statement_Repita()
 {
     if(CurrentToken->Type==repita)
     {
         ConsumeToken();
-        Statement_List();
+        list<StatementNode*>* ls=new list<StatementNode*>();
+        ls=Statement_List(ls);
         if(CurrentToken->Type==hasta)
         {
             ConsumeToken();
-            Expression();
+            StatementRepitaNode* statement=new StatementRepitaNode(Expression(),ls);
+            return statement;
         }else
         {
             throw ParserException(string("se esperaba Hasta,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
@@ -806,15 +860,32 @@ void Parser::Statement_Repita()
     }
 }
 
-void Parser::Statement_Llamar()
+StatementNode *Parser::Statement_Llamar()
 {
     if(CurrentToken->Type==llamar)
     {
         ConsumeToken();
         if(CurrentToken->Type==Id)
         {
+            string id=CurrentToken->Lexeme;
             ConsumeToken();
-            Expression_List();
+            if(CurrentToken->Type==LeftParent)
+            {
+                ConsumeToken();
+                list<ExpressionNode*>* ls=Expression_List();
+                if(CurrentToken->Type==RightParent)
+                {
+                    ConsumeToken();
+                    StatementLlamarNode* statement=new StatementLlamarNode(id,ls);
+                    return statement;
+                }else
+                {
+                    throw ParserException(string("se esperaba un ),Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+                }
+            }else
+            {
+                throw ParserException(string("se esperaba un (,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+            }
         }else
         {
             throw ParserException(string("se esperaba un ID,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
@@ -824,15 +895,16 @@ void Parser::Statement_Llamar()
     }
 }
 
-void Parser::Statement_Assignment()
+StatementNode *Parser::Statement_Assignment()
 {
     if(CurrentToken->Type==Id)
     {
-        Variable();
+        VariableNode* var=Variable();
         if(CurrentToken->Type==Op_Assignment)
         {
             ConsumeToken();
-            Expression();
+            StatementAssignmentNode* statement=new StatementAssignmentNode(var,Expression());
+            return statement;
         }else
         {
             throw ParserException(string("se esperaba <-,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
@@ -947,29 +1019,33 @@ void Parser::Sino_Case()
     }
 }
 
-void Parser::Statement_Escriba()
+StatementNode *Parser::Statement_Escriba()
 {
     if(CurrentToken->Type==escriba)
     {
         ConsumeToken();
-        Expression_List();
+        list<ExpressionNode*>*ls=new list<ExpressionNode*>();
+        ls=Expression_List();
+        StatementEscribaNode* statement=new StatementEscribaNode(ls);
+        return statement;
     }else
     {
         throw ParserException(string("se esperaba Escriba,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
-void Parser::Statement_Abrir_Archivo()
+StatementNode *Parser::Statement_Abrir_Archivo()
 {
     if(CurrentToken->Type==abrir)
     {
         ConsumeToken();
-        Expression();
+        ExpressionNode* e=Expression();
         if(CurrentToken->Type==como)
         {
             ConsumeToken();
-            Variable();
-            Operation_List();
+            VariableNode* var=Variable();
+            StatementAbrirArchivoNode* statement=new StatementAbrirArchivoNode(e,var,Operation_List());
+            return statement;
         }else
         {
             throw ParserException(string("se esperaba Como,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
@@ -980,270 +1056,307 @@ void Parser::Statement_Abrir_Archivo()
     }
 }
 
-void Parser::Operation_List()
+list<string>* Parser::Operation_List()
 {
+    list<string>* ls=new list<string>();
     if(CurrentToken->Type==para)
     {
         ConsumeToken();
-        Operation();
-        Operation_Group();
+
+        ls->push_back(Operation());
+        string o=Operation_Group();
+        if(o.compare("")!=0)
+        {
+            ls->push_back(o);
+        }
+        return ls;
+
     }else
     {
-        //Epsilon
+        return ls;//Epsilon
     }
 }
 
-void Parser::Operation_Group()
+string Parser::Operation_Group()
 {
     if(CurrentToken->Type==comma)
     {
         ConsumeToken();
-        Operation();
+        return Operation();
+
     }else
     {
-        //Epsilon
+        return "";//Epsilon
     }
 }
 
-void Parser::Operation()
+string Parser::Operation()
 {
     if(CurrentToken->Type==lectura ||CurrentToken->Type==escritura)
     {
         ConsumeToken();
+        return Lex->ToLowerCase(CurrentToken->Lexeme);
     }else
     {
         throw ParserException(string("se esperaba Escritura o Lectura,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
-void Parser::Statement_Cerrar_Archivo()
+StatementNode *Parser::Statement_Cerrar_Archivo()
 {
     if(CurrentToken->Type==cerrar)
     {
         ConsumeToken();
-        Variable();
+        VariableNode* var=Variable();
+        StatementCerrarArchivoNode* statement=new StatementCerrarArchivoNode(var);
+        return statement;
     }else
     {
         throw ParserException(string("se esperaba Cerrar,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
-void Parser::Statement_Escribir_Archivo()
+StatementNode* Parser::Statement_Escribir_Archivo()
 {
     if(CurrentToken->Type==escribir)
     {
         ConsumeToken();
-        Expression();
+        list<ExpressionNode*>* exprs=new list<ExpressionNode*>();
+        ExpressionNode* e=Expression();
         if(CurrentToken->Type==comma)
         {
             ConsumeToken();
-            Expression_List();
+            exprs=Expression_List();
         }else
         {
             throw ParserException(string("se esperaba , ,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
         }
+        exprs->push_back(e);
+        StatementEscribirArchivoNode* statement=new StatementEscribirArchivoNode(exprs);
+        return statement;
     }else
     {
         throw ParserException(string("se esperaba Escribir,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
-void Parser::Statement_Leer_Archivo()
+StatementNode *Parser::Statement_Leer_Archivo()
 {
     if(CurrentToken->Type==leer)
     {
         ConsumeToken();
-        Variable();
+        list<VariableNode*> *vars=new list<VariableNode*>();
+        vars->push_back(Variable());
         if(CurrentToken->Type==comma)
         {
             ConsumeToken();
-            Variable();
-            Variable_List();
+
+            vars->push_back(Variable());
+            vars=Variable_List(vars);
         }else
         {
             throw ParserException(string("se esperaba , ,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
         }
+        StatementLeerArchivoNode* statement=new StatementLeerArchivoNode(vars);
+        return statement;
+
     }else
     {
         throw ParserException(string("se esperaba Leer,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
-void Parser::Variable_List()
+list<VariableNode *> *Parser::Variable_List(list<VariableNode*>* var)
 {
     if(CurrentToken->Type==comma)
     {
         ConsumeToken();
-        Variable();
-        Variable_List();
+        VariableNode* v=Variable();
+        var->push_back(v);
+        Variable_List(var);
+        return var;
     }else
     {
-        //Epsilon
+        return var;//Epsilon
     }
 }
 
-void Parser::Expression()
+ExpressionNode* Parser::Expression()
 {
 
     if(CurrentToken->Type==Id ||CurrentToken->Type==Const_entero||CurrentToken->Type==Op_Sub || CurrentToken->Type==Const_cadena || CurrentToken->Type==Const_caracter || CurrentToken->Type==Const_real ||CurrentToken->Type==verdadero ||CurrentToken->Type==falso ||CurrentToken->Type==LeftParent|| CurrentToken->Type==no)
     {
-        Bool_Expression();
-
-        ExpressionP();
+        ExpressionNode* e=Bool_Expression();
+        return ExpressionP(e);
     }else
     {
         throw ParserException(string("se esperaba una expresion,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
-void Parser::ExpressionP()
+ExpressionNode *Parser::ExpressionP(ExpressionNode *node)
 {
     if(CurrentToken->Type==Op_LogicalY)
     {
         ConsumeToken();
-        Bool_Expression();
-        ExpressionP();
+        ExpressionNode* e=Bool_Expression();
+        LogicalYNode* log= new LogicalYNode(node,e);
+        return ExpressionP(log);
     }else if(CurrentToken->Type==Op_LogicalO)
     {
         ConsumeToken();
-        Bool_Expression();
-        ExpressionP();
+        ExpressionNode* e=Bool_Expression();
+        LogicalONode* logo=new LogicalONode(node,e);
+        return ExpressionP(logo);
     }else
     {
-        //Epsilon
+        return node;//Epsilon
     }
 }
 
-void Parser::Bool_Expression()
+ExpressionNode *Parser::Bool_Expression()
 {
-    Basic_Expression();
-    Bool_ExpressionP();
+    ExpressionNode* e=Basic_Expression();
+    return Bool_ExpressionP(e);
 }
 
-void Parser::Bool_ExpressionP()
+ExpressionNode *Parser::Bool_ExpressionP(ExpressionNode* node)
 {
     if(CurrentToken->Type==Op_LessThan)
     {
         ConsumeToken();
-        Basic_Expression();
-        Bool_ExpressionP();
+        ExpressionNode* e=Basic_Expression();
+        LessThanNode* less=new LessThanNode(node,e);
+        return Bool_ExpressionP(less);
     }else if(CurrentToken->Type==Op_GreaterThan)
     {
         ConsumeToken();
-        Basic_Expression();
-        Bool_ExpressionP();
+        ExpressionNode* e=Basic_Expression();
+        GreaterThanNode* greater=new GreaterThanNode(node,e);
+        return Bool_ExpressionP(greater);
     }else if(CurrentToken->Type==Op_LessOrEqualThan)
     {
         ConsumeToken();
-        Basic_Expression();
-        Bool_ExpressionP();
+        ExpressionNode* e=Basic_Expression();
+        LessAndEqualThanNode* lesE=new LessAndEqualThanNode(node,e);
+        return Bool_ExpressionP(lesE);
     }else if(CurrentToken->Type==Op_GreaterOrEqualThan)
     {
         ConsumeToken();
-        Basic_Expression();
-        Bool_ExpressionP();
+        ExpressionNode* e=Basic_Expression();
+        GreaterAndEqualThanNode* greE=new GreaterAndEqualThanNode(node,e);
+        return Bool_ExpressionP(greE);
     }else if(CurrentToken->Type==Equal)
     {
         ConsumeToken();
-        Basic_Expression();
-        Bool_ExpressionP();
+        ExpressionNode* e=Basic_Expression();
+        EqualNode* equal=new EqualNode(node,e);
+        return Bool_ExpressionP(equal);
     }else if(CurrentToken->Type==Op_NotEqual)
     {
         ConsumeToken();
-        Basic_Expression();
-        Bool_ExpressionP();
+        ExpressionNode* e=Basic_Expression();
+        NotEqualNode* nEqual=new NotEqualNode(node,e);
+        return Bool_ExpressionP(nEqual);
     }else
     {
-        //Epsilon
+        return node;//Epsilon
     }
 }
 
-void Parser::Basic_Expression()
+ExpressionNode *Parser::Basic_Expression()
 {
-    Factor();
-    Basic_ExpressionP();
+    ExpressionNode* e=Factor();
+    return Basic_ExpressionP(e);
 }
 
-void Parser::Basic_ExpressionP()
+ExpressionNode *Parser::Basic_ExpressionP(ExpressionNode *node)
 {
     if(CurrentToken->Type==Op_Sum)
     {
         ConsumeToken();
-        Factor();
-        Basic_ExpressionP();
+        ExpressionNode* e=Factor();
+        SumNode* sum=new SumNode(node,e);
+        return Basic_ExpressionP(sum);
     }else if(CurrentToken->Type==Op_Sub)
     {
         ConsumeToken();
-        Factor();
-        Basic_ExpressionP();
+        ExpressionNode* e=Factor();
+        SubtractionNode* sub=new SubtractionNode(node,e);
+        return Basic_ExpressionP(sub);
     }else
     {
-        //Epsilon
+        return node;//Epsilon
     }
 }
 
-void Parser::Factor()
+ExpressionNode *Parser::Factor()
 {
-    Exp_Op();
-    FactorP();
+    ExpressionNode* e=Exp_Op();
+    return FactorP(e);
 }
 
-void Parser::FactorP()
+ExpressionNode *Parser::FactorP(ExpressionNode *node)
 {
     if(CurrentToken->Type==Op_Mult)
     {
         ConsumeToken();
-        Exp_Op();
-        FactorP();
+        ExpressionNode* e=Exp_Op();
+        MultiplicationNode* mult=new MultiplicationNode(node,e);
+        return FactorP(mult);
     }else if(CurrentToken->Type==Op_Div)
     {
         ConsumeToken();
-        Exp_Op();
-        FactorP();
+        ExpressionNode* e=Exp_Op();
+        DivisionNode* div=new DivisionNode(node,e);
+        return FactorP(div);
     }else if(CurrentToken->Type==Div)
     {
         ConsumeToken();
-        Exp_Op();
-        FactorP();
+        ExpressionNode* e=Exp_Op();
+        IntegerDivisionNode* idiv=new IntegerDivisionNode(node,e);
+        return FactorP(idiv);
     }else if(CurrentToken->Type==mod)
     {
         ConsumeToken();
-        Exp_Op();
-        FactorP();
+        ExpressionNode* e=Exp_Op();
+        ModNode* mod_node=new ModNode(node,e);
+        return FactorP(mod_node);
     }else
     {
-        //Epsilon
+        return node;//Epsilon
     }
 }
 
-void Parser::Exp_Op()
+ExpressionNode *Parser::Exp_Op()
 {
-    LogicalNot();
-    Exp_OpP();
+    ExpressionNode* e=LogicalNot();
+    return Exp_OpP(e);
 }
 
-void Parser::Exp_OpP()
+ExpressionNode *Parser::Exp_OpP(ExpressionNode *node)
 {
     if(CurrentToken->Type==Op_Exp)
     {
-
         ConsumeToken();
-        LogicalNot();
-        Exp_OpP();
+        ExpressionNode* e=LogicalNot();
+        ExponentialNode* exp=new ExponentialNode(node,e);
+        return Exp_OpP(exp);
     }else
     {
-        //Epsilon
+        return node;//Epsilon
     }
 }
 
-void Parser::LogicalNot()
+ExpressionNode *Parser::LogicalNot()
 {
     if(CurrentToken->Type==no)
     {
         ConsumeToken();
-        Term();
+        LogicalNotNode* ln=new LogicalNotNode(Term());
+        return ln;
     }else if(CurrentToken->Type==Id || CurrentToken->Type==Const_entero ||CurrentToken->Type==Op_Sub || CurrentToken->Type==Const_cadena || CurrentToken->Type==Const_caracter || CurrentToken->Type==Const_real || CurrentToken->Type==verdadero || CurrentToken->Type==falso || CurrentToken->Type==LeftParent)
     {
-        Term();
+        return Term();
     }else
     {
         throw ParserException(string("se esperaba un termino,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
@@ -1251,77 +1364,119 @@ void Parser::LogicalNot()
 }
 
 
-void Parser::Term()
+ExpressionNode *Parser::Term()
 {
     if(CurrentToken->Type==Id)
     {
+        string id=CurrentToken->Lexeme;
         ConsumeToken();
-        Id_Term();
+        return Id_Term(id);
     }else if(CurrentToken->Type==LeftParent)
     {
         ConsumeToken();
         //Expression();
 
-        Expression_List();
+        list<ExpressionNode*> *ls=Expression_List();
+        ExpressionGroupNode *E_group=new ExpressionGroupNode(ls);
         if(CurrentToken->Type==RightParent)
         {
             ConsumeToken();
+            return E_group;
         }else
         {
             throw ParserException(string("se esperaba ) ,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
         }
     }else if(CurrentToken->Type==Const_entero || CurrentToken->Type==Const_cadena || CurrentToken->Type==Const_caracter || CurrentToken->Type==Const_real || CurrentToken->Type==verdadero || CurrentToken->Type==falso)
     {
+        ExpressionNode *e;
+        if(CurrentToken->Type==Const_entero)
+        {
+            e=new EnteroNode(atoi(CurrentToken->Lexeme.c_str()));
+        }else if(CurrentToken->Type==Const_cadena)
+        {
+            e=new CadenaNode(CurrentToken->Lexeme);
+        }else if(CurrentToken->Type==Const_caracter)
+        {
+            e=new CaracterNode(CurrentToken->Lexeme.at(0));
+        }else if(CurrentToken->Type==Const_real)
+        {
+            e=new RealNode(atof(CurrentToken->Lexeme.c_str()));
+        }else if(CurrentToken->Type==verdadero || CurrentToken->Type==falso)
+        {
+            e=new BoolNode(CurrentToken->Lexeme);
+        }
         ConsumeToken();
+        return e;
     }else if(CurrentToken->Type==Op_Sub)
     {
         ConsumeToken();
-        Const_Negative();
+        return Const_Negative();
     }else
     {
         throw ParserException(string("se esperaba un Factor,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
     }
 }
 
-void Parser::Id_Term()
+ExpressionNode *Parser::Id_Term(string id)
 {
-     if(CurrentToken->Type==LeftParent)
-     {
-         ConsumeToken();
-         Expression_ListFunctions();
-         if(CurrentToken->Type==RightParent)
-         {
-             ConsumeToken();
-         }
-     }else if(CurrentToken->Type==LeftBrackets || CurrentToken->Type==dot)
-     {
-
-         Variable_Factor();
-     }else
-     {
-          //Epsilon
-     }
-}
-
-void Parser::Variable_Factor()
-{
-
-    Array_Variable();
-    Compuest_Variable();
-}
-
-void Parser::Const_Negative()
-{
-    if(CurrentToken->Type==Const_entero || CurrentToken->Type==Const_real || CurrentToken->Type==Id)
+    if(CurrentToken->Type==LeftParent)
     {
         ConsumeToken();
-    }else if(CurrentToken->Type==LeftParent)
-    {
-        ConsumeToken();
-        Expression_List();
+        list<ExpressionNode*> *ls=Expression_ListFunctions(id);
+        ExpressionFunctionNode *e= new ExpressionFunctionNode(id,ls);
         if(CurrentToken->Type==RightParent)
         {
             ConsumeToken();
+            return e;
+        }else
+        {
+            throw ParserException(string("se esperaba ) ,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
+        }
+    }else if(CurrentToken->Type==LeftBrackets || CurrentToken->Type==dot)
+    {
+        return Variable_Factor(id);
+    }else
+    {
+        SimpleVariableNode *id_node=new SimpleVariableNode(id);
+        return id_node;//Epsilon
+    }
+}
+
+ExpressionNode *Parser::Variable_Factor(string id)
+{
+    VariableNode* var1=Array_Variable(id);
+    return Compuest_Variable(var1);
+
+}
+
+ExpressionNode *Parser::Const_Negative()
+{
+    if(CurrentToken->Type==Const_entero || CurrentToken->Type==Const_real || CurrentToken->Type==Id)
+    {
+        ExpressionNode* e;
+        if(CurrentToken->Type==Const_entero)
+        {
+            e=new EnteroNode(atoi(CurrentToken->Lexeme.c_str()));
+        }else if(CurrentToken->Type==Const_real)
+        {
+            e=new RealNode(atof(CurrentToken->Lexeme.c_str()));
+        }else
+        {
+            e=new SimpleVariableNode(CurrentToken->Lexeme);
+        }
+        ConsumeToken();
+        return e;
+    }else if(CurrentToken->Type==LeftParent)
+    {
+        ConsumeToken();
+        ExpressionGroupNode* eg=new ExpressionGroupNode(Expression_List());
+        if(CurrentToken->Type==RightParent)
+        {
+            ConsumeToken();
+            return eg;
+        }else
+        {
+            throw ParserException(string("Se esperaba ) ,real, un Id o un ( ,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
         }
     }else
     {

@@ -1,0 +1,22 @@
+#ifndef FUNCTIONNODE_H
+#define FUNCTIONNODE_H
+#include "statementnode.h"
+#include "parameternode.h"
+#include "variablenode.h"
+#include "statementnode.h"
+#include "expressionnode.h"
+#include "declarevariablenode.h"
+
+class FunctionNode : public StatementNode
+{
+public:
+    string ID;
+    list<ParameterNode*>* Params;
+    TypeNode* ReturnType;
+    list<DeclareVariableNode*>* Variables;
+    list<StatementNode*>* Statements;
+    FunctionNode(string id,list<ParameterNode*>* param,TypeNode* type,list<DeclareVariableNode*>* vars,list<StatementNode*>* statements);
+    FunctionNode();
+};
+
+#endif // FUNCTIONNODE_H
