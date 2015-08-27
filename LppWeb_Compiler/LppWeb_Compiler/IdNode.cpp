@@ -1,10 +1,7 @@
-#include "stdafx.h"
-#include "IdNode.h"
-
+#include "idnode.h"
 
 IdNode::IdNode(string id)
 {
-	ID = id;
+    this->ID=id;
 }
-
 

@@ -1,12 +1,7 @@
-#include "stdafx.h"
-#include "RealNode.h"
-
+#include "realnode.h"
 
 RealNode::RealNode(double real)
 {
+    this->Real=real;
 }
 
-
-RealNode::~RealNode()
-{
-}

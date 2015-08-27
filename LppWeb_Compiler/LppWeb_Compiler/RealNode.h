@@ -1,9 +1,12 @@
-#pragma once
-#include "ExpressionNode.h"
-class RealNode
+#ifndef REALNODE_H
+#define REALNODE_H
+#include"literalnode.h"
+
+class RealNode : public LiteralNode
 {
 public:
-	RealNode(double real);
-	~RealNode();
+    double Real;
+    RealNode(double real);
 };
 
+#endif // REALNODE_H

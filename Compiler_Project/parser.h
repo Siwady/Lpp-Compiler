@@ -54,7 +54,12 @@
 #include "typestructurenode.h"
 #include "registerstructurenode.h"
 #include "statementsinode.h"
-
+#include "casenode.h"
+#include "statementcasonode.h"
+#include "typeheadernode.h"
+#include "declareheadernode.h"
+#include "lppprogram.h"
+#include "htmlnode.h"
 
 class Parser
 {
@@ -63,7 +68,7 @@ public:
     Lexer* Lex;
     Token *CurrentToken;
     void ConsumeToken();
-    void Parse();
+    list<ProgramCodeNode *> *Parse();
 
 
 private:
@@ -73,9 +78,9 @@ private:
     Map StatementWords;
     void InitializeStatementWords();
 
-    void Program_Code();
-    void Lpp_Program();
-    void Program_Header();
+    list<ProgramCodeNode *> *Program_Code(list<ProgramCodeNode *> *ls);
+    LppProgram *Lpp_Program();
+    ProgramHeaderNode *Program_Header();
     list<StructureNode *> *Types_List(list<StructureNode *> *ls); //ya
     StructureNode *Types_Structure();//ya
     TypeNode* Type();//ya
@@ -86,7 +91,7 @@ private:
     list<string> *ID_List(list<string> *ls); //ya
     list<int> *Array_Size();//ya
     list<int>* Integer_List(list<int> *ls);//ya
-    StatementNode *Methods_List();//ya
+    ProgramHeaderNode *Methods_List();//ya
     list<StatementNode*>* Method_Body();//ya
     //void Function_Body();
     list<ParameterNode*>* Params_List(); //ya
@@ -97,9 +102,9 @@ private:
     list<StatementNode*> *Statement_List(list<StatementNode *> *sl);//ya
     StatementNode* Statement(); //ya
     StatementNode* Statement_Return();//ya
-    void Statement_Si();
-    void Statement_Sino();
-    void Statement_SinoP();
+    StatementNode* Statement_Si();
+    list<StatementNode *> *Statement_Sino(list<StatementNode *> *ls); //ya
+    list<StatementNode*>* Statement_SinoP(list<StatementNode *> *ls); //ya
     StatementNode* Statement_Para();// ya
     VariableNode *Variable();//ya
     VariableNode *Simple_Variable(); //ya
@@ -108,18 +113,18 @@ private:
     list<ExpressionNode *> *Expression_List(); //ya
     list<ExpressionNode *> *Expression_ListFunctions(string id); //ya
     list<ExpressionNode *> *Expression_Group(list<ExpressionNode *> *ls); //ya
-    StatementNode* Statement_Mientras();
-    StatementNode* Statement_Repita();
+    StatementNode* Statement_Mientras();//ya
+    StatementNode* Statement_Repita(); //ya
     StatementNode* Statement_Llamar();//ya
     StatementNode* Statement_Assignment();//ya
-    void Statement_Case();
-    void Case_List();
-    void Define_Case();
-    void Case_Group();
-    void Literal_List();
-    void Literal_Group();
-    void Literal();
-    void Sino_Case();
+    StatementNode *Statement_Case(); //ya
+    list<CaseNode *> *Case_List(); //ya
+    CaseNode *Define_Case();//ya
+    list<CaseNode *> *Case_Group(list<CaseNode *> *ls); //ya
+    list<LiteralNode *> *Literal_List();
+    list<LiteralNode *> *Literal_Group(list<LiteralNode *> *ls);//ya
+    LiteralNode *Literal();//ya
+    list<StatementNode *> *Sino_Case();//ya
     StatementNode* Statement_Escriba(); //ya
     StatementNode* Statement_Abrir_Archivo();//ya
     list<string> *Operation_List();//ya

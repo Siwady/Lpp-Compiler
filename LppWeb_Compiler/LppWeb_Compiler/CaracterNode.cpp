@@ -1,12 +1,7 @@
-#include "stdafx.h"
-#include "CaracterNode.h"
-
+#include "caracternode.h"
 
 CaracterNode::CaracterNode(char caracter)
 {
+    this->Caracter=caracter;
 }
 
-
-CaracterNode::~CaracterNode()
-{
-}

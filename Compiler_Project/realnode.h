@@ -1,8 +1,8 @@
 #ifndef REALNODE_H
 #define REALNODE_H
-#include"expressionnode.h"
+#include"literalnode.h"
 
-class RealNode : public ExpressionNode
+class RealNode : public LiteralNode
 {
 public:
     double Real;

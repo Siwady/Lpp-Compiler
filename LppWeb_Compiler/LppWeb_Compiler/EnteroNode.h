@@ -1,9 +1,12 @@
-#pragma once
-#include "ExpressionNode.h"
-class EnteroNode 
+#ifndef ENTERONODE_H
+#define ENTERONODE_H
+#include "literalnode.h"
+
+class EnteroNode : public LiteralNode
 {
 public:
-	EnteroNode(int entero);
-	~EnteroNode();
+    int Entero;
+    EnteroNode(int entero);
 };
 
+#endif // ENTERONODE_H

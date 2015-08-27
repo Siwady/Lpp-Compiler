@@ -1,12 +1,7 @@
-#include "stdafx.h"
-#include "EnteroNode.h"
-
+#include "enteronode.h"
 
 EnteroNode::EnteroNode(int entero)
 {
+    this->Entero=entero;
 }
 
-
-EnteroNode::~EnteroNode()
-{
-}

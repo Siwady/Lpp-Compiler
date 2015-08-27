@@ -16,7 +16,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		Lexer* lex = new Lexer(code);
 
 		Parser* parser = new Parser(lex);
-		parser->Parse();
+		list<ProgramCodeNode *> *pars=parser->Parse();
 
 		/*Token *currentToken = lex->GetToken();
 

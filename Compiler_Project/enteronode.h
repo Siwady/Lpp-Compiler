@@ -1,8 +1,8 @@
 #ifndef ENTERONODE_H
 #define ENTERONODE_H
-#include "expressionnode.h"
+#include "literalnode.h"
 
-class EnteroNode : public ExpressionNode
+class EnteroNode : public LiteralNode
 {
 public:
     int Entero;

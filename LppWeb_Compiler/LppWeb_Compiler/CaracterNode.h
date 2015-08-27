@@ -1,9 +1,13 @@
-#pragma once
-#include "ExpressionNode.h"
-class CaracterNode
+#ifndef CARACTERNODE_H
+#define CARACTERNODE_H
+
+#include "literalnode.h"
+
+class CaracterNode : public LiteralNode
 {
 public:
-	CaracterNode(char caracter);
-	~CaracterNode();
+    char Caracter;
+    CaracterNode(char caracter);
 };
 
+#endif // CARACTERNODE_H

@@ -1,9 +1,9 @@
 #ifndef CARACTERNODE_H
 #define CARACTERNODE_H
 
-#include "expressionnode.h"
+#include "literalnode.h"
 
-class CaracterNode : public ExpressionNode
+class CaracterNode : public LiteralNode
 {
 public:
     char Caracter;

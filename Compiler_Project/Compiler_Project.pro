@@ -75,7 +75,16 @@ SOURCES += main.cpp \
     typestructurenode.cpp \
     structurenode.cpp \
     registerstructurenode.cpp \
-    statementsinode.cpp
+    statementsinode.cpp \
+    literalnode.cpp \
+    casenode.cpp \
+    statementcasonode.cpp \
+    programheadernode.cpp \
+    typeheadernode.cpp \
+    declareheadernode.cpp \
+    lppprogram.cpp \
+    htmlnode.cpp \
+    programcodenode.cpp
 
 HEADERS += \
     lexer.h \
@@ -137,4 +146,13 @@ HEADERS += \
     typestructurenode.h \
     structurenode.h \
     registerstructurenode.h \
-    statementsinode.h
+    statementsinode.h \
+    literalnode.h \
+    casenode.h \
+    statementcasonode.h \
+    programheadernode.h \
+    typeheadernode.h \
+    declareheadernode.h \
+    lppprogram.h \
+    htmlnode.h \
+    programcodenode.h

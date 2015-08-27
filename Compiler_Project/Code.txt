@@ -45,7 +45,6 @@
 		fin para
 	fin
 	
-	
 	funcion Potencia( entero base , entero expo): entero
 		DECLARAR entero i, resp
 	inicio

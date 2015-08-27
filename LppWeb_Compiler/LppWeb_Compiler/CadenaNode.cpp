@@ -1,12 +1,7 @@
-#include "stdafx.h"
-#include "CadenaNode.h"
-
+#include "cadenanode.h"
 
 CadenaNode::CadenaNode(string cadena)
 {
+    this->Cadena=cadena;
 }
 
-
-CadenaNode::~CadenaNode()
-{
-}
