@@ -4,6 +4,8 @@
 #include <string>
 #include "expressionnode.h"
 #include <list>
+#include "helper.h"
+
 
 using namespace std;
 
@@ -13,6 +15,10 @@ public:
     string ID;
     list<ExpressionNode*> * Expressions;
     StatementLlamarNode(string id,list<ExpressionNode*>* ls);
+
+    // StatementNode interface
+public:
+    string ToXML(int i);
 };
 
 #endif // STATEMENTLLAMARNODE_H

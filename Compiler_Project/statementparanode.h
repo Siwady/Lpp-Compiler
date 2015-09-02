@@ -4,6 +4,7 @@
 #include "variablenode.h"
 #include "expressionnode.h"
 #include <list>
+#include "helper.h"
 
 using namespace std;
 class StatementParaNode : public StatementNode
@@ -14,6 +15,10 @@ public:
     ExpressionNode* SecondExpression;
     list<StatementNode*>* Statements;
     StatementParaNode(VariableNode* var,ExpressionNode* firstExp,ExpressionNode* secondExp,list<StatementNode*>* ls);
+
+    // StatementNode interface
+public:
+    string ToXML(int i);
 };
 
 #endif // STATEMENTPARANODE_H

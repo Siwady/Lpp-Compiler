@@ -3,6 +3,7 @@
 #include "programheadernode.h"
 #include "structurenode.h"
 #include <list>
+#include"helper.h"
 using namespace std;
 
 class TypeHeaderNode : public ProgramHeaderNode
@@ -10,6 +11,10 @@ class TypeHeaderNode : public ProgramHeaderNode
 public:
     list<StructureNode*>* TypesStructure;
     TypeHeaderNode(list<StructureNode*>* types);
+
+    // ProgramHeaderNode interface
+public:
+    string ToXML(int i);
 };
 
 #endif // TYPEHEADERNODE_H

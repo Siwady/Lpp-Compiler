@@ -3,6 +3,7 @@
 #include "statementnode.h"
 #include "expressionnode.h"
 #include <list>
+#include "helper.h"
 
 using namespace std;
 
@@ -12,6 +13,10 @@ public:
     ExpressionNode* Expression;
     list<StatementNode*>* Statements;
     StatementRepitaNode(ExpressionNode* expr,list<StatementNode*>* ls);
+
+    // StatementNode interface
+public:
+    string ToXML(int i);
 };
 
 #endif // STATEMENTREPITANODE_H

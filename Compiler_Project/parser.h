@@ -64,8 +64,9 @@
 class Parser
 {
 public:
-    Parser(Lexer* lex);
     Lexer* Lex;
+    Parser(Lexer* lex);
+
     Token *CurrentToken;
     void ConsumeToken();
     list<ProgramCodeNode *> *Parse();

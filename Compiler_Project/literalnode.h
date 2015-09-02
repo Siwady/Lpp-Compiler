@@ -6,6 +6,10 @@ class LiteralNode : public ExpressionNode
 {
 public:
     LiteralNode();
+
+    // ExpressionNode interface
+public:
+    virtual string ToXML(int i);
 };
 
 #endif // LITERALNODE_H

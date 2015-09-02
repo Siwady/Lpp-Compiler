@@ -509,7 +509,6 @@ list<ParameterNode *> *Parser::Param_Group(list<ParameterNode*>* ls)
 
 ParameterNode *Parser::Param()
 {
-
     if(CurrentToken->Type==var)
     {
         ConsumeToken();
@@ -526,6 +525,7 @@ ParameterNode *Parser::Param()
     }else if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme))|| CurrentToken->Type==Id)
     {
         TypeNode* t=Type();
+
         if(CurrentToken->Type==Id)
         {
             string id=CurrentToken->Lexeme;
@@ -730,8 +730,9 @@ VariableNode* Parser::Simple_Variable()
 {
     if(CurrentToken->Type==Id)
     {
+        string id=CurrentToken->Lexeme;
         ConsumeToken();
-        return Array_Variable(CurrentToken->Lexeme);
+        return Array_Variable(id);
     }else
     {
         throw ParserException(string("se esperaba un ID,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
@@ -1033,7 +1034,7 @@ LiteralNode* Parser::Literal()
             literal=new RealNode(atof(CurrentToken->Lexeme.c_str()));
         }else if(CurrentToken->Type==Const_caracter)
         {
-            literal=new CaracterNode(CurrentToken->Lexeme.at(0));
+            literal=new CaracterNode(CurrentToken->Lexeme.at(1));
         }else if(CurrentToken->Type==Const_cadena)
         {
             literal=new CadenaNode(CurrentToken->Lexeme);
@@ -1445,7 +1446,7 @@ ExpressionNode *Parser::Term()
             e=new CadenaNode(CurrentToken->Lexeme);
         }else if(CurrentToken->Type==Const_caracter)
         {
-            e=new CaracterNode(CurrentToken->Lexeme.at(0));
+            e=new CaracterNode(CurrentToken->Lexeme.at(1));
         }else if(CurrentToken->Type==Const_real)
         {
             e=new RealNode(atof(CurrentToken->Lexeme.c_str()));

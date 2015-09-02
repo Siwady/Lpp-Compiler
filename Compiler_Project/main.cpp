@@ -15,7 +15,12 @@ int main(int argc, char *argv[])
         Lexer* lex=new Lexer(code);
 
         Parser* parser=new Parser(lex);
-        parser->Parse();
+        list<ProgramCodeNode*>*ls=parser->Parse();
+
+        for(int i=0;i<ls->size();i++)
+        {
+            cout<<Helper::GetElementProgramCodeNode(ls,i)->ToXML(0);
+        }
 
         /*Token *currentToken = lex->GetToken();
 

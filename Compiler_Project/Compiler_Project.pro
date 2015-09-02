@@ -84,7 +84,8 @@ SOURCES += main.cpp \
     declareheadernode.cpp \
     lppprogram.cpp \
     htmlnode.cpp \
-    programcodenode.cpp
+    programcodenode.cpp \
+    helper.cpp
 
 HEADERS += \
     lexer.h \
@@ -155,4 +156,5 @@ HEADERS += \
     declareheadernode.h \
     lppprogram.h \
     htmlnode.h \
-    programcodenode.h
+    programcodenode.h \
+    helper.h

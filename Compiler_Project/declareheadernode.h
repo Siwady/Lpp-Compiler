@@ -3,12 +3,14 @@
 #include "programheadernode.h"
 #include <list>
 #include "declarevariablenode.h"
+#include "helper.h"
 using namespace std;
 class DeclareHeaderNode : public ProgramHeaderNode
 {
 public:
     list<DeclareVariableNode*>* DeclareVariables;
     DeclareHeaderNode(list<DeclareVariableNode*>* var);
+    string ToXML(int i);
 };
 
 #endif // DECLAREHEADERNODE_H

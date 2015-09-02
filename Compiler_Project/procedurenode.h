@@ -16,6 +16,10 @@ public:
     list<StatementNode*>* Statements;
     ProcedureNode(string id, list<ParameterNode*>* param, list<DeclareVariableNode*>* vars, list<StatementNode*>* statements);
     ProcedureNode();
+
+    // ProgramHeaderNode interface
+public:
+    string ToXML(int i);
 };
 
 #endif // PROCEDURENODE_H

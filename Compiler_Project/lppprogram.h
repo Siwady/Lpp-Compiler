@@ -3,6 +3,7 @@
 #include "programheadernode.h"
 #include "statementnode.h"
 #include "programcodenode.h"
+#include "helper.h"
 #include <list>
 using namespace std;
 
@@ -12,6 +13,7 @@ public:
     ProgramHeaderNode* Header;
     list<StatementNode*>* Statements;
     LppProgram(ProgramHeaderNode* program, list<StatementNode*>* ls);
+    virtual string ToXML(int i);
 };
 
 #endif // LPPPROGRAM_H

@@ -2,6 +2,7 @@
 #define PARAMETERNODE_H
 #include <string>
 #include "typenode.h"
+#include "helper.h"
 
 using namespace std;
 class ParameterNode
@@ -11,6 +12,7 @@ public:
     TypeNode* Type;
     bool Var;
     ParameterNode(TypeNode* type,string id,bool var);
+    string ToXML(int i);
 };
 
 #endif // PARAMETERNODE_H

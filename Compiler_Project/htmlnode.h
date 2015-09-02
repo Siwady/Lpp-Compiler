@@ -1,14 +1,17 @@
 #ifndef HTMLNODE_H
 #define HTMLNODE_H
 #include "programcodenode.h"
-#include <string>
-using namespace std;
+#include "helper.h"
 
 class HtmlNode : public ProgramCodeNode
 {
 public:
     string HTML;
     HtmlNode(string html);
+
+    // ProgramCodeNode interface
+public:
+    string ToXML(int i);
 };
 
 #endif // HTMLNODE_H

@@ -4,7 +4,9 @@
 #include "expressionnode.h"
 #include <list>
 #include <string>
+#include "helper.h"
 using namespace std;
+
 class ArrayVariableNode : public VariableNode
 {
 public:
@@ -12,6 +14,8 @@ public:
     list<ExpressionNode*> *ExpressionList;
     ArrayVariableNode();
     ArrayVariableNode(list<ExpressionNode*> *ls,string id);
+
+    string ToXML(int i);
 };
 
 #endif // ARRAYVARIABLENODE_H

@@ -13,6 +13,10 @@ public:
     list<CaseNode*>* Cases;
     list<StatementNode*>* SinoCase;
     StatementCasoNode(VariableNode* var,list<CaseNode*>* cases,list<StatementNode*>* sinocase);
+
+    // StatementNode interface
+public:
+    string ToXML(int i);
 };
 
 #endif // STATEMENTCASONODE_H

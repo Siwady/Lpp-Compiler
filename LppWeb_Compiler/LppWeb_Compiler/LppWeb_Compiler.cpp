@@ -15,8 +15,11 @@ int _tmain(int argc, _TCHAR* argv[])
 		std::string code((std::istreambuf_iterator<char>(myCode)), (std::istreambuf_iterator<char>()));
 		Lexer* lex = new Lexer(code);
 
-		Parser* parser = new Parser(lex);
+		Parser* parser = new Parser(lex); 
 		list<ProgramCodeNode *> *pars=parser->Parse();
+		
+		ProgramCodeNode  s = **pars->begin();
+	
 
 		/*Token *currentToken = lex->GetToken();
 

@@ -5,3 +5,8 @@ ProgramCodeNode::ProgramCodeNode()
 
 }
 
+string ProgramCodeNode::ToXML(int i)
+{
+    return "";
+}
+
