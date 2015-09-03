@@ -9,8 +9,8 @@ SimpeTypeNode::SimpeTypeNode(string type)
 
 string SimpeTypeNode::ToXML(int i)
 {
-    string re=Helper::GetIdentation(i+1)+"<SimpleType>\n";
+    string re=Helper::GetIdentation(i)+"<SimpleType>\n";
     re+=Helper::GetIdentation(i+2)+Type+"\n";
-    re+=Helper::GetIdentation(i+1)+"</SimpleType>\n";
+    re+=Helper::GetIdentation(i)+"</SimpleType>\n";
     return re;
 }

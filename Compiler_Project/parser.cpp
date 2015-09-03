@@ -99,7 +99,8 @@ ProgramHeaderNode* Parser::Program_Header()
         return Methods_List();
     }else
     {
-        return NULL;//Epsilon
+        ProgramHeaderNode * h=new ProgramHeaderNode();
+        return h;//Epsilon
     }
 }
 
@@ -410,11 +411,10 @@ ProgramHeaderNode *Parser::Methods_List()
             throw ParserException(string("se esperaba un ID ,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
         }
     }else{
-        return NULL;//Epsilon
+        ProgramHeaderNode *h =new ProgramHeaderNode();
+        return h;//Epsilon
     }
 }
-
-
 
 list<StatementNode *> *Parser::Method_Body()
 {
