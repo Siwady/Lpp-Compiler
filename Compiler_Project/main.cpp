@@ -1,9 +1,9 @@
 #include <QCoreApplication>
-#include "lexer.h"
+#include "Lexer/lexer.h"
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
-#include "parser.h"
+#include "Parser/parser.h"
 
 int main(int argc, char *argv[])
 {

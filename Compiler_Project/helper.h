@@ -1,16 +1,16 @@
 #ifndef HELPER_H
 #define HELPER_H
 
-#include "variablenode.h"
-#include "literalnode.h"
-#include "declarevariablenode.h"
-#include "parameternode.h"
-#include "casenode.h"
+#include "Parser/Expressions/Variables/variablenode.h"
+#include "Parser/Expressions/Literals/literalnode.h"
+#include "Parser/Expressions/Variables/declarevariablenode.h"
+#include "Parser/Statements/parameternode.h"
+#include "Parser/Statements/casenode.h"
 #include <string>
 #include <list>
-#include "statementnode.h"
-#include "structurenode.h"
-#include "programcodenode.h"
+#include "Parser/Statements/statementnode.h"
+#include "Parser/Header/structurenode.h"
+#include "Parser/programcodenode.h"
 
 using namespace std;
 class ParameterNode;
