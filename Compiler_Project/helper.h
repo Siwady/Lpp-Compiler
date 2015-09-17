@@ -11,6 +11,19 @@
 #include "Parser/Statements/statementnode.h"
 #include "Parser/Header/structurenode.h"
 #include "Parser/programcodenode.h"
+#include "Semantic/semanticexception.h"
+#include "Semantic/Type/arreglotype.h"
+#include "Semantic/Type/booleantype.h"
+#include "Semantic/Type/cadenatype.h"
+#include "Semantic/Type/caractertype.h"
+#include "Semantic/Type/enterotype.h"
+#include "Semantic/Type/realtype.h"
+#include "Semantic/Type/negativenumbertype.h"
+#include "Semantic/Type/literalcadena.h"
+#include "Semantic/Type/archivotype.h"
+#include "Parser/Header/archivotypenode.h"
+#include "Parser/Header/arraytypenode.h"
+#include "Parser/Header/cadenatypenode.h"
 
 using namespace std;
 class ParameterNode;
@@ -33,6 +46,7 @@ public:
     static CaseNode *GetElementCaseNode(list<CaseNode*> *ls, int i);
     static ProgramCodeNode *GetElementProgramCodeNode(list<ProgramCodeNode*> *ls, int i);
     static string GetIdentation(int i);
+    static Type* GetTypeFromTypeNode(TypeNode* type);
 };
 
 #endif // HELPER_H

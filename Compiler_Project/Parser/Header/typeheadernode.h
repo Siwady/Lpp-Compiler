@@ -10,7 +10,7 @@ class TypeHeaderNode : public ProgramHeaderNode
 {
 public:
     list<StructureNode*>* TypesStructure;
-    TypeHeaderNode(list<StructureNode*>* types);
+    TypeHeaderNode(list<StructureNode*>* types,int row,int column);
 
     // ProgramHeaderNode interface
 public:

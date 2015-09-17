@@ -1,8 +1,10 @@
 #include "statementleerarchivonode.h"
 
-StatementLeerArchivoNode::StatementLeerArchivoNode(list<VariableNode *> *var)
+StatementLeerArchivoNode::StatementLeerArchivoNode(list<VariableNode *> *var, int row, int column)
 {
     this->Variables=var;
+    this->Row=row;
+    this->Column=column;
 }
 
 
@@ -19,4 +21,15 @@ string StatementLeerArchivoNode::ToXML(int i)
 
     re+=Helper::GetIdentation(i)+"</StatementLeerArchivo>\n";
     return re;
+}
+
+
+void StatementLeerArchivoNode::ValidateSemantic()
+{
+    list<VariableNode*>::const_iterator iterator;
+    VariableNode* temp;
+    for (iterator = Variables->begin(); iterator != Variables->end(); ++iterator) {
+        temp=*iterator;
+        temp->ValidateSemantic();
+    }
 }

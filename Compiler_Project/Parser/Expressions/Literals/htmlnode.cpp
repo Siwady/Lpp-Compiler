@@ -1,8 +1,10 @@
 #include "htmlnode.h"
 
-HtmlNode::HtmlNode(string html)
+HtmlNode::HtmlNode(string html, int row, int column)
 {
     this->HTML=html;
+    this->Row=row;
+    this->Column=column;
 }
 
 
@@ -14,4 +16,10 @@ string HtmlNode::ToXML(int i)
     re+=Helper::GetIdentation(i)+"</HTML>\n";
 
     return re ;
+}
+
+
+void HtmlNode::ValidateSemantic()
+{
+
 }

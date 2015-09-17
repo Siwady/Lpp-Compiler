@@ -63,7 +63,7 @@ list<ProgramCodeNode*>* Parser::Program_Code(list<ProgramCodeNode*>* ls)
 
     }else if(CurrentToken->Type==Html)
     {
-        HtmlNode* node=new HtmlNode(CurrentToken->Lexeme);
+        HtmlNode* node=new HtmlNode(CurrentToken->Lexeme,CurrentToken->Row,CurrentToken->Column);
         ls->push_back(node);
         ConsumeToken();        
         return Program_Code(ls);
@@ -77,22 +77,24 @@ LppProgram* Parser::Lpp_Program()
 {
     ProgramHeaderNode* node=Program_Header();
     list<StatementNode*>* ls=new list<StatementNode*>();
-    LppProgram* program=new LppProgram(node,Statement_List(ls));
+    LppProgram* program=new LppProgram(node,Statement_List(ls),node->Row,node->Column);
     return program;
 }
 
 ProgramHeaderNode* Parser::Program_Header()
 {
+    int r=CurrentToken->Row;
+    int c=CurrentToken->Column;
     if(CurrentToken->Type==tipo || CurrentToken->Type==registro)
     {
         list<StructureNode*>* ls=new list<StructureNode*>();
-        TypeHeaderNode* types= new TypeHeaderNode(Types_List(ls));
+        TypeHeaderNode* types= new TypeHeaderNode(Types_List(ls),r,c);
         return types;
     }else if(CurrentToken->Type==declarar)
     {
         list<DeclareVariableNode*>* vars=new list<DeclareVariableNode*>();
         vars=Declare(vars);
-        DeclareHeaderNode* decl=new DeclareHeaderNode(vars);
+        DeclareHeaderNode* decl=new DeclareHeaderNode(vars,r,c);
         return decl;
     }else if(CurrentToken->Type== procedimiento  ||CurrentToken->Type== funcion)
     {
@@ -120,6 +122,8 @@ StructureNode* Parser::Types_Structure()
 {
     if(CurrentToken->Type==tipo)
     {
+        int r=CurrentToken->Row;
+        int c=CurrentToken->Column;
        ConsumeToken();
        if(CurrentToken->Type==Id)
        {
@@ -130,7 +134,7 @@ StructureNode* Parser::Types_Structure()
                ConsumeToken();
                if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme)) || CurrentToken->Type==Id ||CurrentToken->Type==secuencial)
                {
-                    TypeStructureNode* type=new TypeStructureNode(id,Type());
+                    TypeStructureNode* type=new TypeStructureNode(id,Type(),r,c);
                     return type;
                }else{
                    throw ParserException(string("se esperaba un tipo,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
@@ -143,6 +147,8 @@ StructureNode* Parser::Types_Structure()
        }
     }else if(CurrentToken->Type==registro)
     {
+        int r=CurrentToken->Row;
+        int c=CurrentToken->Column;
         ConsumeToken();
         if(CurrentToken->Type==Id)
         {
@@ -156,7 +162,7 @@ StructureNode* Parser::Types_Structure()
                 if(CurrentToken->Type==registro)
                 {
                     ConsumeToken();
-                    RegisterStructureNode* reg=new RegisterStructureNode(id,ls);
+                    RegisterStructureNode* reg=new RegisterStructureNode(id,ls,r,c);
                     return reg;
                 }else{
                     throw ParserException(string("se esperaba registro,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
@@ -187,7 +193,7 @@ TypeNode *Parser::Type()
                 if(CurrentToken->Type==RightBrackets)
                 {
                     ConsumeToken();
-                    CadenaTypeNode* type=new CadenaTypeNode(size);
+                    CadenaTypeNode* type=new CadenaTypeNode(size,CurrentToken->Row,CurrentToken->Column);
                     return type;
                 }else{
                     throw ParserException(string("se esperaba ],Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
@@ -200,6 +206,8 @@ TypeNode *Parser::Type()
         }
     }else if(CurrentToken->Type==arreglo)
     {
+        int r=CurrentToken->Row;
+        int c=CurrentToken->Column;
         ConsumeToken();
         if(CurrentToken->Type==LeftBrackets)
         {
@@ -217,7 +225,7 @@ TypeNode *Parser::Type()
                         if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme))|| CurrentToken->Type==Id)
                         {
                             TypeNode* t=Type();
-                            ArrayTypeNode* type=new ArrayTypeNode(t,dim);
+                            ArrayTypeNode* type=new ArrayTypeNode(t,dim,r,c);
                             return type;
                         }else{
                             throw ParserException(string("se esperaba un tipo,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
@@ -241,7 +249,7 @@ TypeNode *Parser::Type()
 
     }else if(CurrentToken->Type==Id ||CurrentToken->Type==entero ||CurrentToken->Type==real||CurrentToken->Type==booleano|| CurrentToken->Type==caracter)
     {
-        SimpeTypeNode* type=new SimpeTypeNode(Lex->ToLowerCase(CurrentToken->Lexeme));
+        SimpeTypeNode* type=new SimpeTypeNode(Lex->ToLowerCase(CurrentToken->Lexeme),CurrentToken->Row,CurrentToken->Column);
         ConsumeToken();
         return type;
     }/*else if(CurrentToken->Type==Op_Sub)
@@ -263,7 +271,7 @@ TypeNode* Parser::Arch_Type()
 
     }else if(CurrentToken->Type==secuencial)
     {
-        SimpeTypeNode* type=new SimpeTypeNode("secuencial");
+        SimpeTypeNode* type=new SimpeTypeNode("secuencial",CurrentToken->Row,CurrentToken->Column);
         ConsumeToken();
         return type;
     }else
@@ -294,6 +302,8 @@ DeclareVariableNode* Parser::Variables_Group()
 {
     if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme))||CurrentToken->Type==Id)
     {
+        int r=CurrentToken->Row;
+        int c=CurrentToken->Column;
         TypeNode* type=Type();
         if(CurrentToken->Type==Id)
         {
@@ -301,7 +311,7 @@ DeclareVariableNode* Parser::Variables_Group()
             ids->push_back(CurrentToken->Lexeme);
             ConsumeToken();
             ids=ID_List(ids);
-            DeclareVariableNode* declare=new DeclareVariableNode(type,ids);
+            DeclareVariableNode* declare=new DeclareVariableNode(type,ids,r,c);
             return declare;
 
         }else{
@@ -387,6 +397,8 @@ ProgramHeaderNode *Parser::Methods_List()
 
     }else if( CurrentToken->Type==funcion)
     {
+        int r=CurrentToken->Row;
+        int c=CurrentToken->Column;
         ConsumeToken();
 
         if(CurrentToken->Type==Id)
@@ -401,7 +413,7 @@ ProgramHeaderNode *Parser::Methods_List()
                 list<DeclareVariableNode*>* ls=new list<DeclareVariableNode*>();
                 ls=Declare(ls);
                 list<StatementNode*>* state=Method_Body();
-                FunctionNode* func=new FunctionNode(id,param,t,ls,state);
+                FunctionNode* func=new FunctionNode(id,param,t,ls,state,r,c);
                 return func;
                 //Methods_List();
             }else{
@@ -511,26 +523,30 @@ ParameterNode *Parser::Param()
 {
     if(CurrentToken->Type==var)
     {
+        int r=CurrentToken->Row;
+        int c=CurrentToken->Column;
         ConsumeToken();
         TypeNode* t=Type();
         if(CurrentToken->Type==Id)
         {
             string id=CurrentToken->Lexeme;
             ConsumeToken();
-            ParameterNode* param=new ParameterNode(t,id,true);
+            ParameterNode* param=new ParameterNode(t,id,true,r,c);
             return param;
         }else{
             throw ParserException(string("se esperaba un ID,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
         }
     }else if(Lex->Contains(TypeWords,Lex->ToLowerCase(CurrentToken->Lexeme))|| CurrentToken->Type==Id)
     {
+        int r=CurrentToken->Row;
+        int c=CurrentToken->Column;
         TypeNode* t=Type();
 
         if(CurrentToken->Type==Id)
         {
             string id=CurrentToken->Lexeme;
             ConsumeToken();
-            ParameterNode* param=new ParameterNode(t,id,false);
+            ParameterNode* param=new ParameterNode(t,id,false,r,c);
             return param;
         }else{
             throw ParserException(string("se esperaba un ID,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
@@ -605,8 +621,10 @@ StatementNode *Parser::Statement_Return()
 {
     if(CurrentToken->Type==retorne)
     {
+        int r=CurrentToken->Row;
+        int c=CurrentToken->Column;
         ConsumeToken();
-        StatementReturnNode* statement=new StatementReturnNode(Expression());
+        StatementReturnNode* statement=new StatementReturnNode(Expression(),r,c);
         return statement;
     }else
     {
@@ -618,6 +636,8 @@ StatementNode *Parser::Statement_Si()
 {
     if(CurrentToken->Type==si)
     {
+        int r=CurrentToken->Row;
+        int c=CurrentToken->Column;
         ConsumeToken();
         ExpressionNode* e=Expression();
 
@@ -634,7 +654,7 @@ StatementNode *Parser::Statement_Si()
                 ConsumeToken();
                 if(CurrentToken->Type==si)
                 {
-                    StatementSiNode* statement=new StatementSiNode(e,lsSi,lsSino);
+                    StatementSiNode* statement=new StatementSiNode(e,lsSi,lsSino,r,c);
                     ConsumeToken();
                     return statement;
                 }else{
@@ -678,6 +698,8 @@ StatementNode *Parser::Statement_Para()
 {
     if(CurrentToken->Type==para)
     {
+        int r=CurrentToken->Row;
+        int c=CurrentToken->Column;
         ConsumeToken();
         VariableNode* var=Variable();
         if(CurrentToken->Type==Op_Assignment)
@@ -692,7 +714,7 @@ StatementNode *Parser::Statement_Para()
                 {
                     ConsumeToken();
                     list<StatementNode*>* ls=new list<StatementNode*>();
-                    StatementParaNode* statement=new StatementParaNode(var,first,second,Statement_List(ls));
+                    StatementParaNode* statement=new StatementParaNode(var,first,second,Statement_List(ls),r,c);
                     if(CurrentToken->Type==fin)
                     {
                         ConsumeToken();
@@ -746,7 +768,7 @@ VariableNode *Parser::Compuest_Variable(VariableNode* expressionNode)
     {
         ConsumeToken();
         VariableNode* e=Variable();
-        RegisterVariableNode* reg=new RegisterVariableNode(expressionNode,e);
+        RegisterVariableNode* reg=new RegisterVariableNode(expressionNode,e,CurrentToken->Row,CurrentToken->Column);
         return reg;
     }else
     {
@@ -760,7 +782,7 @@ VariableNode* Parser::Array_Variable(string id)
     {
         ConsumeToken();
 
-        ArrayVariableNode* arr=new ArrayVariableNode(Expression_List(),id);
+        ArrayVariableNode* arr=new ArrayVariableNode(Expression_List(),id,CurrentToken->Row,CurrentToken->Column);
         if(CurrentToken->Type==RightBrackets)
         {
             ConsumeToken();
@@ -771,7 +793,7 @@ VariableNode* Parser::Array_Variable(string id)
         }
     }else
     {
-        SimpleVariableNode *e =new SimpleVariableNode(id);
+        SimpleVariableNode *e =new SimpleVariableNode(id,CurrentToken->Row,CurrentToken->Column);
         return e;
         //Epsilon
     }
@@ -827,6 +849,8 @@ StatementNode *Parser::Statement_Mientras()
 {
     if(CurrentToken->Type==mientras)
     {
+        int r=CurrentToken->Row;
+        int c=CurrentToken->Column;
         ConsumeToken();
         ExpressionNode* expr=Expression();
         if(CurrentToken->Type==haga)
@@ -840,7 +864,7 @@ StatementNode *Parser::Statement_Mientras()
                 if(CurrentToken->Type==mientras)
                 {
                     ConsumeToken();
-                    StatementMientrasNode* statement=new StatementMientrasNode(expr,ls);
+                    StatementMientrasNode* statement=new StatementMientrasNode(expr,ls,r,c);
                     return statement;
                 }else
                 {
@@ -863,13 +887,15 @@ StatementNode *Parser::Statement_Repita()
 {
     if(CurrentToken->Type==repita)
     {
+        int r=CurrentToken->Row;
+        int c=CurrentToken->Column;
         ConsumeToken();
         list<StatementNode*>* ls=new list<StatementNode*>();
         ls=Statement_List(ls);
         if(CurrentToken->Type==hasta)
         {
             ConsumeToken();
-            StatementRepitaNode* statement=new StatementRepitaNode(Expression(),ls);
+            StatementRepitaNode* statement=new StatementRepitaNode(Expression(),ls,r,c);
             return statement;
         }else
         {
@@ -884,6 +910,8 @@ StatementNode *Parser::Statement_Llamar()
 {
     if(CurrentToken->Type==llamar)
     {
+        int r=CurrentToken->Row;
+        int c=CurrentToken->Column;
         ConsumeToken();
         if(CurrentToken->Type==Id)
         {
@@ -896,7 +924,7 @@ StatementNode *Parser::Statement_Llamar()
                 if(CurrentToken->Type==RightParent)
                 {
                     ConsumeToken();
-                    StatementLlamarNode* statement=new StatementLlamarNode(id,ls);
+                    StatementLlamarNode* statement=new StatementLlamarNode(id,ls,r,c);
                     return statement;
                 }else
                 {
@@ -919,11 +947,13 @@ StatementNode *Parser::Statement_Assignment()
 {
     if(CurrentToken->Type==Id)
     {
+        int r=CurrentToken->Row;
+        int c=CurrentToken->Column;
         VariableNode* var=Variable();
         if(CurrentToken->Type==Op_Assignment)
         {
             ConsumeToken();
-            StatementAssignmentNode* statement=new StatementAssignmentNode(var,Expression());
+            StatementAssignmentNode* statement=new StatementAssignmentNode(var,Expression(),r,c);
             return statement;
         }else
         {
@@ -939,6 +969,8 @@ StatementNode* Parser::Statement_Case()
 {
     if(CurrentToken->Type==caso)
     {
+        int r=CurrentToken->Row;
+        int c=CurrentToken->Column;
         ConsumeToken();
         VariableNode* var=Variable();
         list<CaseNode*>* ls=new list<CaseNode*>();
@@ -951,7 +983,7 @@ StatementNode* Parser::Statement_Case()
             if(CurrentToken->Type==caso)
             {
                 ConsumeToken();
-                StatementCasoNode* statement=new StatementCasoNode(var,ls,statelist);
+                StatementCasoNode* statement=new StatementCasoNode(var,ls,statelist,r,c);
                 return statement;
             }else
             {
@@ -976,12 +1008,14 @@ list<CaseNode*>* Parser::Case_List()
 CaseNode* Parser::Define_Case()
 {
     list<LiteralNode*>* literals=new list<LiteralNode*>();
+    int r=CurrentToken->Row;
+    int c=CurrentToken->Column;
     literals=Literal_List();
     if(CurrentToken->Type==colon)
     {
         ConsumeToken();
         list<StatementNode*>* ls=new list<StatementNode*>();
-        CaseNode* casenode=new CaseNode(literals,Statement_List(ls));
+        CaseNode* casenode=new CaseNode(literals,Statement_List(ls),r,c);
         return casenode;
     }else
     {
@@ -1028,16 +1062,16 @@ LiteralNode* Parser::Literal()
         LiteralNode* literal;
         if(CurrentToken->Type==Const_entero)
         {
-            literal=new EnteroNode(atoi(CurrentToken->Lexeme.c_str()));
+            literal=new EnteroNode(atoi(CurrentToken->Lexeme.c_str()),CurrentToken->Row,CurrentToken->Column);
         }else if(CurrentToken->Type==Const_real)
         {
-            literal=new RealNode(atof(CurrentToken->Lexeme.c_str()));
+            literal=new RealNode(atof(CurrentToken->Lexeme.c_str()),CurrentToken->Row,CurrentToken->Column);
         }else if(CurrentToken->Type==Const_caracter)
         {
-            literal=new CaracterNode(CurrentToken->Lexeme.at(1));
+            literal=new CaracterNode(CurrentToken->Lexeme.at(1),CurrentToken->Row,CurrentToken->Column);
         }else if(CurrentToken->Type==Const_cadena)
         {
-            literal=new CadenaNode(CurrentToken->Lexeme);
+            literal=new CadenaNode(CurrentToken->Lexeme,CurrentToken->Row,CurrentToken->Column);
         }
         ConsumeToken();
         return literal;
@@ -1072,10 +1106,12 @@ StatementNode *Parser::Statement_Escriba()
 {
     if(CurrentToken->Type==escriba)
     {
+        int r=CurrentToken->Row;
+        int c=CurrentToken->Column;
         ConsumeToken();
         list<ExpressionNode*>*ls=new list<ExpressionNode*>();
         ls=Expression_List();
-        StatementEscribaNode* statement=new StatementEscribaNode(ls);
+        StatementEscribaNode* statement=new StatementEscribaNode(ls,r,c);
         return statement;
     }else
     {
@@ -1087,13 +1123,15 @@ StatementNode *Parser::Statement_Abrir_Archivo()
 {
     if(CurrentToken->Type==abrir)
     {
+        int r=CurrentToken->Row;
+        int c=CurrentToken->Column;
         ConsumeToken();
         ExpressionNode* e=Expression();
         if(CurrentToken->Type==como)
         {
             ConsumeToken();
             VariableNode* var=Variable();
-            StatementAbrirArchivoNode* statement=new StatementAbrirArchivoNode(e,var,Operation_List());
+            StatementAbrirArchivoNode* statement=new StatementAbrirArchivoNode(e,var,Operation_List(),r,c);
             return statement;
         }else
         {
@@ -1155,9 +1193,11 @@ StatementNode *Parser::Statement_Cerrar_Archivo()
 {
     if(CurrentToken->Type==cerrar)
     {
+        int r=CurrentToken->Row;
+        int c=CurrentToken->Column;
         ConsumeToken();
         VariableNode* var=Variable();
-        StatementCerrarArchivoNode* statement=new StatementCerrarArchivoNode(var);
+        StatementCerrarArchivoNode* statement=new StatementCerrarArchivoNode(var,r,c);
         return statement;
     }else
     {
@@ -1169,6 +1209,8 @@ StatementNode* Parser::Statement_Escribir_Archivo()
 {
     if(CurrentToken->Type==escribir)
     {
+        int r=CurrentToken->Row;
+        int c=CurrentToken->Column;
         ConsumeToken();
         list<ExpressionNode*>* exprs=new list<ExpressionNode*>();
         ExpressionNode* e=Expression();
@@ -1181,7 +1223,7 @@ StatementNode* Parser::Statement_Escribir_Archivo()
             throw ParserException(string("se esperaba , ,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
         }
         exprs->push_back(e);
-        StatementEscribirArchivoNode* statement=new StatementEscribirArchivoNode(exprs);
+        StatementEscribirArchivoNode* statement=new StatementEscribirArchivoNode(exprs,r,c);
         return statement;
     }else
     {
@@ -1193,6 +1235,8 @@ StatementNode *Parser::Statement_Leer_Archivo()
 {
     if(CurrentToken->Type==leer)
     {
+        int r=CurrentToken->Row;
+        int c=CurrentToken->Column;
         ConsumeToken();
         list<VariableNode*> *vars=new list<VariableNode*>();
         vars->push_back(Variable());
@@ -1206,7 +1250,7 @@ StatementNode *Parser::Statement_Leer_Archivo()
         {
             throw ParserException(string("se esperaba , ,Fila:")+to_string(CurrentToken->Row)+",Columna:"+to_string(CurrentToken->Column));
         }
-        StatementLeerArchivoNode* statement=new StatementLeerArchivoNode(vars);
+        StatementLeerArchivoNode* statement=new StatementLeerArchivoNode(vars,r,c);
         return statement;
 
     }else
@@ -1244,17 +1288,19 @@ ExpressionNode* Parser::Expression()
 }
 ExpressionNode *Parser::ExpressionP(ExpressionNode *node)
 {
+    int r=CurrentToken->Row;
+    int c=CurrentToken->Column;
     if(CurrentToken->Type==Op_LogicalY)
     {
         ConsumeToken();
         ExpressionNode* e=Bool_Expression();
-        LogicalYNode* log= new LogicalYNode(node,e);
+        LogicalYNode* log= new LogicalYNode(node,e,r,c);
         return ExpressionP(log);
     }else if(CurrentToken->Type==Op_LogicalO)
     {
         ConsumeToken();
         ExpressionNode* e=Bool_Expression();
-        LogicalONode* logo=new LogicalONode(node,e);
+        LogicalONode* logo=new LogicalONode(node,e,r,c);
         return ExpressionP(logo);
     }else
     {
@@ -1270,41 +1316,43 @@ ExpressionNode *Parser::Bool_Expression()
 
 ExpressionNode *Parser::Bool_ExpressionP(ExpressionNode* node)
 {
+    int r=CurrentToken->Row;
+    int c=CurrentToken->Column;
     if(CurrentToken->Type==Op_LessThan)
     {
         ConsumeToken();
         ExpressionNode* e=Basic_Expression();
-        LessThanNode* less=new LessThanNode(node,e);
+        LessThanNode* less=new LessThanNode(node,e,r,c);
         return Bool_ExpressionP(less);
     }else if(CurrentToken->Type==Op_GreaterThan)
     {
         ConsumeToken();
         ExpressionNode* e=Basic_Expression();
-        GreaterThanNode* greater=new GreaterThanNode(node,e);
+        GreaterThanNode* greater=new GreaterThanNode(node,e,r,c);
         return Bool_ExpressionP(greater);
     }else if(CurrentToken->Type==Op_LessOrEqualThan)
     {
         ConsumeToken();
         ExpressionNode* e=Basic_Expression();
-        LessAndEqualThanNode* lesE=new LessAndEqualThanNode(node,e);
+        LessAndEqualThanNode* lesE=new LessAndEqualThanNode(node,e,r,c);
         return Bool_ExpressionP(lesE);
     }else if(CurrentToken->Type==Op_GreaterOrEqualThan)
     {
         ConsumeToken();
         ExpressionNode* e=Basic_Expression();
-        GreaterAndEqualThanNode* greE=new GreaterAndEqualThanNode(node,e);
+        GreaterAndEqualThanNode* greE=new GreaterAndEqualThanNode(node,e,r,c);
         return Bool_ExpressionP(greE);
     }else if(CurrentToken->Type==Equal)
     {
         ConsumeToken();
         ExpressionNode* e=Basic_Expression();
-        EqualNode* equal=new EqualNode(node,e);
+        EqualNode* equal=new EqualNode(node,e,r,c);
         return Bool_ExpressionP(equal);
     }else if(CurrentToken->Type==Op_NotEqual)
     {
         ConsumeToken();
         ExpressionNode* e=Basic_Expression();
-        NotEqualNode* nEqual=new NotEqualNode(node,e);
+        NotEqualNode* nEqual=new NotEqualNode(node,e,r,c);
         return Bool_ExpressionP(nEqual);
     }else
     {
@@ -1320,17 +1368,19 @@ ExpressionNode *Parser::Basic_Expression()
 
 ExpressionNode *Parser::Basic_ExpressionP(ExpressionNode *node)
 {
+    int r=CurrentToken->Row;
+    int c=CurrentToken->Column;
     if(CurrentToken->Type==Op_Sum)
     {
         ConsumeToken();
         ExpressionNode* e=Factor();
-        SumNode* sum=new SumNode(node,e);
+        SumNode* sum=new SumNode(node,e,r,c);
         return Basic_ExpressionP(sum);
     }else if(CurrentToken->Type==Op_Sub)
     {
         ConsumeToken();
         ExpressionNode* e=Factor();
-        SubtractionNode* sub=new SubtractionNode(node,e);
+        SubtractionNode* sub=new SubtractionNode(node,e,r,c);
         return Basic_ExpressionP(sub);
     }else
     {
@@ -1346,29 +1396,31 @@ ExpressionNode *Parser::Factor()
 
 ExpressionNode *Parser::FactorP(ExpressionNode *node)
 {
+    int r=CurrentToken->Row;
+    int c=CurrentToken->Column;
     if(CurrentToken->Type==Op_Mult)
     {
         ConsumeToken();
         ExpressionNode* e=Exp_Op();
-        MultiplicationNode* mult=new MultiplicationNode(node,e);
+        MultiplicationNode* mult=new MultiplicationNode(node,e,r,c);
         return FactorP(mult);
     }else if(CurrentToken->Type==Op_Div)
     {
         ConsumeToken();
         ExpressionNode* e=Exp_Op();
-        DivisionNode* div=new DivisionNode(node,e);
+        DivisionNode* div=new DivisionNode(node,e,r,c);
         return FactorP(div);
     }else if(CurrentToken->Type==Div)
     {
         ConsumeToken();
         ExpressionNode* e=Exp_Op();
-        IntegerDivisionNode* idiv=new IntegerDivisionNode(node,e);
+        IntegerDivisionNode* idiv=new IntegerDivisionNode(node,e,r,c);
         return FactorP(idiv);
     }else if(CurrentToken->Type==mod)
     {
         ConsumeToken();
         ExpressionNode* e=Exp_Op();
-        ModNode* mod_node=new ModNode(node,e);
+        ModNode* mod_node=new ModNode(node,e,r,c);
         return FactorP(mod_node);
     }else
     {
@@ -1386,9 +1438,11 @@ ExpressionNode *Parser::Exp_OpP(ExpressionNode *node)
 {
     if(CurrentToken->Type==Op_Exp)
     {
+        int r=CurrentToken->Row;
+        int c=CurrentToken->Column;
         ConsumeToken();
         ExpressionNode* e=LogicalNot();
-        ExponentialNode* exp=new ExponentialNode(node,e);
+        ExponentialNode* exp=new ExponentialNode(node,e,r,c);
         return Exp_OpP(exp);
     }else
     {
@@ -1400,8 +1454,10 @@ ExpressionNode *Parser::LogicalNot()
 {
     if(CurrentToken->Type==no)
     {
+        int r=CurrentToken->Row;
+        int c=CurrentToken->Column;
         ConsumeToken();
-        LogicalNotNode* ln=new LogicalNotNode(Term());
+        LogicalNotNode* ln=new LogicalNotNode(Term(),r,c);
         return ln;
     }else if(CurrentToken->Type==Id || CurrentToken->Type==Const_entero ||CurrentToken->Type==Op_Sub || CurrentToken->Type==Const_cadena || CurrentToken->Type==Const_caracter || CurrentToken->Type==Const_real || CurrentToken->Type==verdadero || CurrentToken->Type==falso || CurrentToken->Type==LeftParent)
     {
@@ -1422,11 +1478,13 @@ ExpressionNode *Parser::Term()
         return Id_Term(id);
     }else if(CurrentToken->Type==LeftParent)
     {
+        int r=CurrentToken->Row;
+        int c=CurrentToken->Column;
         ConsumeToken();
         //Expression();
 
         list<ExpressionNode*> *ls=Expression_List();
-        ExpressionGroupNode *E_group=new ExpressionGroupNode(ls);
+        ExpressionGroupNode *E_group=new ExpressionGroupNode(ls,r,c);
         if(CurrentToken->Type==RightParent)
         {
             ConsumeToken();
@@ -1437,22 +1495,24 @@ ExpressionNode *Parser::Term()
         }
     }else if(CurrentToken->Type==Const_entero || CurrentToken->Type==Const_cadena || CurrentToken->Type==Const_caracter || CurrentToken->Type==Const_real || CurrentToken->Type==verdadero || CurrentToken->Type==falso)
     {
+        int r=CurrentToken->Row;
+        int c=CurrentToken->Column;
         ExpressionNode *e;
         if(CurrentToken->Type==Const_entero)
         {
-            e=new EnteroNode(atoi(CurrentToken->Lexeme.c_str()));
+            e=new EnteroNode(atoi(CurrentToken->Lexeme.c_str()),r,c);
         }else if(CurrentToken->Type==Const_cadena)
         {
-            e=new CadenaNode(CurrentToken->Lexeme);
+            e=new CadenaNode(CurrentToken->Lexeme,r,c);
         }else if(CurrentToken->Type==Const_caracter)
         {
-            e=new CaracterNode(CurrentToken->Lexeme.at(1));
+            e=new CaracterNode(CurrentToken->Lexeme.at(1),r,c);
         }else if(CurrentToken->Type==Const_real)
         {
-            e=new RealNode(atof(CurrentToken->Lexeme.c_str()));
+            e=new RealNode(atof(CurrentToken->Lexeme.c_str()),r,c);
         }else if(CurrentToken->Type==verdadero || CurrentToken->Type==falso)
         {
-            e=new BoolNode(CurrentToken->Lexeme);
+            e=new BoolNode(CurrentToken->Lexeme,r,c);
         }
         ConsumeToken();
         return e;
@@ -1470,9 +1530,11 @@ ExpressionNode *Parser::Id_Term(string id)
 {
     if(CurrentToken->Type==LeftParent)
     {
+        int r=CurrentToken->Row;
+        int c=CurrentToken->Column;
         ConsumeToken();
         list<ExpressionNode*> *ls=Expression_ListFunctions(id);
-        ExpressionFunctionNode *e= new ExpressionFunctionNode(id,ls);
+        ExpressionFunctionNode *e= new ExpressionFunctionNode(id,ls,r,c);
         if(CurrentToken->Type==RightParent)
         {
             ConsumeToken();
@@ -1486,7 +1548,7 @@ ExpressionNode *Parser::Id_Term(string id)
         return Variable_Factor(id);
     }else
     {
-        SimpleVariableNode *id_node=new SimpleVariableNode(id);
+        SimpleVariableNode *id_node=new SimpleVariableNode(id,CurrentToken->Row,CurrentToken->Column);
         return id_node;//Epsilon
     }
 }
@@ -1502,23 +1564,25 @@ ExpressionNode *Parser::Const_Negative()
 {
     if(CurrentToken->Type==Const_entero || CurrentToken->Type==Const_real || CurrentToken->Type==Id)
     {
+        int r=CurrentToken->Row;
+        int c=CurrentToken->Column;
         ExpressionNode* e;
         if(CurrentToken->Type==Const_entero)
         {
-            e=new EnteroNode(atoi(CurrentToken->Lexeme.c_str()));
+            e=new EnteroNode(atoi(CurrentToken->Lexeme.c_str()),r,c);
         }else if(CurrentToken->Type==Const_real)
         {
-            e=new RealNode(atof(CurrentToken->Lexeme.c_str()));
+            e=new RealNode(atof(CurrentToken->Lexeme.c_str()),r,c);
         }else
         {
-            e=new SimpleVariableNode(CurrentToken->Lexeme);
+            e=new SimpleVariableNode(CurrentToken->Lexeme,r,c);
         }
         ConsumeToken();
         return e;
     }else if(CurrentToken->Type==LeftParent)
     {
         ConsumeToken();
-        ExpressionGroupNode* eg=new ExpressionGroupNode(Expression_List());
+        ExpressionGroupNode* eg=new ExpressionGroupNode(Expression_List(),CurrentToken->Row,CurrentToken->Column);
         if(CurrentToken->Type==RightParent)
         {
             ConsumeToken();

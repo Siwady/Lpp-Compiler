@@ -9,7 +9,7 @@ class DeclareHeaderNode : public ProgramHeaderNode
 {
 public:
     list<DeclareVariableNode*>* DeclareVariables;
-    DeclareHeaderNode(list<DeclareVariableNode*>* var);
+    DeclareHeaderNode(list<DeclareVariableNode*>* var,int row,int column);
     string ToXML(int i);
 };
 

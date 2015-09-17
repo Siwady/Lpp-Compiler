@@ -1,9 +1,11 @@
 #include "casenode.h"
 
-CaseNode::CaseNode(list<LiteralNode *> *literals, list<StatementNode *> *statement)
+CaseNode::CaseNode(list<LiteralNode *> *literals, list<StatementNode *> *statement, int row, int column)
 {
     this->Literals=literals;
     this->Statements=statement;
+    this->Row=row;
+    this->Column=column;
 }
 
 string CaseNode::ToXML(int i)
@@ -23,5 +25,17 @@ string CaseNode::ToXML(int i)
     re+=Helper::GetIdentation(i)+"</CaseNode>\n";
 
     return re ;
+}
+
+Type *CaseNode::ValidateSemantic()
+{
+    Type* t=Helper::GetElementLiteralNode(Literals,0)->ValidateSemantic();
+    for(int i=1;i<Literals->size();i++)
+    {
+        if(t->Name.compare(Helper::GetElementLiteralNode(Literals,i)->ValidateSemantic()->Name)!=0)
+        {
+            throw SemanticException("Se esperaba tipo de dato "+t->Name+",Fila:"+to_string(Helper::GetElementLiteralNode(Literals,i)->Row)+",Columna:"+to_string(Helper::GetElementLiteralNode(Literals,i)->Column));
+        }
+    }
 }
 

@@ -14,7 +14,7 @@ public:
     list<ParameterNode*>* Params;
     list<DeclareVariableNode*>* Variables;
     list<StatementNode*>* Statements;
-    ProcedureNode(string id, list<ParameterNode*>* param, list<DeclareVariableNode*>* vars, list<StatementNode*>* statements);
+    ProcedureNode(string id, list<ParameterNode*>* param, list<DeclareVariableNode*>* vars, list<StatementNode*>* statements,int row,int column);
     ProcedureNode();
 
     // ProgramHeaderNode interface

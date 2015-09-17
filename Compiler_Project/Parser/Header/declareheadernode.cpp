@@ -1,8 +1,10 @@
 #include "declareheadernode.h"
 
-DeclareHeaderNode::DeclareHeaderNode(list<DeclareVariableNode *> *var)
+DeclareHeaderNode::DeclareHeaderNode(list<DeclareVariableNode *> *var, int row, int column)
 {
     this->DeclareVariables=var;
+    this->Row=row;
+    this->Column=column;
 }
 
 string DeclareHeaderNode::ToXML(int i)

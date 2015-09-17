@@ -3,18 +3,25 @@
 #include "typenode.h"
 #include <string>
 #include "helper.h"
+#include "Semantic/symboltable.h"
+#include "Parser/Header/arraytypenode.h"
+#include "Parser/Header/cadenatypenode.h"
 using namespace std;
 
 class ArchivoTypeNode : public TypeNode
 {
 public:
-    string FirstType;
-    TypeNode * Type;
-    ArchivoTypeNode(string firstType,TypeNode* type);
+    string Name;
+    TypeNode * Types;
+    ArchivoTypeNode(string Name,TypeNode* type,int row,int column);
 
     // TypeNode interface
 public:
     string ToXML(int i);
+
+    // TypeNode interface
+public:
+    void ValidateSemantic();
 };
 
 #endif // ARCHIVOTYPENODE_H

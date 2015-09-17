@@ -114,3 +114,35 @@ string Helper::GetIdentation(int i)
     return s;
 }
 
+Type *Helper::GetTypeFromTypeNode(TypeNode *type)
+{
+    Type* t;
+    if(type->OfType.compare("entero")==0)
+    {
+        t=new EnteroType();
+    }else if(type->OfType.compare("booleano")==0)
+    {
+        t=new BooleanType();
+    }
+    else if(type->OfType.compare("caracter")==0)
+    {
+        t=new CaracterType();
+    }else if(type->OfType.compare("real")==0)
+    {
+        t=new RealType();
+    }else if(type->OfType.compare("cadena")==0)
+    {
+        CadenaTypeNode *a=dynamic_cast<CadenaTypeNode*>(type);
+        t=new CadenaType(a->Size);
+    }else if(type->OfType.compare("arreglo")==0)
+    {
+        ArrayTypeNode *a=dynamic_cast<ArrayTypeNode*>(type);
+        t=new ArregloType(GetTypeFromTypeNode(a->Type),a->Dimentions);
+    }else if(type->OfType.compare("archivo")==0)
+    {
+        ArchivoTypeNode *a=dynamic_cast<ArchivoTypeNode*>(type);
+        t=new ArchivoType(GetTypeFromTypeNode(a->Types));
+    }
+    return t;
+}
+

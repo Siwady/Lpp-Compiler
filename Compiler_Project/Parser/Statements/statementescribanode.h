@@ -10,11 +10,15 @@ class StatementEscribaNode : public StatementNode
 {
 public:
     list<ExpressionNode*>*Expressions;
-    StatementEscribaNode(list<ExpressionNode*>*expressions);
+    StatementEscribaNode(list<ExpressionNode*>*expressions,int row,int column);
 
     // StatementNode interface
 public:
     string ToXML(int i);
+
+    // StatementNode interface
+public:
+    void ValidateSemantic();
 };
 
 #endif // STATEMENTESCRIBANODE_H

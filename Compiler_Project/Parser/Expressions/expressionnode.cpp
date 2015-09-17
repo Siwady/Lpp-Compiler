@@ -17,3 +17,8 @@ string ExpressionNode::ToXML(int i)
     return "";
 }
 
+Type *ExpressionNode::ValidateSemantic()
+{
+    return NULL;
+}
+

@@ -1,9 +1,11 @@
 #include "typestructurenode.h"
 
-TypeStructureNode::TypeStructureNode(string id, TypeNode *type)
+TypeStructureNode::TypeStructureNode(string id, TypeNode *type, int row, int column)
 {
     this->ID=id;
     this->Type=type;
+    this->Row=row;
+    this->Column=column;
 }
 
 

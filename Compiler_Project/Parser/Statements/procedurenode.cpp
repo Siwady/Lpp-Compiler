@@ -1,11 +1,13 @@
 #include "procedurenode.h"
 
-ProcedureNode::ProcedureNode(string id, list<ParameterNode *> *param, list<DeclareVariableNode *> *vars, list<StatementNode *> *statements)
+ProcedureNode::ProcedureNode(string id, list<ParameterNode *> *param, list<DeclareVariableNode *> *vars, list<StatementNode *> *statements, int row, int column)
 {
     this->ID=id;
     this->Params=param;
     this->Variables=vars;
     this->Statements=statements;
+    this->Row=row;
+    this->Column=column;
 }
 
 ProcedureNode::ProcedureNode()

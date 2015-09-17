@@ -1,9 +1,11 @@
 #include "registerstructurenode.h"
 
-RegisterStructureNode::RegisterStructureNode(string Id, list<DeclareVariableNode *> *attr)
+RegisterStructureNode::RegisterStructureNode(string Id, list<DeclareVariableNode *> *attr, int row, int column)
 {
     this->ID=Id;
     this->Attributes=attr;
+    this->Row=row;
+    this->Column=column;
 }
 
 

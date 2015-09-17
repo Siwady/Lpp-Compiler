@@ -1,9 +1,12 @@
 #include "arraytypenode.h"
 
-ArrayTypeNode::ArrayTypeNode(TypeNode *type, list<int> *dim)
+ArrayTypeNode::ArrayTypeNode(TypeNode *type, list<int> *dim, int row, int column)
 {
     this->Type=type;
     this->Dimentions=dim;
+    this->Row=row;
+    this->Column=column;
+    this->OfType="arreglo";
 }
 
 

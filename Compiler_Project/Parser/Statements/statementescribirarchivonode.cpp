@@ -1,8 +1,10 @@
 #include "statementescribirarchivonode.h"
 
-StatementEscribirArchivoNode::StatementEscribirArchivoNode(list<ExpressionNode *> *ls)
+StatementEscribirArchivoNode::StatementEscribirArchivoNode(list<ExpressionNode *> *ls, int row, int column)
 {
     this->Expressions=ls;
+    this->Row=row;
+    this->Column=column;
 }
 
 
@@ -19,4 +21,15 @@ string StatementEscribirArchivoNode::ToXML(int i)
 
     re+=Helper::GetIdentation(i)+"</StatementEscribirArchivo>\n";
     return re;
+}
+
+
+void StatementEscribirArchivoNode::ValidateSemantic()
+{
+    list<ExpressionNode*>::const_iterator iterator;
+    ExpressionNode* temp;
+    for (iterator = Expressions->begin(); iterator != Expressions->end(); ++iterator) {
+        temp=*iterator;
+        temp->ValidateSemantic();
+    }
 }

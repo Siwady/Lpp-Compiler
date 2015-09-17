@@ -11,6 +11,10 @@ public:
 
 public:
     virtual string ToXML(int i);
+
+    // ExpressionNode interface
+public:
+    virtual Type* ValidateSemantic();
 };
 
 #endif // VARIABLENODE_H

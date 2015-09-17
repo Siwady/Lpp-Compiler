@@ -7,7 +7,10 @@ class ProgramCodeNode
 {
 public:
     ProgramCodeNode();
+    int Row;
+    int Column;
     virtual string ToXML(int i);
+    virtual void ValidateSemantic();
 };
 
 #endif // PROGRAMCODENODE_H

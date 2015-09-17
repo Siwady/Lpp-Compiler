@@ -1,10 +1,12 @@
 #include "statementabrirarchivonode.h"
 
-StatementAbrirArchivoNode::StatementAbrirArchivoNode(ExpressionNode *expr, VariableNode *var, list<string> *op)
+StatementAbrirArchivoNode::StatementAbrirArchivoNode(ExpressionNode *expr, VariableNode *var, list<string> *op, int row, int column)
 {
     this->Expression=expr;
     this->Variable=var;
     this->Operators=op;
+    this->Row=row;
+    this->Column=column;
 }
 
 
@@ -24,4 +26,31 @@ string StatementAbrirArchivoNode::ToXML(int i)
 
     re+=Helper::GetIdentation(i)+"</StatementAbrirArchivo>\n";
     return re;
+}
+
+void StatementAbrirArchivoNode::ValidateSemantic()
+{
+    if(Expression->ValidateSemantic()->Name!="Cadena")
+    {
+        throw SemanticException("Se esperaba una Cadena ,Fila:"+to_string(Expression->Row)+",Columna:"+to_string(Expression->Column));
+    }
+
+    Variable->ValidateSemantic();
+    if(Operators->size()>2)
+    {
+        throw SemanticException("Solo puede haber un Lectura y una Escritura:"+to_string(Expression->Row)+",Columna:"+to_string(Expression->Column));
+    }
+    list<string>::const_iterator iterator;
+    string temp;
+    for (iterator = Operators->begin(); iterator != Operators->end(); ++iterator) {
+
+        if(temp.compare("")!=0)
+        {
+            if(temp.compare(*iterator)==0){
+                throw SemanticException("Se esperaba tipo de dato entero,Fila:"+to_string(Row)+",Columna:"+to_string(Column));
+
+            }
+        }
+        temp=*iterator;
+    }
 }

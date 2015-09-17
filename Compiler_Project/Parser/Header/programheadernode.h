@@ -7,7 +7,10 @@ class ProgramHeaderNode
 {
 public:
     ProgramHeaderNode();
+    int Row;
+    int Column;
     virtual string ToXML(int i);
+    virtual void ValidateSemantic();
 };
 
 #endif // PROGRAMHEADERNODE_H

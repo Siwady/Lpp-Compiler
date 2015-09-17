@@ -7,6 +7,8 @@ class StructureNode
 {
 public:
     StructureNode();
+    int Row;
+    int Column;
     virtual string ToXML(int i);
 };
 

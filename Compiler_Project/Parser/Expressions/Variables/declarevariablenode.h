@@ -12,7 +12,7 @@ class DeclareVariableNode:public ProgramHeaderNode
 public:
     TypeNode* Type;
     list<string>* IDs;
-    DeclareVariableNode(TypeNode* type,list<string>* ids);
+    DeclareVariableNode(TypeNode* type,list<string>* ids,int row,int column);
 
     string ToXML(int i);
 };

@@ -5,10 +5,13 @@ ArrayVariableNode::ArrayVariableNode()
 
 }
 
-ArrayVariableNode::ArrayVariableNode(list<ExpressionNode *> *ls, string id)
+ArrayVariableNode::ArrayVariableNode(list<ExpressionNode *> *ls, string id, int row, int column)
 {
     this->ExpressionList=ls;
     this->ID=id;
+    this->Row=row;
+    this->Column=column;
+    this->NameType="Arreglo";
 }
 
 string ArrayVariableNode::ToXML(int i)
@@ -25,4 +28,32 @@ string ArrayVariableNode::ToXML(int i)
     re+=Helper::GetIdentation(i)+"</ArrayVariable>\n";
 
     return re ;
+}
+
+
+Type *ArrayVariableNode::ValidateSemantic()
+{
+    Type* IdType=SymbolTable::GetInstance()->GetVariableType(ID);
+
+    if(IdType->Name.compare("Arreglo")!=0)
+    {
+        throw SemanticException("Se esperaba un Arreglo ,Fila:"+to_string(Row)+",Columna:"+to_string(Column));
+    }
+
+    if(dynamic_cast<ArregloType*>(IdType)->Dimention->size()!=this->ExpressionList->size())
+    {
+        throw SemanticException("Dimension incoherente del arreglo,Fila:"+to_string(Row)+",Columna:"+to_string(Column));
+    }
+
+    list<ExpressionNode*>::const_iterator iterator;
+    ExpressionNode *e;
+    for (iterator = ExpressionList->begin(); iterator != ExpressionList->end(); ++iterator) {
+        e=*iterator;
+        if((e->NameType.compare("Entero")!=0))
+        {
+            throw SemanticException("Se esperaba tipo de dato entero,Fila:"+to_string(e->Row)+",Columna:"+to_string(e->Column));
+        }
+    }
+
+    return dynamic_cast<ArregloType*>(IdType)->ArrayType;
 }

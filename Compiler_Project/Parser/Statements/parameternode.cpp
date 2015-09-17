@@ -1,10 +1,12 @@
 #include "parameternode.h"
 
-ParameterNode::ParameterNode(TypeNode *type, string id, bool var)
+ParameterNode::ParameterNode(TypeNode *type, string id, bool var, int row, int column)
 {
     this->ID=id;
     this->Type=type;
     this->Var=var;
+    this->Row=row;
+    this->Column=column;
 }
 
 string ParameterNode::ToXML(int i)

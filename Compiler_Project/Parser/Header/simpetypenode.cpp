@@ -1,8 +1,10 @@
 #include "simpetypenode.h"
 
-SimpeTypeNode::SimpeTypeNode(string type)
+SimpeTypeNode::SimpeTypeNode(string type, int row, int column)
 {
-    this->Type=type;
+    this->OfType=type;
+    this->Row=row;
+    this->Column=column;
 }
 
 
@@ -10,7 +12,7 @@ SimpeTypeNode::SimpeTypeNode(string type)
 string SimpeTypeNode::ToXML(int i)
 {
     string re=Helper::GetIdentation(i)+"<SimpleType>\n";
-    re+=Helper::GetIdentation(i+2)+Type+"\n";
+    re+=Helper::GetIdentation(i+2)+OfType+"\n";
     re+=Helper::GetIdentation(i)+"</SimpleType>\n";
     return re;
 }

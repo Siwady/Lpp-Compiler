@@ -2,7 +2,6 @@
 
 VariableNode::VariableNode()
 {
-
 }
 
 string VariableNode::ToXML(int i)
@@ -13,5 +12,10 @@ string VariableNode::ToXML(int i)
 
     return re ;*/
     return "";
+}
+
+Type *VariableNode::ValidateSemantic()
+{
+    return NULL;
 }
 

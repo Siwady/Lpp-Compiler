@@ -1,9 +1,11 @@
 #include "lppprogram.h"
 
-LppProgram::LppProgram(ProgramHeaderNode *program, list<StatementNode *> *ls)
+LppProgram::LppProgram(ProgramHeaderNode *program, list<StatementNode *> *ls, int row, int column)
 {
     this->Header=program;
     this->Statements=ls;
+    this->Row=row;
+    this->Column=column;
 }
 
 string LppProgram::ToXML(int i)
@@ -21,3 +23,15 @@ string LppProgram::ToXML(int i)
     return re;
 }
 
+
+
+void LppProgram::ValidateSemantic()
+{
+    //falta
+    list<StatementNode*>::const_iterator iterator;
+    StatementNode *e;
+    for (iterator = Statements->begin(); iterator != Statements->end(); ++iterator) {
+        e=*iterator;
+        e->ValidateSemantic();
+    }
+}

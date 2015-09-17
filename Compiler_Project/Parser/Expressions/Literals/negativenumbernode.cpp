@@ -1,8 +1,11 @@
 #include "negativenumbernode.h"
 
-NegativeNumberNode::NegativeNumberNode(ExpressionNode *expression)
+NegativeNumberNode::NegativeNumberNode(ExpressionNode *expression, int row, int column)
 {
     this->Expression=expression;
+    this->Row=row;
+    this->Column=column;
+    this->NameType="NegativeNumber";
 }
 
 
@@ -13,4 +16,17 @@ string NegativeNumberNode::ToXML(int i)
     re+=Expression->ToXML(i+1);
     re+=Helper::GetIdentation(i)+"</NegativeNumber>\n";
     return re;
+}
+
+
+/*Type *NegativeNumberNode::ValidateSemantic()
+{
+    return InstanceTypeManager::GetNegativeNumberInstance();
+}*/
+
+
+Type *NegativeNumberNode::ValidateSemantic()
+{
+    NegativeNumberType * n=new NegativeNumberType(this->Expression);
+    return n;
 }

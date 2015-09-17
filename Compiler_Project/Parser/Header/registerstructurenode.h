@@ -9,7 +9,7 @@ class RegisterStructureNode : public StructureNode
 public:
     string ID;
     list<DeclareVariableNode*>* Attributes;
-    RegisterStructureNode(string Id, list<DeclareVariableNode*>* attr);
+    RegisterStructureNode(string Id, list<DeclareVariableNode*>* attr,int row,int column);
 
     // StructureNode interface
 public:

@@ -1,8 +1,10 @@
 #include "typeheadernode.h"
 
-TypeHeaderNode::TypeHeaderNode(list<StructureNode *> *types)
+TypeHeaderNode::TypeHeaderNode(list<StructureNode *> *types, int row, int column)
 {
     this->TypesStructure=types;
+    this->Row=row;
+    this->Column=column;
 }
 
 

@@ -1,8 +1,11 @@
 #include "enteronode.h"
 
-EnteroNode::EnteroNode(int entero)
+EnteroNode::EnteroNode(int entero, int row, int column)
 {
     this->Entero=entero;
+    this->Row=row;
+    this->Column=column;
+    this->NameType="Entero";
 }
 
 
@@ -15,3 +18,15 @@ string EnteroNode::ToXML(int i)
 
     return re ;
 }
+
+Type *EnteroNode::ValidateSemantic()
+{
+    EnteroType *e=new EnteroType();
+    return e;
+}
+
+
+/*Type *EnteroNode::ValidateSemantic()
+{
+    return InstanceTypeManager::GetEnteroInstance();
+}*/

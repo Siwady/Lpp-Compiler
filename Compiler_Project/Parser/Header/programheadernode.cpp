@@ -2,7 +2,6 @@
 
 ProgramHeaderNode::ProgramHeaderNode()
 {
-
 }
 
 string ProgramHeaderNode::ToXML(int i)

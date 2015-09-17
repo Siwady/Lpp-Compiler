@@ -10,6 +10,11 @@ public:
     // ExpressionNode interface
 public:
     virtual string ToXML(int i);
+
+
+    // ExpressionNode interface
+public:
+    virtual Type *ValidateSemantic();
 };
 
 #endif // LITERALNODE_H

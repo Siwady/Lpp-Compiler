@@ -7,11 +7,16 @@ class IdNode : public ExpressionNode
 {
 public:
     string ID;
-    IdNode(string id);
+    IdNode(string id,int row,int column);
 
     // ExpressionNode interface
 public:
     string ToXML(int i);
+
+
+    // ExpressionNode interface
+public:
+    Type* ValidateSemantic();
 };
 
 #endif // IDNODE_H

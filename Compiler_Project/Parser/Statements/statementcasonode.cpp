@@ -1,10 +1,12 @@
 #include "statementcasonode.h"
 
-StatementCasoNode::StatementCasoNode(VariableNode *var, list<CaseNode *> *cases, list<StatementNode *> *sinocase)
+StatementCasoNode::StatementCasoNode(VariableNode *var, list<CaseNode *> *cases, list<StatementNode *> *sinocase, int row, int column)
 {
     this->Variable=var;
     this->Cases=cases;
     this->SinoCase=sinocase;
+    this->Row=row;
+    this->Column=column;
 }
 
 
@@ -29,4 +31,27 @@ string StatementCasoNode::ToXML(int i)
 
     re+=Helper::GetIdentation(i)+"</StatementCase>\n";
     return re;
+}
+
+
+void StatementCasoNode::ValidateSemantic()
+{
+    Type* var=Variable->ValidateSemantic();
+
+    list<CaseNode*>::const_iterator iterator;
+    CaseNode* temp;
+    for (iterator = Cases->begin(); iterator != Cases->end(); ++iterator) {
+        temp=*iterator;
+        if(temp->ValidateSemantic()->Name.compare(var->Name)!=0)
+        {
+            throw SemanticException("Tipo de dato incompatible,Fila:"+to_string(temp->Row)+",Columna:"+to_string(temp->Column));
+        }
+    }
+
+    list<StatementNode*>::const_iterator iterator2;
+    StatementNode* temp2;
+    for (iterator2 = SinoCase->begin(); iterator2 != SinoCase->end(); ++iterator2) {
+        temp2=*iterator2;
+        temp2->ValidateSemantic();
+    }
 }

@@ -9,7 +9,7 @@ class CadenaTypeNode : public TypeNode
 {
 public:
     int Size;
-    CadenaTypeNode(int size);
+    CadenaTypeNode(int size,int row,int column);
 
     // TypeNode interface
 public:

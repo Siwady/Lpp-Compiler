@@ -1,8 +1,11 @@
 #include "boolnode.h"
 
-BoolNode::BoolNode(string boolean)
+BoolNode::BoolNode(string boolean, int row, int column)
 {
     this->Booolean=boolean;
+    this->Row=row;
+    this->Column=column;
+    this->NameType="Booleano";
 }
 
 
@@ -15,3 +18,10 @@ string BoolNode::ToXML(int i)
 
     return re ;
 }
+
+Type *BoolNode::ValidateSemantic()
+{
+    BooleanType * b=new BooleanType();
+    return b;
+}
+

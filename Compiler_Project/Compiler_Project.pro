@@ -86,7 +86,23 @@ SOURCES += main.cpp \
     Parser/parser.cpp \
     Parser/parserexception.cpp \
     Parser/programcodenode.cpp \
-    Semantic/symboltable.cpp
+    Semantic/symboltable.cpp \
+    Semantic/Type/type.cpp \
+    Semantic/Type/enterotype.cpp \
+    Semantic/Type/realtype.cpp \
+    Semantic/Type/cadenatype.cpp \
+    Semantic/Type/caractertype.cpp \
+    Semantic/Type/arreglotype.cpp \
+    Semantic/semanticexception.cpp \
+    Semantic/Type/booleantype.cpp \
+    Semantic/Type/negativenumbertype.cpp \
+    Semantic/instancetypemanager.cpp \
+    Semantic/Type/literalcadena.cpp \
+    Semantic/Type/simplevariabletype.cpp \
+    Semantic/Type/registervariabletype.cpp \
+    Semantic/Type/functiontype.cpp \
+    Semantic/Type/proceduretype.cpp \
+    Semantic/Type/archivotype.cpp
 
 HEADERS += \
     helper.h \
@@ -159,4 +175,21 @@ HEADERS += \
     Parser/parser.h \
     Parser/parserexception.h \
     Parser/programcodenode.h \
-    Semantic/symboltable.h
+    Semantic/symboltable.h \
+    Semantic/Type/type.h \
+    Semantic/Type/enterotype.h \
+    Semantic/Type/realtype.h \
+    Semantic/Type/cadenatype.h \
+    Semantic/Type/caractertype.h \
+    Semantic/Type/arreglotype.h \
+    Semantic/semanticexception.h \
+    Semantic/Type/booleantype.h \
+    Semantic/instancetypemanager.h \
+    Semantic/Type/negativenumbertype.h \
+    Semantic/Type/literalcadena.h \
+    Semantic/Type/simplevariabletype.h \
+    Semantic/Type/registervariabletype.h \
+    Semantic/Type/functiontype.h \
+    Semantic/Type/proceduretype.h \
+    Semantic/Type/archivotype.h
+

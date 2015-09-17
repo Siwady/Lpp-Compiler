@@ -8,8 +8,7 @@ using namespace std;
 class SimpeTypeNode : public TypeNode
 {
 public:
-    string Type;
-    SimpeTypeNode(string type);
+    SimpeTypeNode(string type,int row,int column);
 
     // TypeNode interface
 public:

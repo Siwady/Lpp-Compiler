@@ -3,15 +3,19 @@
 #include <string>
 #include "Parser/Expressions/expressionnode.h"
 #include "helper.h"
+#include "Semantic/instancetypemanager.h"
+
 using namespace std;
 
 class BoolNode : public ExpressionNode
 {
 public:
     string Booolean;
-    BoolNode(string boolean);
+    BoolNode(string boolean,int row,int column);
 
     string ToXML(int i);
+
+    Type *ValidateSemantic();
 };
 
 #endif // BOOLNODE_H

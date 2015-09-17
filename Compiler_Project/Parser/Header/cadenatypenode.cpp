@@ -1,8 +1,11 @@
 #include "cadenatypenode.h"
 
-CadenaTypeNode::CadenaTypeNode(int size)
+CadenaTypeNode::CadenaTypeNode(int size, int row, int column)
 {
     this->Size=size;
+    this->Row=row;
+    this->Column=column;
+    this->OfType="cadena";
 }
 
 

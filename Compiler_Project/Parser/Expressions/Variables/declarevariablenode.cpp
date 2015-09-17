@@ -1,9 +1,11 @@
 #include "declarevariablenode.h"
 
-DeclareVariableNode::DeclareVariableNode(TypeNode *type, list<string> *ids)
+DeclareVariableNode::DeclareVariableNode(TypeNode *type, list<string> *ids, int row, int column)
 {
     this->IDs=ids;
     this->Type=type;
+    this->Row=row;
+    this->Column=column;
 }
 
 

@@ -16,7 +16,7 @@ public:
     TypeNode* ReturnType;
     list<DeclareVariableNode*>* Variables;
     list<StatementNode*>* Statements;
-    FunctionNode(string id,list<ParameterNode*>* param,TypeNode* type,list<DeclareVariableNode*>* vars,list<StatementNode*>* statements);
+    FunctionNode(string id,list<ParameterNode*>* param,TypeNode* type,list<DeclareVariableNode*>* vars,list<StatementNode*>* statements,int row,int column);
     FunctionNode();
 
     // ProgramHeaderNode interface

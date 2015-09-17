@@ -2,7 +2,6 @@
 
 TypeNode::TypeNode()
 {
-
 }
 
 string TypeNode::ToXML(int i)

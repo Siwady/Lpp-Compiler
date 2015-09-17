@@ -5,6 +5,7 @@
 #include "Parser/Expressions/expressionnode.h"
 #include <list>
 #include "helper.h"
+#include "Semantic/semanticexception.h"
 
 using namespace std;
 class StatementParaNode : public StatementNode
@@ -14,11 +15,15 @@ public:
     ExpressionNode* FirstExpression;
     ExpressionNode* SecondExpression;
     list<StatementNode*>* Statements;
-    StatementParaNode(VariableNode* var,ExpressionNode* firstExp,ExpressionNode* secondExp,list<StatementNode*>* ls);
+    StatementParaNode(VariableNode* var,ExpressionNode* firstExp,ExpressionNode* secondExp,list<StatementNode*>* ls,int row,int column);
 
     // StatementNode interface
 public:
     string ToXML(int i);
+
+    // StatementNode interface
+public:
+    void ValidateSemantic();
 };
 
 #endif // STATEMENTPARANODE_H

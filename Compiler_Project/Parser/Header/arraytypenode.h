@@ -12,7 +12,7 @@ class ArrayTypeNode : public TypeNode
 public:
     TypeNode* Type;
     list<int>* Dimentions;
-    ArrayTypeNode(TypeNode* type,list<int>* dim);
+    ArrayTypeNode(TypeNode* type,list<int>* dim,int row,int column);
 
     // TypeNode interface
 public:

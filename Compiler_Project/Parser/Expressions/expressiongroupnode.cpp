@@ -5,9 +5,11 @@ ExpressionGroupNode::ExpressionGroupNode()
 
 }
 
-ExpressionGroupNode::ExpressionGroupNode(list<ExpressionNode *> *ls)
+ExpressionGroupNode::ExpressionGroupNode(list<ExpressionNode *> *ls, int row, int column)
 {
     this->Expressions=ls;
+    this->Row=row;
+    this->Column=column;
 }
 
 

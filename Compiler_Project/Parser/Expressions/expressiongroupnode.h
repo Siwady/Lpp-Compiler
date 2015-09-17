@@ -9,7 +9,7 @@ class ExpressionGroupNode : public ExpressionNode
 public:
     list<ExpressionNode*> *Expressions;
     ExpressionGroupNode();
-    ExpressionGroupNode(list<ExpressionNode*> *ls);
+    ExpressionGroupNode(list<ExpressionNode*> *ls,int row,int column);
 
     // ExpressionNode interface
 public:

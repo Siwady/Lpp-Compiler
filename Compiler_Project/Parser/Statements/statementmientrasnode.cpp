@@ -1,9 +1,11 @@
 #include "statementmientrasnode.h"
 
-StatementMientrasNode::StatementMientrasNode(ExpressionNode *expr, list<StatementNode *> *ls)
+StatementMientrasNode::StatementMientrasNode(ExpressionNode *expr, list<StatementNode *> *ls, int row, int column)
 {
     this->Expression=expr;
     this->Statements=ls;
+    this->Row=row;
+    this->Column=column;
 }
 
 
@@ -22,4 +24,19 @@ string StatementMientrasNode::ToXML(int i)
 
     re+=Helper::GetIdentation(i)+"</StatementMientras>\n";
     return re;
+}
+
+
+void StatementMientrasNode::ValidateSemantic()
+{
+    if(Expression->ValidateSemantic()->Name!="Booleano")
+    {
+        throw SemanticException("Se esperaba Booleano ,Fila:"+to_string(Expression->Row)+",Columna:"+to_string(Expression->Column));
+    }
+    list<StatementNode*>::const_iterator iterator;
+    StatementNode* temp;
+    for (iterator = Statements->begin(); iterator != Statements->end(); ++iterator) {
+        temp=*iterator;
+        temp->ValidateSemantic();
+    }
 }

@@ -7,7 +7,11 @@ class TypeNode
 {
 public:
     TypeNode();
+    string OfType;
+    int Row;
+    int Column;
     virtual string ToXML(int i);
+    virtual void ValidateSemantic();
 };
 
 #endif // TYPENODE_H

@@ -11,7 +11,7 @@ class TypeStructureNode: public StructureNode
 public:
     string ID;
     TypeNode* Type;
-    TypeStructureNode(string id,TypeNode* type);
+    TypeStructureNode(string id,TypeNode* type,int row,int column);
 
     // StructureNode interface
 public:
