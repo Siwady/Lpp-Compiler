@@ -19,6 +19,7 @@ string ExpressionNode::ToXML(int i)
 
 Type *ExpressionNode::ValidateSemantic()
 {
-    return NULL;
+    Type* e=new Type();
+    return e;
 }
 

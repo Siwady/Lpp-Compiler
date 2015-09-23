@@ -20,3 +20,9 @@ string CadenaTypeNode::ToXML(int i)
 
     return re ;
 }
+
+
+void CadenaTypeNode::ValidateSemantic()
+{
+    SymbolTable::GetInstance()->ExistType(OfType);
+}

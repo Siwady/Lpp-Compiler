@@ -10,3 +10,8 @@ string ProgramCodeNode::ToXML(int i)
     return "";
 }
 
+void ProgramCodeNode::ValidateSemantic()
+{
+    cout<<"Entreaca";
+}
+

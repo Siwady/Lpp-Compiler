@@ -28,8 +28,8 @@ public:
     static SymbolTable* GetInstance();
     Type *GetVariableType(string name);
     void DeclareVariable(string name,Type *value);
-    Type *GetTypeVariableType(string name);
-    void DeclareTypeVariable(string name,Type *value);
+    void ExistType(string name);
+    void DeclareType(string name,Type *value);
 };
 
 #endif // SYMBOLTABLE_H

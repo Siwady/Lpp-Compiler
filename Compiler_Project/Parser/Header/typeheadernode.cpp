@@ -22,3 +22,14 @@ string TypeHeaderNode::ToXML(int i)
     re+=Helper::GetIdentation(i)+"</TypeHeader>\n";
     return re;
 }
+
+
+void TypeHeaderNode::ValidateSemantic()
+{
+    list<StructureNode*>::const_iterator iterator;
+    StructureNode *e;
+    for (iterator = TypesStructure->begin(); iterator != TypesStructure->end(); ++iterator) {
+        e=*iterator;
+        e->ValidateSemantc();
+    }
+}

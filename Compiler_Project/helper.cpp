@@ -141,7 +141,7 @@ Type *Helper::GetTypeFromTypeNode(TypeNode *type)
     }else if(type->OfType.compare("archivo")==0)
     {
         ArchivoTypeNode *a=dynamic_cast<ArchivoTypeNode*>(type);
-        t=new ArchivoType(GetTypeFromTypeNode(a->Types));
+        t=new ArchivoType(Helper::GetTypeFromTypeNode(a->Types));
     }
     return t;
 }

@@ -11,5 +11,6 @@ string LiteralNode::ToXML(int i)
 
 Type *LiteralNode::ValidateSemantic()
 {
-    return NULL;
+    Type* l=new Type();
+    return l;
 }

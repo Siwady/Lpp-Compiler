@@ -10,6 +10,7 @@ public:
     int Row;
     int Column;
     virtual string ToXML(int i);
+    virtual void ValidateSemantc();
 };
 
 #endif // STRUCTURENODE_H

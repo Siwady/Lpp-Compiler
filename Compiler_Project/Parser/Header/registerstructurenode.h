@@ -3,6 +3,7 @@
 #include "structurenode.h"
 #include "Parser/Expressions/Variables/declarevariablenode.h"
 #include "helper.h"
+#include "Semantic/Type/registervariabletype.h"
 
 class RegisterStructureNode : public StructureNode
 {
@@ -14,6 +15,10 @@ public:
     // StructureNode interface
 public:
     string ToXML(int i);
+
+    // StructureNode interface
+public:
+    void ValidateSemantc();
 };
 
 #endif // REGISTERSTRUCTURENODE_H

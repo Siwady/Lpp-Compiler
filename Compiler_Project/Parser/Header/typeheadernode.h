@@ -15,6 +15,10 @@ public:
     // ProgramHeaderNode interface
 public:
     string ToXML(int i);
+
+    // ProgramHeaderNode interface
+public:
+    void ValidateSemantic();
 };
 
 #endif // TYPEHEADERNODE_H

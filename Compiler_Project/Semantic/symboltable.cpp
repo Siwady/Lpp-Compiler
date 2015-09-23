@@ -22,6 +22,12 @@ SymbolTable *SymbolTable::GetInstance()
     if(! Instance)
     {
         Instance = new SymbolTable();
+        Instance->TypeVariables["entero"]=new EnteroType();
+        Instance->TypeVariables["cadena"]=new CadenaType(0);
+        Instance->TypeVariables["caracter"]=new CaracterType();
+        Instance->TypeVariables["booleano"]=new BooleanType();
+        Instance->TypeVariables["real"]=new RealType();
+
         return Instance;
     }
     else
@@ -45,14 +51,13 @@ void SymbolTable::DeclareVariable(string name, Type *value)
     Variables[name] = value;
 }
 
-Type *SymbolTable::GetTypeVariableType(string name)
+void SymbolTable::ExistType(string name)
 {
     if (!SymbolTable::Contains(TypeVariables,name))
         throw SemanticException("Type "+name+" doesn't exist");
-    return TypeVariables[name];
 }
 
-void SymbolTable::DeclareTypeVariable(string name, Type *value)
+void SymbolTable::DeclareType(string name, Type *value)
 {
     if(Contains(TypeVariables,name))
         throw SemanticException("Type " + name + " already exist");

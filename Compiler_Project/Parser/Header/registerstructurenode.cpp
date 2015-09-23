@@ -25,3 +25,10 @@ string RegisterStructureNode::ToXML(int i)
     re+=Helper::GetIdentation(i)+"</RegisterStructure>\n";
     return re;
 }
+
+
+void RegisterStructureNode::ValidateSemantc()
+{
+    RegisterVariableType *t=new RegisterVariableType(Attributes);
+    SymbolTable::GetInstance()->DeclareType(ID,t);
+}

@@ -23,3 +23,9 @@ string TypeStructureNode::ToXML(int i)
     re+=Helper::GetIdentation(i)+"</TypeStructure>\n";
     return re;
 }
+
+
+void TypeStructureNode::ValidateSemantc()
+{
+    SymbolTable::GetInstance()->DeclareType(ID,Helper::GetTypeFromTypeNode(Type));
+}

@@ -24,3 +24,8 @@ string DeclareVariableNode::ToXML(int i)
 
     return re ;
 }
+
+
+void DeclareVariableNode::ValidateSemantic()
+{
+}

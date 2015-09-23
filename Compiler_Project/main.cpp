@@ -19,8 +19,8 @@ int main(int argc, char *argv[])
 
         for(int i=0;i<ls->size();i++)
         {
-            cout<<Helper::GetElementProgramCodeNode(ls,i)->ToXML(0);
-
+            //cout<<Helper::GetElementProgramCodeNode(ls,i)->ToXML(0);
+            Helper::GetElementProgramCodeNode(ls,i)->ValidateSemantic();
         }
 
         /*Token *currentToken = lex->GetToken();

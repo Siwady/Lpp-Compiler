@@ -1,0 +1,23 @@
+#ifndef TYPEHEADERNODE_H
+#define TYPEHEADERNODE_H
+#include "programheadernode.h"
+#include "structurenode.h"
+#include <list>
+using namespace std;
+
+class TypeHeaderNode : public ProgramHeaderNode
+{
+public:
+    list<StructureNode*>* TypesStructure;
+    TypeHeaderNode(list<StructureNode*>* types,int row,int column);
+
+    // ProgramHeaderNode interface
+public:
+    string ToXML(int i) override;
+
+    // ProgramHeaderNode interface
+public:
+    void ValidateSemantic() override;
+};
+
+#endif // TYPEHEADERNODE_H

@@ -3,7 +3,7 @@
 #include "Parser/Expressions/expressionnode.h"
 #include "helper.h"
 #include "Semantic/Type/booleantype.h"
-#include "Semantic/semanticexception.h";
+//#include "Semantic/semanticexception.h";
 
 class LessThanNode : public ExpressionNode
 {

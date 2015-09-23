@@ -11,6 +11,10 @@ public:
     list<DeclareVariableNode*>* DeclareVariables;
     DeclareHeaderNode(list<DeclareVariableNode*>* var,int row,int column);
     string ToXML(int i);
+
+    // ProgramHeaderNode interface
+public:
+    void ValidateSemantic();
 };
 
 #endif // DECLAREHEADERNODE_H

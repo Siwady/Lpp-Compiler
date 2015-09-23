@@ -3,26 +3,31 @@
 
 #include "stdafx.h"
 #include <fstream>
-#include "lexer.h"
-#include "parser.h"
-#include <typeinfo>
+#include "Lexer/lexer.h"
+#include "Parser/parser.h"
+#include "Semantic/semanticexception.h"
+#include "helper.h"
 
 
 int _tmain(int argc, _TCHAR* argv[])
 {
 	try
 	{
-		std::ifstream myCode("C:/Users/ESiwady/Documents/UNITEC/CompiladoresI/Lpp-Compiler/Compiler_Project/Code.txt");
-		std::string code((std::istreambuf_iterator<char>(myCode)), (std::istreambuf_iterator<char>()));
+		ifstream myCode("C:/Users/ESiwady/Documents/UNITEC/CompiladoresI/Lpp-Compiler/Compiler_Project/Code2.txt");
+		string code((istreambuf_iterator<char>(myCode)), (istreambuf_iterator<char>()));
 		Lexer* lex = new Lexer(code);
-		
-		ExpressionNode * b = new EnteroNode(10);
-		cout << typeid(b).;
-		Parser* parser = new Parser(lex); 
-		list<ProgramCodeNode *> *pars=parser->Parse();
-		
-		ProgramCodeNode  s = **pars->begin();
-	
+
+		Parser* parser = new Parser(lex);
+		list<ProgramCodeNode*>*ls = parser->Parse();
+		cout << "Parser Works!!!\n\n";
+		ProgramCodeNode *p = new ProgramCodeNode();
+		for (int i = 0; i<ls->size(); i++)
+		{
+			//cout<<Helper::GetElementProgramCodeNode(ls,i)->ToXML(0);
+			
+			p = Helper::GetElementProgramCodeNode(ls, i);
+			p ->ValidateSemantic();
+		}
 
 		/*Token *currentToken = lex->GetToken();
 
@@ -33,7 +38,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 		std::cout<<currentToken->ToString()<<"\n";*/
 
-		cout << "Parser Works!!!";
+		cout << "Semantic Works!!!\n\n";
 		cin.get();
 	}
 	catch (LexicalException& e)
@@ -42,6 +47,11 @@ int _tmain(int argc, _TCHAR* argv[])
 		cin.get();
 	}
 	catch (ParserException& e)
+	{
+		cout << e.what() << '\n';
+		cin.get();
+	}
+	catch (SemanticException& e)
 	{
 		cout << e.what() << '\n';
 		cin.get();

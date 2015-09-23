@@ -2,7 +2,7 @@
 #define MODNODE_H
 #include "Parser/Expressions/expressionnode.h"
 #include "helper.h"
-#include "Semantic/semanticexception.h";
+//#include "Semantic/semanticexception.h";
 
 class ModNode : public ExpressionNode
 {

@@ -25,3 +25,8 @@ string ArrayTypeNode::ToXML(int i)
 
     return re ;
 }
+
+
+void ArrayTypeNode::ValidateSemantic()
+{
+}

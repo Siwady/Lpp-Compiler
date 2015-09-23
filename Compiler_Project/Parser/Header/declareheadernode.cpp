@@ -21,3 +21,20 @@ string DeclareHeaderNode::ToXML(int i)
     return re ;
 }
 
+
+
+void DeclareHeaderNode::ValidateSemantic()
+{
+    list<DeclareVariableNode*>::const_iterator iterator;
+    list<string>::const_iterator iteratorStr;
+    DeclareVariableNode *e;
+    string id;
+    for (iterator = DeclareVariables->begin(); iterator != DeclareVariables->end(); ++iterator) {
+        e=*iterator;
+        for(iteratorStr=e->IDs->begin();iteratorStr!=e->IDs->end();++iteratorStr)
+        {
+            id=*iteratorStr;
+            SymbolTable::GetInstance()->DeclareVariable(id,Helper::GetTypeFromTypeNode(e->Type));
+        }
+    }
+}

@@ -21,214 +21,265 @@
     <ClInclude Include="stdafx.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
+    <ClInclude Include="Lexer\lexer.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="archivotypenode.h">
+    <ClInclude Include="Lexer\lexicalexception.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="arraytypenode.h">
+    <ClInclude Include="Lexer\token.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="arrayvariablenode.h">
+    <ClInclude Include="Parser\Expressions\Literals\boolnode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="boolnode.h">
+    <ClInclude Include="Parser\Expressions\Literals\cadenanode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="cadenanode.h">
+    <ClInclude Include="Parser\Expressions\Literals\caracternode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="cadenatypenode.h">
+    <ClInclude Include="Parser\Expressions\Literals\enteronode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="caracternode.h">
+    <ClInclude Include="Parser\Expressions\Literals\htmlnode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="casenode.h">
+    <ClInclude Include="Parser\Expressions\Literals\idnode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="declareheadernode.h">
+    <ClInclude Include="Parser\Expressions\Literals\literalnode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="declarevariablenode.h">
+    <ClInclude Include="Parser\Expressions\Literals\negativenumbernode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="divisionnode.h">
+    <ClInclude Include="Parser\Expressions\Literals\realnode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="enteronode.h">
+    <ClInclude Include="Parser\Expressions\Operations\divisionnode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="equalnode.h">
+    <ClInclude Include="Parser\Expressions\Operations\equalnode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="exponentialnode.h">
+    <ClInclude Include="Parser\Expressions\Operations\exponentialnode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="expressionfunctionnode.h">
+    <ClInclude Include="Parser\Expressions\Operations\greaterandequalthannode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="expressiongroupnode.h">
+    <ClInclude Include="Parser\Expressions\Operations\greaterthannode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="expressionnode.h">
+    <ClInclude Include="Parser\Expressions\Operations\integerdivisionnode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="functionnode.h">
+    <ClInclude Include="Parser\Expressions\Operations\lessandequalthannode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="greaterandequalthannode.h">
+    <ClInclude Include="Parser\Expressions\Operations\lessthannode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="greaterthannode.h">
+    <ClInclude Include="Parser\Expressions\Operations\logicalnotnode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="htmlnode.h">
+    <ClInclude Include="Parser\Expressions\Operations\logicalonode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="idnode.h">
+    <ClInclude Include="Parser\Expressions\Operations\logicalynode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="integerdivisionnode.h">
+    <ClInclude Include="Parser\Expressions\Operations\modnode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="lessandequalthannode.h">
+    <ClInclude Include="Parser\Expressions\Operations\multiplicationnode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="lessthannode.h">
+    <ClInclude Include="Parser\Expressions\Operations\notequalnode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="lexer.h">
+    <ClInclude Include="Parser\Expressions\Operations\subtractionnode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="lexicalexception.h">
+    <ClInclude Include="Parser\Expressions\Operations\sumnode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="literalnode.h">
+    <ClInclude Include="Parser\Expressions\Variables\arrayvariablenode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="logicalnotnode.h">
+    <ClInclude Include="Parser\Expressions\Variables\declarevariablenode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="logicalonode.h">
+    <ClInclude Include="Parser\Expressions\Variables\registervariablenode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="logicalynode.h">
+    <ClInclude Include="Parser\Expressions\Variables\simplevariablenode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="lppprogram.h">
+    <ClInclude Include="Parser\Expressions\Variables\variablenode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="modnode.h">
+    <ClInclude Include="Parser\Expressions\expressionfunctionnode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="multiplicationnode.h">
+    <ClInclude Include="Parser\Expressions\expressiongroupnode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="negativenumbernode.h">
+    <ClInclude Include="Parser\Expressions\expressionnode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="notequalnode.h">
+    <ClInclude Include="Parser\Header\archivotypenode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="parameternode.h">
+    <ClInclude Include="Parser\Header\arraytypenode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="parser.h">
+    <ClInclude Include="Parser\Header\cadenatypenode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="parserexception.h">
+    <ClInclude Include="Parser\Header\declareheadernode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="procedurenode.h">
+    <ClInclude Include="Parser\Header\programheadernode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="programcodenode.h">
+    <ClInclude Include="Parser\Header\registerstructurenode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="programheadernode.h">
+    <ClInclude Include="Parser\Header\simpetypenode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="realnode.h">
+    <ClInclude Include="Parser\Header\structurenode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="registerstructurenode.h">
+    <ClInclude Include="Parser\Header\typeheadernode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="registervariablenode.h">
+    <ClInclude Include="Parser\Header\typenode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="simpetypenode.h">
+    <ClInclude Include="Parser\Header\typestructurenode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="simplevariablenode.h">
+    <ClInclude Include="Parser\Statements\casenode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="statementabrirarchivonode.h">
+    <ClInclude Include="Parser\Statements\functionnode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="statementassignmentnode.h">
+    <ClInclude Include="Parser\Statements\parameternode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="statementcasonode.h">
+    <ClInclude Include="Parser\Statements\procedurenode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="statementcerrararchivonode.h">
+    <ClInclude Include="Parser\Statements\statementabrirarchivonode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="statementescribanode.h">
+    <ClInclude Include="Parser\Statements\statementassignmentnode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="statementescribirarchivonode.h">
+    <ClInclude Include="Parser\Statements\statementcasonode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="statementleerarchivoNode.h">
+    <ClInclude Include="Parser\Statements\statementcerrararchivonode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="statementllamarnode.h">
+    <ClInclude Include="Parser\Statements\statementescribanode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="statementmientrasnode.h">
+    <ClInclude Include="Parser\Statements\statementescribirarchivonode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="statementnode.h">
+    <ClInclude Include="Parser\Statements\statementleerarchivonode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="statementparanode.h">
+    <ClInclude Include="Parser\Statements\statementllamarnode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="statementrepitanode.h">
+    <ClInclude Include="Parser\Statements\statementmientrasnode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="statementreturnnode.h">
+    <ClInclude Include="Parser\Statements\statementnode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="statementsinode.h">
+    <ClInclude Include="Parser\Statements\statementparanode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="structurenode.h">
+    <ClInclude Include="Parser\Statements\statementrepitanode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="subtractionnode.h">
+    <ClInclude Include="Parser\Statements\statementreturnnode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="sumnode.h">
+    <ClInclude Include="Parser\Statements\statementsinode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="token.h">
+    <ClInclude Include="Parser\lppprogram.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="typeheadernode.h">
+    <ClInclude Include="Parser\parser.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="typenode.h">
+    <ClInclude Include="Parser\parserexception.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="typestructurenode.h">
+    <ClInclude Include="Parser\programcodenode.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="variablenode.h">
+    <ClInclude Include="helper.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Semantic\Type\archivotype.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Semantic\Type\arreglotype.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Semantic\Type\booleantype.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Semantic\Type\cadenatype.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Semantic\Type\caractertype.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Semantic\Type\enterotype.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Semantic\Type\functiontype.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Semantic\Type\literalcadena.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Semantic\Type\negativenumbertype.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Semantic\Type\proceduretype.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Semantic\Type\realtype.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Semantic\Type\registervariabletype.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Semantic\Type\simplevariabletype.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Semantic\Type\type.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Semantic\instancetypemanager.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Semantic\semanticexception.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Semantic\symboltable.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
@@ -239,211 +290,265 @@
     <ClCompile Include="LppWeb_Compiler.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="archivotypenode.cpp">
+    <ClCompile Include="Lexer\lexer.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="arraytypenode.cpp">
+    <ClCompile Include="Lexer\lexicalexception.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="arrayvariablenode.cpp">
+    <ClCompile Include="Lexer\token.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="boolnode.cpp">
+    <ClCompile Include="Parser\Expressions\Literals\boolnode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="cadenanode.cpp">
+    <ClCompile Include="Parser\Expressions\Literals\cadenanode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="cadenatypenode.cpp">
+    <ClCompile Include="Parser\Expressions\Literals\caracternode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="caracternode.cpp">
+    <ClCompile Include="Parser\Expressions\Literals\enteronode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="casenode.cpp">
+    <ClCompile Include="Parser\Expressions\Literals\htmlnode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="declareheadernode.cpp">
+    <ClCompile Include="Parser\Expressions\Literals\idnode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="declarevariablenode.cpp">
+    <ClCompile Include="Parser\Expressions\Literals\literalnode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="divisionnode.cpp">
+    <ClCompile Include="Parser\Expressions\Literals\negativenumbernode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="enteronode.cpp">
+    <ClCompile Include="Parser\Expressions\Literals\realnode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="equalnode.cpp">
+    <ClCompile Include="Parser\Expressions\Operations\divisionnode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="exponentialnode.cpp">
+    <ClCompile Include="Parser\Expressions\Operations\equalnode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="expressionfunctionnode.cpp">
+    <ClCompile Include="Parser\Expressions\Operations\exponentialnode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="expressiongroupnode.cpp">
+    <ClCompile Include="Parser\Expressions\Operations\greaterandequalthannode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="expressionnode.cpp">
+    <ClCompile Include="Parser\Expressions\Operations\greaterthannode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="functionnode.cpp">
+    <ClCompile Include="Parser\Expressions\Operations\integerdivisionnode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="greaterandequalthannode.cpp">
+    <ClCompile Include="Parser\Expressions\Operations\lessandequalthannode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="greaterthannode.cpp">
+    <ClCompile Include="Parser\Expressions\Operations\lessthannode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="htmlnode.cpp">
+    <ClCompile Include="Parser\Expressions\Operations\logicalnotnode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="idnode.cpp">
+    <ClCompile Include="Parser\Expressions\Operations\logicalonode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="integerdivisionnode.cpp">
+    <ClCompile Include="Parser\Expressions\Operations\logicalynode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="lessandequalthannode.cpp">
+    <ClCompile Include="Parser\Expressions\Operations\modnode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="lessthannode.cpp">
+    <ClCompile Include="Parser\Expressions\Operations\multiplicationnode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="lexer.cpp">
+    <ClCompile Include="Parser\Expressions\Operations\notequalnode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="lexicalexception.cpp">
+    <ClCompile Include="Parser\Expressions\Operations\subtractionnode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="literalnode.cpp">
+    <ClCompile Include="Parser\Expressions\Operations\sumnode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="logicalnotnode.cpp">
+    <ClCompile Include="Parser\Expressions\Variables\arrayvariablenode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="logicalonode.cpp">
+    <ClCompile Include="Parser\Expressions\Variables\declarevariablenode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="logicalynode.cpp">
+    <ClCompile Include="Parser\Expressions\Variables\registervariablenode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="lppprogram.cpp">
+    <ClCompile Include="Parser\Expressions\Variables\simplevariablenode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="modnode.cpp">
+    <ClCompile Include="Parser\Expressions\Variables\variablenode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="multiplicationnode.cpp">
+    <ClCompile Include="Parser\Expressions\expressionfunctionnode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="negativenumbernode.cpp">
+    <ClCompile Include="Parser\Expressions\expressiongroupnode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="notequalnode.cpp">
+    <ClCompile Include="Parser\Expressions\expressionnode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="parameternode.cpp">
+    <ClCompile Include="Parser\Header\archivotypenode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="parser.cpp">
+    <ClCompile Include="Parser\Header\arraytypenode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="parserexception.cpp">
+    <ClCompile Include="Parser\Header\cadenatypenode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="procedurenode.cpp">
+    <ClCompile Include="Parser\Header\declareheadernode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="programcodenode.cpp">
+    <ClCompile Include="Parser\Header\programheadernode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="programheadernode.cpp">
+    <ClCompile Include="Parser\Header\registerstructurenode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="realnode.cpp">
+    <ClCompile Include="Parser\Header\simpetypenode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="registerstructurenode.cpp">
+    <ClCompile Include="Parser\Header\structurenode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="registervariablenode.cpp">
+    <ClCompile Include="Parser\Header\typeheadernode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="simpetypenode.cpp">
+    <ClCompile Include="Parser\Header\typenode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="simplevariablenode.cpp">
+    <ClCompile Include="Parser\Header\typestructurenode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="statementabrirarchivonode.cpp">
+    <ClCompile Include="Parser\Statements\casenode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="statementassignmentnode.cpp">
+    <ClCompile Include="Parser\Statements\functionnode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="statementcasonode.cpp">
+    <ClCompile Include="Parser\Statements\parameternode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="statementcerrararchivonode.cpp">
+    <ClCompile Include="Parser\Statements\procedurenode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="statementescribanode.cpp">
+    <ClCompile Include="Parser\Statements\statementabrirarchivonode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="statementescribirarchivonode.cpp">
+    <ClCompile Include="Parser\Statements\statementassignmentnode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="statementleerarchivonode.cpp">
+    <ClCompile Include="Parser\Statements\statementcasonode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="statementllamarnode.cpp">
+    <ClCompile Include="Parser\Statements\statementcerrararchivonode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="statementmientrasnode.cpp">
+    <ClCompile Include="Parser\Statements\statementescribanode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="statementnode.cpp">
+    <ClCompile Include="Parser\Statements\statementescribirarchivonode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="statementparanode.cpp">
+    <ClCompile Include="Parser\Statements\statementleerarchivonode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="statementrepitanode.cpp">
+    <ClCompile Include="Parser\Statements\statementllamarnode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="statementreturnnode.cpp">
+    <ClCompile Include="Parser\Statements\statementmientrasnode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="statementsinode.cpp">
+    <ClCompile Include="Parser\Statements\statementnode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="structurenode.cpp">
+    <ClCompile Include="Parser\Statements\statementparanode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="subtractionnode.cpp">
+    <ClCompile Include="Parser\Statements\statementrepitanode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="sumnode.cpp">
+    <ClCompile Include="Parser\Statements\statementreturnnode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="token.cpp">
+    <ClCompile Include="Parser\Statements\statementsinode.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="typeheadernode.cpp">
+    <ClCompile Include="Parser\lppprogram.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="typenode.cpp">
+    <ClCompile Include="Parser\parser.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="typestructurenode.cpp">
+    <ClCompile Include="Parser\parserexception.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
-    <ClCompile Include="variablenode.cpp">
+    <ClCompile Include="Parser\programcodenode.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="helper.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="Semantic\Type\archivotype.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="Semantic\Type\arreglotype.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="Semantic\Type\booleantype.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="Semantic\Type\cadenatype.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="Semantic\Type\caractertype.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="Semantic\Type\enterotype.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="Semantic\Type\functiontype.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="Semantic\Type\literalcadena.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="Semantic\Type\negativenumbertype.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="Semantic\Type\proceduretype.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="Semantic\Type\realtype.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="Semantic\Type\registervariabletype.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="Semantic\Type\simplevariabletype.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="Semantic\Type\type.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="Semantic\instancetypemanager.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="Semantic\semanticexception.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="Semantic\symboltable.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
   </ItemGroup>

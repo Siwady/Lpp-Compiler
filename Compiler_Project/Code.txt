@@ -11,7 +11,8 @@
 	DECLARAR Arch ArchEmple
 	DECLARAR caracter resp
 
-	abrir arc como archemple para escritura
+
+	abrir ArchEmple como archemple para escritura
 	
 	repita
 		Escriba "Nombre del emnpleado..:"
@@ -28,7 +29,7 @@
 			
 			a.d.f.d.d.d.d.d[aass()]<- a.d.f.d.d.d.d.d
 			
-		hasta (resp="S") o (resp="N")
+		hasta (resp='S') o (resp='N')
 	hasta resp='N'
 	
 	cerrar archemple

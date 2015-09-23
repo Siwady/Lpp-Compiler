@@ -14,6 +14,10 @@ public:
     // TypeNode interface
 public:
     string ToXML(int i);
+
+    // TypeNode interface
+public:
+    void ValidateSemantic();
 };
 
 #endif // CADENATYPENODE_H

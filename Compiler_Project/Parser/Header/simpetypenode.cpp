@@ -16,3 +16,9 @@ string SimpeTypeNode::ToXML(int i)
     re+=Helper::GetIdentation(i)+"</SimpleType>\n";
     return re;
 }
+
+
+void SimpeTypeNode::ValidateSemantic()
+{
+    SymbolTable::GetInstance()->ExistType(this->OfType);
+}

@@ -4,7 +4,9 @@
 #include <string>
 #include "typenode.h"
 #include "helper.h"
+#include "Semantic/symboltable.h"
 using namespace std;
+
 
 class TypeStructureNode: public StructureNode
 {
@@ -16,6 +18,10 @@ public:
     // StructureNode interface
 public:
     string ToXML(int i);
+
+    // StructureNode interface
+public:
+    void ValidateSemantc();
 };
 
 #endif // TYPESTRUCTURENODE_H

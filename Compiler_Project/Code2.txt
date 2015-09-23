@@ -1,0 +1,93 @@
+<%
+	
+	funcion Potencia( entero base, entero expo): entero
+		DECLARAR entero i, resp
+	inicio
+		resp<- 1
+		para i <- 1 hasta expo haga
+			resp <- resp * base
+		fin para
+		
+		retorne resp
+	fin
+	
+	registro Empleado
+		DECLARAR cadena[50] nombre
+		DECLARAR real sueldo
+		DECLARAR caracter sexo
+	fin registro
+	
+	DECLARAR Empleado emple
+	DECLARAR caracter resp
+	
+	repita
+		Escriba "Nombre del emnpleado..:"
+		
+		Escriba "Sueldo del empleado...:"
+		
+		Escriba "Edad..:"
+		
+		repita 
+			Escriba "Desea Continuar ..:"
+			
+		hasta (resp='S') o (resp='N')
+	hasta resp='N'
+	
+	DECLARAR entero a
+	
+%>
+<body>
+<%
+	procedimiento asteriscos( entero b)
+		declarar entero i
+	inicio
+		para i <- 1 hasta b haga
+			escriba "*"
+		fin para
+	fin
+
+	procedimiento asterisco( entero b)
+		declarar entero i
+	inicio
+		para i <- 1 hasta b haga
+			escriba "*"
+		fin para
+	fin 	
+	
+%>
+<body>
+<%
+	
+	funcion comision(caracter zona,real ventas) : real
+		Declarar real vcomis
+	inicio
+		caso zona
+			'A' : vcomis<-0.05 * ventas + 1
+			'B' : vcomis<-0.06 * ventas / 2
+			'C' : vcomis<-(0.09 * ventas+10+20+50)^2 
+		Fin Caso
+		
+		retorne vcomis
+	fin
+%>
+<body>
+<%
+	declarar entero s
+	declarar booleano bull
+	si a<>1 entonces
+		escriba "son distintos ",a," de:", 1
+		s<- -1
+		
+		sino si bull<> no Verdadero entonces
+			escriba "es verdadero"
+		fin si
+	fin si
+	
+	mientras verdadero haga
+		llamar asteriscos(10)
+	fin mientras
+	
+	DECLARAR arreglo[10] de entero numero
+	
+%>
+<body>

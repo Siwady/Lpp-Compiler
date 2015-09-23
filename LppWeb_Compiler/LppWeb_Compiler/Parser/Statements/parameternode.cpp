@@ -1,0 +1,31 @@
+#include "parameternode.h"
+#include "../../helper.h"
+#include "../../Semantic/symboltable.h"
+
+ParameterNode::ParameterNode(TypeNode *type, string id, bool var, int row, int column)
+{
+    this->ID=id;
+    this->Type=type;
+    this->Var=var;
+    this->Row=row;
+    this->Column=column;
+}
+
+string ParameterNode::ToXML(int i)
+{
+    string re=Helper::GetIdentation(i)+"<Parameter>\n";
+    re+=Helper::GetIdentation(i+1)+"<ID>\n";
+    re+=Helper::GetIdentation(i+2)+ID+"\n";
+    re+=Helper::GetIdentation(i+1)+"</ID>\n";
+    re+=Type->ToXML(i+1);
+    re+=Helper::GetIdentation(i+1)+"<Var>\n";
+    re+=Helper::GetIdentation(i+2)+to_string(Var)+"\n";
+    re+=Helper::GetIdentation(i+1)+"</Var>\n";
+    re+=Helper::GetIdentation(i)+"</Parameter>\n";
+    return re;
+}
+
+void ParameterNode::ValidateSemantic()
+{
+	SymbolTable::GetInstance()->ExistType(Type->OfType);
+}

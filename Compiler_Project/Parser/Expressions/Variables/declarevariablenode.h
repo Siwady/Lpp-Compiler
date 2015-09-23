@@ -15,6 +15,10 @@ public:
     DeclareVariableNode(TypeNode* type,list<string>* ids,int row,int column);
 
     string ToXML(int i);
+
+    // ProgramHeaderNode interface
+public:
+    void ValidateSemantic();
 };
 
 #endif // DECLAREVARIABLENODE_H
