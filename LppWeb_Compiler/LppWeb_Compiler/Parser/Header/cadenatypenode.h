@@ -7,15 +7,13 @@ using namespace std;
 class CadenaTypeNode : public TypeNode
 {
 public:
-    int Size;
+	~CadenaTypeNode() override;
+	void Interpret() override;
+	int Size;
     CadenaTypeNode(int size,int row,int column);
 
-    // TypeNode interface
-public:
     string ToXML(int i) override;
 
-    // TypeNode interface
-public:
     void ValidateSemantic() override;
 };
 

@@ -2,6 +2,19 @@
 #include "../../../Semantic/semanticexception.h"
 #include "../../../Semantic/Type/booleantype.h"
 #include "../../../helper.h"
+#include "../../../Interpret/Values/booleanovalue.h"
+
+LogicalNotNode::~LogicalNotNode()
+{
+	delete Expression;
+}
+
+Value* LogicalNotNode::Interpret()
+{
+	BooleanoValue* v = dynamic_cast<BooleanoValue*>(Expression->Interpret());
+	v->value = !v->value;
+	return v;
+}
 
 LogicalNotNode::LogicalNotNode(ExpressionNode *expression, int row, int column)
 {

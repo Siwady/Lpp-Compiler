@@ -1,6 +1,11 @@
 #include "expressiongroupnode.h"
 #include "../../helper.h"
 
+Value* ExpressionGroupNode::Interpret()
+{
+	return Helper::GetElementExpressionNode(Expressions, 0)->Interpret();
+}
+
 ExpressionGroupNode::~ExpressionGroupNode()
 {
 }

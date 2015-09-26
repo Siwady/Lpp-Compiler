@@ -1,4 +1,14 @@
 #include "booleantype.h"
+#include "../../Interpret/Values/booleanovalue.h"
+
+BooleanType::~BooleanType()
+{
+}
+
+Value* BooleanType::DefaultValue()
+{
+	return new BooleanoValue(false);
+}
 
 BooleanType::BooleanType()
 {

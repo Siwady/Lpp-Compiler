@@ -1,5 +1,18 @@
 #include "registervariablenode.h"
 #include "../../../helper.h"
+#include "../../../Interpret/Values/value.h"
+
+RegisterVariableNode::~RegisterVariableNode()
+{
+	delete Variable1;
+	delete Variable2;
+}
+
+Value* RegisterVariableNode::Interpret()
+{
+	Value * v = new Value();
+	return v;
+}
 
 RegisterVariableNode::RegisterVariableNode()
 {

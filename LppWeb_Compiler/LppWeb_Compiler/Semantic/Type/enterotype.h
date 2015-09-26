@@ -5,11 +5,11 @@
 class EnteroType : public Type
 {
 public:
-    EnteroType();
+	~EnteroType() override;
+	Value* DefaultValue() override;
+	EnteroType();
 
-    // Type interface
-public:
-    string GetName();
+    string GetName() override;
 };
 
 #endif // ENTEROTYPE_H

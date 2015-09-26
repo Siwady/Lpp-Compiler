@@ -1,6 +1,15 @@
 #include "statementleerarchivonode.h"
 #include "../../helper.h"
 
+StatementLeerArchivoNode::~StatementLeerArchivoNode()
+{
+	delete Variables;
+}
+
+void StatementLeerArchivoNode::Interpret()
+{
+}
+
 StatementLeerArchivoNode::StatementLeerArchivoNode(list<VariableNode *> *var, int row, int column)
 {
     this->Variables=var;

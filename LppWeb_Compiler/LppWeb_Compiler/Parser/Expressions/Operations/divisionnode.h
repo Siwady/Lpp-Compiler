@@ -5,7 +5,9 @@
 class DivisionNode : public ExpressionNode
 {
 public:
-    ExpressionNode* LeftNode;
+	~DivisionNode() override;
+	Value* Interpret() override;
+	ExpressionNode* LeftNode;
     ExpressionNode* RightNode;
     DivisionNode(ExpressionNode* left,ExpressionNode* right,int row,int column);
 

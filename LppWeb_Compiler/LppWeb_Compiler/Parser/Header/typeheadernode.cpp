@@ -1,6 +1,15 @@
 #include "typeheadernode.h"
 #include "../../helper.h"
 
+TypeHeaderNode::~TypeHeaderNode()
+{
+	delete TypesStructure;
+}
+
+void TypeHeaderNode::Interpret()
+{
+}
+
 TypeHeaderNode::TypeHeaderNode(list<StructureNode *> *types, int row, int column)
 {
     this->TypesStructure=types;

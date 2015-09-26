@@ -9,7 +9,9 @@ using namespace std;
 class TypeStructureNode: public StructureNode
 {
 public:
-    string ID;
+	~TypeStructureNode() override;
+	void Interpret() override;
+	string ID;
     TypeNode* Type;
     TypeStructureNode(string id,TypeNode* type,int row,int column);
 

@@ -5,7 +5,9 @@
 class NegativeNumberNode : public ExpressionNode
 {
 public:
-    ExpressionNode* Expression;
+	~NegativeNumberNode() override;
+	Value* Interpret() override;
+	ExpressionNode* Expression;
     NegativeNumberNode(ExpressionNode* expression,int row,int column);
 
     // ExpressionNode interface

@@ -1,5 +1,16 @@
 #include "caracternode.h"
 #include "../../../helper.h"
+#include "../../../Interpret/Values/caractervalue.h"
+
+Value* CaracterNode::Interpret()
+{
+	CaracterValue * v = new CaracterValue(Caracter);
+	return v;
+}
+
+CaracterNode::~CaracterNode()
+{
+}
 
 CaracterNode::CaracterNode(char caracter, int row, int column)
 {

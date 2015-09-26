@@ -7,7 +7,9 @@ using namespace std;
 class CadenaNode : public LiteralNode
 {
 public:
-    string Cadena;
+	Value* Interpret() override;
+	~CadenaNode() override;
+	string Cadena;
     CadenaNode(string cadena,int row,int column);
 
     // ExpressionNode interface

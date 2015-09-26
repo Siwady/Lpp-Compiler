@@ -5,11 +5,11 @@
 class RealType : public Type
 {
 public:
-    RealType();
+	~RealType() override;
+	Value* DefaultValue() override;
+	RealType();
 
-    // Type interface
-public:
-    string GetName();
+    string GetName() override;
 };
 
 #endif // REALTYPE_H

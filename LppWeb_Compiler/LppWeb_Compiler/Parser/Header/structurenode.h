@@ -15,6 +15,7 @@ public:
     int Column;
     virtual string ToXML(int i);
     virtual void ValidateSemantc();
+	virtual void Interpret();
 };
 
 #endif // STRUCTURENODE_H

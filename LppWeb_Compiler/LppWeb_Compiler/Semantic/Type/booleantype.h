@@ -5,11 +5,11 @@
 class BooleanType : public Type
 {
 public:
-    BooleanType();
+	~BooleanType() override;
+	Value* DefaultValue() override;
+	BooleanType();
 
-    // Type interface
-public:
-    string GetName();
+    string GetName() override;
 };
 
 #endif // BOOLEANTYPE_H

@@ -9,17 +9,15 @@ using namespace std;
 class StatementMientrasNode : public StatementNode
 {
 public:
-    ExpressionNode* Expression;
+	~StatementMientrasNode() override;
+	void Interpret() override;
+	ExpressionNode* Expression;
     list<StatementNode*>*Statements;
     StatementMientrasNode(ExpressionNode* expr,list<StatementNode*>* ls,int row,int column);
 
-    // StatementNode interface
-public:
-    string ToXML(int i);
+    string ToXML(int i) override;
 
-    // StatementNode interface
-public:
-    void ValidateSemantic();
+    void ValidateSemantic() override;
 };
 
 #endif // STATEMENTMIENTRASNODE_H

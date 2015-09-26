@@ -7,7 +7,9 @@
 class StatementAssignmentNode : public StatementNode
 {
 public:
-    VariableNode* Variable;
+	~StatementAssignmentNode() override;
+	void Interpret() override;
+	VariableNode* Variable;
     ExpressionNode* Expression;
     StatementAssignmentNode(VariableNode* var,ExpressionNode* expr,int row,int column);
 

@@ -1,5 +1,16 @@
 #include "idnode.h"
 #include "../../../helper.h"
+#include "../../../Interpret/Values/value.h"
+
+IdNode::~IdNode()
+{
+}
+
+Value* IdNode::Interpret()
+{
+	Value* v = new Value();
+	return v;
+}
 
 IdNode::IdNode(string id, int row, int column)
 {

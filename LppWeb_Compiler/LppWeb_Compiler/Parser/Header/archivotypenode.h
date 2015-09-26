@@ -7,16 +7,14 @@ using namespace std;
 class ArchivoTypeNode : public TypeNode
 {
 public:
-    string Name;
+	void Interpret() override;
+	~ArchivoTypeNode() override;
+	string Name;
     TypeNode * Types;
     ArchivoTypeNode(string Name,TypeNode* type,int row,int column);
 
-    // TypeNode interface
-public:
     string ToXML(int i) override;
 
-    // TypeNode interface
-public:
     void ValidateSemantic() override;
 };
 

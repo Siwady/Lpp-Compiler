@@ -2,6 +2,15 @@
 #include "../../Semantic/symboltable.h"
 #include "../../helper.h"
 
+TypeStructureNode::~TypeStructureNode()
+{
+	delete Type;
+}
+
+void TypeStructureNode::Interpret()
+{
+}
+
 TypeStructureNode::TypeStructureNode(string id, TypeNode *type, int row, int column)
 {
     this->ID=id;

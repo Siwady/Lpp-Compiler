@@ -7,17 +7,14 @@
 class SumNode : public ExpressionNode
 {
 public:
-    ExpressionNode* LeftNode;
+	~SumNode() override;
+	::Value* Interpret() override;
+	ExpressionNode* LeftNode;
     ExpressionNode* RightNode;
     SumNode(ExpressionNode* left,ExpressionNode* right,int row,int column);
 
-    // ExpressionNode interface
-public:
-    string ToXML(int i);
-
-    // ExpressionNode interface
-public:
-    Type* ValidateSemantic();
+    string ToXML(int i) override;
+    Type* ValidateSemantic() override;
 };
 
 #endif // SUMNODE_H

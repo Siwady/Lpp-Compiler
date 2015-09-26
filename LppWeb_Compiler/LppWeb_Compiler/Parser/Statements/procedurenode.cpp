@@ -15,8 +15,8 @@ void ProcedureNode::ValidateSemantic()
 		temp = *iterator;
 		temp->ValidateSemantic();
 	}
-	ProcedureType * t = new ProcedureType(Params, Variables);
-	
+	ProcedureType * t = new ProcedureType(Params, Variables,Statements);
+	t->DefaultValue();
 	SymbolTable::GetInstance()->DeclareVariable(ID, t);
 	SymbolTable::GetInstance()->DeclareFunctionVariable(ID, t);
 

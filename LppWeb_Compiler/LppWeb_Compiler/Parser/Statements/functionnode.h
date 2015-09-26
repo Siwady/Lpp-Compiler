@@ -16,6 +16,7 @@
 class FunctionNode : public ProgramHeaderNode
 {
 public:
+	void Interpret() override;
 	~FunctionNode() override;
 	void ValidateSemantic() override;
 	string ID;
@@ -26,8 +27,6 @@ public:
     FunctionNode(string id,list<ParameterNode*>* param,TypeNode* type,list<DeclareVariableNode*>* vars,list<StatementNode*>* statements,int row,int column);
     FunctionNode();
 
-    // ProgramHeaderNode interface
-public:
     string ToXML(int i);
 };
 

@@ -5,11 +5,11 @@
 class LiteralCadena : public Type
 {
 public:
-    LiteralCadena();
+	~LiteralCadena() override;
+	Value* DefaultValue() override;
+	LiteralCadena();
 
-    // Type interface
-public:
-    string GetName();
+    string GetName() override;
 };
 
 #endif // LITERALCADENA_H

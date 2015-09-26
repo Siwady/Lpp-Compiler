@@ -1,5 +1,16 @@
 #include "realnode.h"
 #include "../../../helper.h"
+#include "../../../Interpret/Values/realvalue.h"
+
+RealNode::~RealNode()
+{
+}
+
+Value* RealNode::Interpret()
+{
+	RealValue* v = new RealValue(Real);
+	return v;
+}
 
 RealNode::RealNode(double real, int row, int column)
 {

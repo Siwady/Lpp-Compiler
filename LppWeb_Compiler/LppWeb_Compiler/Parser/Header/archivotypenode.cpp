@@ -2,6 +2,16 @@
 #include "../../Semantic/symboltable.h"
 #include "../../helper.h"
 
+void ArchivoTypeNode::Interpret()
+{
+
+}
+
+ArchivoTypeNode::~ArchivoTypeNode()
+{
+	delete Types;
+}
+
 ArchivoTypeNode::ArchivoTypeNode(string Name, TypeNode *type, int row, int column)
 {
     this->Name=Name;

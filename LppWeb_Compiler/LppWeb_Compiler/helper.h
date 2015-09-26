@@ -48,6 +48,7 @@ public:
     static string GetIdentation(int i);
     static Type* GetTypeFromTypeNode(TypeNode* type);
 	static string ToLower(string str);
+	static bool CompareValues(Value*a ,Value* b);
 };
 
 #endif // HELPER_H

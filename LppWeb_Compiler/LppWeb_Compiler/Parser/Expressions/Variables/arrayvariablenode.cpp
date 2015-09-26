@@ -4,6 +4,16 @@
 #include "../../../helper.h"
 #include "../../../Semantic/symboltable.h"
 
+ArrayVariableNode::~ArrayVariableNode()
+{
+	delete ExpressionList;
+}
+
+Value* ArrayVariableNode::Interpret()
+{
+	return SymbolTable::GetInstance()->GetVariableValue(ID);
+}
+
 ArrayVariableNode::ArrayVariableNode()
 {
 

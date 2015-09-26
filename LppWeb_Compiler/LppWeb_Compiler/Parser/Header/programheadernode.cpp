@@ -14,3 +14,6 @@ void ProgramHeaderNode::ValidateSemantic()
 
 }
 
+void ProgramHeaderNode::Interpret()
+{
+}

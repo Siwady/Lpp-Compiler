@@ -11,7 +11,9 @@ using namespace std;
 class StatementAbrirArchivoNode : public StatementNode
 {
 public:
-    ExpressionNode* Expression;
+	~StatementAbrirArchivoNode() override;
+	void Interpret() override;
+	ExpressionNode* Expression;
     VariableNode* Variable;
     list<string>* Operators;
     StatementAbrirArchivoNode(ExpressionNode* expr,VariableNode* var,list<string>*op,int row,int column);

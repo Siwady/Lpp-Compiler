@@ -8,7 +8,9 @@ using namespace std;
 class BoolNode : public ExpressionNode
 {
 public:
-    string Booolean;
+	Value* Interpret() override;
+	~BoolNode() override;
+	string Booolean;
     BoolNode(string boolean,int row,int column);
 
     string ToXML(int i) override;

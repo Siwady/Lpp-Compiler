@@ -14,3 +14,6 @@ void TypeNode::ValidateSemantic()
 
 }
 
+void TypeNode::Interpret()
+{
+}

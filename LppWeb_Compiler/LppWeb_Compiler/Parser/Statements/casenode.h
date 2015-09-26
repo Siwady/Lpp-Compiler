@@ -14,10 +14,10 @@ public:
     int Row;
     int Column;
     CaseNode(list<LiteralNode*>* literals,list<StatementNode*>* statement,int row,int column);
-
     string ToXML(int i);
 
     Type* ValidateSemantic();
+	void Interpret();
 };
 
 #endif // CASENODE_H

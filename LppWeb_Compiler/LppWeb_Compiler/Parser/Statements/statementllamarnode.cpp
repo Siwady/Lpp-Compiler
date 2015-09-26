@@ -4,6 +4,35 @@
 #include "../../Semantic/Type/proceduretype.h"
 #include "../../helper.h"
 
+StatementLlamarNode::~StatementLlamarNode()
+{
+	delete Expressions;
+}
+
+void StatementLlamarNode::Interpret()
+{
+	Type* t = SymbolTable::GetInstance()->GetVariableType(ID);
+	
+	ProcedureType* f = dynamic_cast<ProcedureType*>(t);
+
+	for (int j = 0; j < Expressions->size(); j++){
+		f->LocalValues[Helper::GetElementParameterNode(f->Params, j)->ID] = Helper::GetElementExpressionNode(Expressions, j)->Interpret();
+	}
+	for (int i = 0; i<Expressions->size(); i++)
+	{
+		Value* a=Helper::GetElementExpressionNode(Expressions, i)->Interpret();
+
+	}
+
+
+	SymbolTable::SetInFunction(ID);
+	for (int i = 0; i < f->Statements->size(); i++)
+	{
+		Helper::GetElementStatementNode(f->Statements, i)->Interpret();
+	}
+	SymbolTable::SetInFunction("");
+}
+
 StatementLlamarNode::StatementLlamarNode(string id, list<ExpressionNode *> *ls, int row, int column)
 {
     this->Expressions=ls;

@@ -4,16 +4,16 @@
 class RegisterVariableNode : public VariableNode
 {
 public:
-    VariableNode* Variable1;
+	~RegisterVariableNode() override;
+	Value* Interpret() override;
+	VariableNode* Variable1;
     VariableNode* Variable2;
     RegisterVariableNode();
     RegisterVariableNode(VariableNode* var1,VariableNode* var2, int row,int column);
 
-    string ToXML(int i);
+    string ToXML(int i) override;
 
-    // ExpressionNode interface
-public:
-    Type *ValidateSemantic();
+    Type *ValidateSemantic() override;
 };
 
 #endif // REGISTERVARIABLENODE_H

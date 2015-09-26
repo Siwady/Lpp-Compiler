@@ -8,15 +8,13 @@ using namespace std;
 class TypeHeaderNode : public ProgramHeaderNode
 {
 public:
-    list<StructureNode*>* TypesStructure;
+	~TypeHeaderNode() override;
+	void Interpret() override;
+	list<StructureNode*>* TypesStructure;
     TypeHeaderNode(list<StructureNode*>* types,int row,int column);
 
-    // ProgramHeaderNode interface
-public:
     string ToXML(int i) override;
 
-    // ProgramHeaderNode interface
-public:
     void ValidateSemantic() override;
 };
 

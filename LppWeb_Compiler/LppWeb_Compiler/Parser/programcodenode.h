@@ -15,6 +15,7 @@ public:
     int Column;
     virtual string ToXML(int i);
     virtual void ValidateSemantic();
+	virtual void Interpret();
 };
 
 #endif // PROGRAMCODENODE_H

@@ -5,7 +5,9 @@
 class CaracterNode : public LiteralNode
 {
 public:
-    char Caracter;
+	Value* Interpret() override;
+	~CaracterNode() override;
+	char Caracter;
     CaracterNode(char caracter,int row,int column);
 
 public:

@@ -5,15 +5,12 @@
 class VariableNode : public ExpressionNode
 {
 public:
-    VariableNode();
-
-    // ExpressionNode interface
-
-public:
+	~VariableNode() override;
+	virtual Value* Interpret() override;
+	VariableNode();
+	string ID;
     virtual string ToXML(int i) override;
 
-    // ExpressionNode interface
-public:
     virtual Type* ValidateSemantic() override;
 };
 

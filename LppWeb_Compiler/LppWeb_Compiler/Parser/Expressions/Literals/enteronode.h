@@ -4,13 +4,15 @@
 class EnteroNode : public LiteralNode
 {
 public:
-    int Entero;
+	Value* Interpret() override;
+	~EnteroNode() override;
+	int Entero;
     EnteroNode(int entero,int row,int column);
 
     // ExpressionNode interface
 public:
-    string ToXML(int i);
-    Type* ValidateSemantic();
+    string ToXML(int i) override;
+    Type* ValidateSemantic() override;
 
 };
 

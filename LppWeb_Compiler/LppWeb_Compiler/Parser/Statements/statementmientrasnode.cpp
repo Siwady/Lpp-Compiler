@@ -1,6 +1,26 @@
 #include "statementmientrasnode.h"
 #include "../../Semantic/semanticexception.h"
 #include "../../helper.h"
+#include "../../Interpret/Values/booleanovalue.h"
+
+StatementMientrasNode::~StatementMientrasNode()
+{
+	delete Expression;
+	delete Statements;
+}
+
+void StatementMientrasNode::Interpret()
+{
+	bool exp = dynamic_cast<BooleanoValue*>(Expression->Interpret())->value;
+	while (exp)
+	{
+		for (int i = 0; i < Statements->size(); i++)
+		{
+			Helper::GetElementStatementNode(Statements, i)->Interpret();
+		}
+		exp = dynamic_cast<BooleanoValue*>(Expression->Interpret())->value;
+	}
+}
 
 StatementMientrasNode::StatementMientrasNode(ExpressionNode *expr, list<StatementNode *> *ls, int row, int column)
 {

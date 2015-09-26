@@ -9,16 +9,14 @@ using namespace std;
 class StatementLeerArchivoNode : public StatementNode
 {
 public:
-    list<VariableNode*> *Variables;
+	~StatementLeerArchivoNode() override;
+	void Interpret() override;
+	list<VariableNode*> *Variables;
     StatementLeerArchivoNode(list<VariableNode*> *var,int row,int column);
 
-    // StatementNode interface
-public:
-    string ToXML(int i);
+    string ToXML(int i) override;
 
-    // StatementNode interface
-public:
-    void ValidateSemantic();
+    void ValidateSemantic() override;
 };
 
 #endif // STATEMENTLEERARCHIVO_H

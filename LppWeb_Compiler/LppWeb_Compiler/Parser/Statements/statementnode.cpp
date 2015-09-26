@@ -14,4 +14,7 @@ void StatementNode::ValidateSemantic()
 
 }
 
+void StatementNode::Interpret()
+{
+}
 

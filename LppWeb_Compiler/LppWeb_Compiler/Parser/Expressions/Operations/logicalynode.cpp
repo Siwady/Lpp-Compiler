@@ -3,6 +3,32 @@
 #include "../../../Semantic/Type/type.h"
 #include "../../../Semantic/Type/booleantype.h"
 #include "../../../helper.h"
+#include "../../../Interpret/Values/booleanovalue.h"
+
+LogicalYNode::~LogicalYNode()
+{
+	delete LeftNode;
+	delete RightNode;
+}
+
+Value* LogicalYNode::Interpret()
+{
+	Value* leftNode = LeftNode->Interpret();
+	Value* righNode = RightNode->Interpret();
+	BooleanoValue * b;
+
+	if (leftNode->Name.compare("Booleano") == 0 && righNode->Name.compare("Booleano") == 0)
+	{
+		bool l = (dynamic_cast<BooleanoValue*>(leftNode))->value;
+		bool r = (dynamic_cast<BooleanoValue*>(righNode))->value;
+		b = new BooleanoValue(l && r);
+		return b;
+	}
+	else
+	{
+		throw SemanticException("Tipos de dato incompatibles " + leftNode->Name + "-" + righNode->Name + ",Fila:" + to_string(Row) + ",Columna:" + to_string(Column));
+	}
+}
 
 LogicalYNode::LogicalYNode(ExpressionNode *left, ExpressionNode *right, int row, int column)
 {

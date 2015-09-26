@@ -9,18 +9,16 @@ using namespace std;
 class StatementParaNode : public StatementNode
 {
 public:
-    VariableNode* Variable;
+	~StatementParaNode() override;
+	void Interpret() override;
+	VariableNode* Variable;
     ExpressionNode* FirstExpression;
     ExpressionNode* SecondExpression;
     list<StatementNode*>* Statements;
     StatementParaNode(VariableNode* var,ExpressionNode* firstExp,ExpressionNode* secondExp,list<StatementNode*>* ls,int row,int column);
 
-    // StatementNode interface
-public:
     string ToXML(int i) override;
 
-    // StatementNode interface
-public:
     void ValidateSemantic() override;
 };
 

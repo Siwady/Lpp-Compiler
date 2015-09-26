@@ -5,7 +5,9 @@
 class IdNode : public ExpressionNode
 {
 public:
-    string ID;
+	~IdNode() override;
+	Value* Interpret() override;
+	string ID;
     IdNode(string id,int row,int column);
 
     // ExpressionNode interface

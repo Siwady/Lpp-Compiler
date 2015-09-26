@@ -1,6 +1,18 @@
 #include "negativenumbernode.h"
 #include "../../../Semantic/Type/negativenumbertype.h"
 #include "../../../helper.h"
+#include "../../../Interpret/Values/negativenumbervalue.h"
+#include "../../../Interpret/Values/enterovalue.h"
+
+NegativeNumberNode::~NegativeNumberNode()
+{
+}
+
+Value* NegativeNumberNode::Interpret()
+{
+	Value * v = new NegativeNumberValue(dynamic_cast<EnteroValue*>(Expression->Interpret())->value);
+	return v;
+}
 
 NegativeNumberNode::NegativeNumberNode(ExpressionNode *expression, int row, int column)
 {

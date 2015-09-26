@@ -17,3 +17,6 @@ void ProgramCodeNode::ValidateSemantic()
     cout<<"Entre aca";
 }
 
+void ProgramCodeNode::Interpret()
+{
+}

@@ -5,7 +5,7 @@
 DeclareVariableNode::DeclareVariableNode(TypeNode *type, list<string> *ids, int row, int column)
 {
     this->IDs=ids;
-    this->Type=type;
+    this->Types=type;
     this->Row=row;
     this->Column=column;
 }
@@ -15,7 +15,7 @@ DeclareVariableNode::DeclareVariableNode(TypeNode *type, list<string> *ids, int 
 string DeclareVariableNode::ToXML(int i)
 {
     string re=Helper::GetIdentation(i)+"<DeclareVariableNode>\n";
-    re+=Type->ToXML(i+1);
+    re+=Types->ToXML(i+1);
 
     re+=Helper::GetIdentation(i+1)+"<ID List>\n";
     for(int j=0;j<IDs->size();j++){
@@ -34,6 +34,12 @@ void DeclareVariableNode::ValidateSemantic()
 	string temp;
 	for (iterator = IDs->begin(); iterator != IDs->end(); ++iterator) {
 		temp = *iterator;
-		SymbolTable::GetInstance()->DeclareVariable(temp, Helper::GetTypeFromTypeNode(Type));
+		Type * t = Helper::GetTypeFromTypeNode(Types);
+		if (t->Name == "")
+		{
+			t->Name = Types->OfType;
+		}
+		SymbolTable::GetInstance()->ExistType(t->Name);
+		SymbolTable::GetInstance()->DeclareVariable(temp, t);
 	}
 }

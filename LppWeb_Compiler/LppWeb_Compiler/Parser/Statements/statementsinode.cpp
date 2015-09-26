@@ -1,6 +1,33 @@
 #include "statementsinode.h"
 #include "../../Semantic/semanticexception.h"
 #include "../../helper.h"
+#include "../../Interpret/Values/booleanovalue.h"
+
+void StatementSiNode::Interpret()
+{
+	bool exp = dynamic_cast<BooleanoValue*>(Expression->Interpret())->value;
+	if (exp)
+	{
+		for (int i = 0; i < StatementsSi->size(); i++)
+		{
+			Helper::GetElementStatementNode(StatementsSi, i)->Interpret();
+		}
+	}
+	else
+	{
+		for (int i = 0; i < StatementsSino->size(); i++)
+		{
+			Helper::GetElementStatementNode(StatementsSino, i)->Interpret();
+		}
+	}
+}
+
+StatementSiNode::~StatementSiNode()
+{
+	delete Expression;
+	delete StatementsSi;
+	delete StatementsSino;
+}
 
 StatementSiNode::StatementSiNode(ExpressionNode *expr, list<StatementNode *> *statementSi, list<StatementNode *> *statementsSino, int row, int column)
 {

@@ -2,6 +2,15 @@
 #include "../../Semantic/symboltable.h"
 #include "../../helper.h"
 
+CadenaTypeNode::~CadenaTypeNode()
+{
+}
+
+void CadenaTypeNode::Interpret()
+{
+
+}
+
 CadenaTypeNode::CadenaTypeNode(int size, int row, int column)
 {
     this->Size=size;

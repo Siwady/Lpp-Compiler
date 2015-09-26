@@ -10,17 +10,15 @@ using namespace std;
 class StatementLlamarNode : public StatementNode
 {
 public:
-    string ID;
+	~StatementLlamarNode() override;
+	void Interpret() override;
+	string ID;
     list<ExpressionNode*> * Expressions;
     StatementLlamarNode(string id,list<ExpressionNode*>* ls,int row,int column);
 
-    // StatementNode interface
-public:
-    string ToXML(int i);
+    string ToXML(int i) override;
 
-    // StatementNode interface
-public:
-    void ValidateSemantic();
+    void ValidateSemantic() override;
 };
 
 #endif // STATEMENTLLAMARNODE_H

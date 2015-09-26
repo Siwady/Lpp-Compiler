@@ -1,6 +1,17 @@
 #include "arraytypenode.h"
 #include "../../helper.h"
 
+ArrayTypeNode::~ArrayTypeNode()
+{
+	delete Type;
+	delete Dimentions;
+}
+
+void ArrayTypeNode::Interpret()
+{
+
+}
+
 ArrayTypeNode::ArrayTypeNode(TypeNode *type, list<int> *dim, int row, int column)
 {
     this->Type=type;
@@ -30,4 +41,5 @@ string ArrayTypeNode::ToXML(int i)
 
 void ArrayTypeNode::ValidateSemantic()
 {
+
 }

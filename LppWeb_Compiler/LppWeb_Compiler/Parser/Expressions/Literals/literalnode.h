@@ -5,15 +5,12 @@
 class LiteralNode : public ExpressionNode
 {
 public:
-    LiteralNode();
+	~LiteralNode() override;
+	virtual Value* Interpret() override;
+	LiteralNode();
 
-    // ExpressionNode interface
-public:
     virtual string ToXML(int i) override;
 
-
-    // ExpressionNode interface
-public:
     virtual Type *ValidateSemantic() override;
 };
 

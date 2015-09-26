@@ -10,17 +10,15 @@ using namespace std;
 class ArrayTypeNode : public TypeNode
 {
 public:
-    TypeNode* Type;
+	~ArrayTypeNode() override;
+	void Interpret() override;
+	TypeNode* Type;
     list<int>* Dimentions;
     ArrayTypeNode(TypeNode* type,list<int>* dim,int row,int column);
 
-    // TypeNode interface
-public:
-    string ToXML(int i);
+    string ToXML(int i) override;
 
-    // TypeNode interface
-public:
-    void ValidateSemantic();
+    void ValidateSemantic() override;
 };
 
 #endif // ARRAYTYPENODE_H

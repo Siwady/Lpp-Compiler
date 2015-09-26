@@ -7,17 +7,15 @@ using namespace std;
 class ExpressionFunctionNode : public ExpressionNode
 {
 public:
-    string ID;
+	~ExpressionFunctionNode() override;
+	Value* Interpret() override;
+	string ID;
     list<ExpressionNode*> *Expressions;
     ExpressionFunctionNode();
     ExpressionFunctionNode(string id,list<ExpressionNode*> *expressions,int row,int column);
 
-    // ExpressionNode interface
-public:
     string ToXML(int i) override;
 
-    // ExpressionNode interface
-public:
     Type *ValidateSemantic() override;
 };
 

@@ -8,7 +8,9 @@ using namespace std;
 class ArchivoType : public Type
 {
 public:
-    Type *OfType;
+	~ArchivoType() override;
+	string GetName() override;
+	Type *OfType;
     ArchivoType(Type * t);
 };
 

@@ -3,6 +3,16 @@
 #include "../../Semantic/Type/registervariabletype.h"
 #include "../../helper.h"
 
+RegisterStructureNode::~RegisterStructureNode()
+{
+	delete Attributes;
+}
+
+void RegisterStructureNode::Interpret()
+{
+
+}
+
 RegisterStructureNode::RegisterStructureNode(string Id, list<DeclareVariableNode *> *attr, int row, int column)
 {
     this->ID=Id;
@@ -33,5 +43,6 @@ string RegisterStructureNode::ToXML(int i)
 void RegisterStructureNode::ValidateSemantc()
 {
     RegisterVariableType *t=new RegisterVariableType(Attributes);
+	t->Name = ID;
     SymbolTable::GetInstance()->DeclareType(ID,t);
 }

@@ -9,17 +9,15 @@ using namespace std;
 class StatementRepitaNode : public StatementNode
 {
 public:
-    ExpressionNode* Expression;
+	~StatementRepitaNode() override;
+	void Interpret() override;
+	ExpressionNode* Expression;
     list<StatementNode*>* Statements;
     StatementRepitaNode(ExpressionNode* expr,list<StatementNode*>* ls,int row,int column);
 
-    // StatementNode interface
-public:
-    string ToXML(int i);
+    string ToXML(int i) override;
 
-    // StatementNode interface
-public:
-    void ValidateSemantic();
+    void ValidateSemantic() override;
 };
 
 #endif // STATEMENTREPITANODE_H

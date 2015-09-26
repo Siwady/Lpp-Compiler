@@ -1,6 +1,16 @@
 #include "statementcerrararchivonode.h"
 #include "../../helper.h"
 
+StatementCerrarArchivoNode::~StatementCerrarArchivoNode()
+{
+	delete Variable;
+}
+
+void StatementCerrarArchivoNode::Interpret()
+{
+
+}
+
 StatementCerrarArchivoNode::StatementCerrarArchivoNode(VariableNode *var, int row, int column)
 {
     this->Variable=var;

@@ -1623,10 +1623,10 @@ ExpressionNode *Parser::Const_Negative()
         ExpressionNode* e;
         if(CurrentToken->Type==Const_entero)
         {
-            e=new EnteroNode(atoi(CurrentToken->Lexeme.c_str()),r,c);
+            e=new EnteroNode(-1*atoi(CurrentToken->Lexeme.c_str()),r,c);
         }else if(CurrentToken->Type==Const_real)
         {
-            e=new RealNode(atof(CurrentToken->Lexeme.c_str()),r,c);
+            e=new RealNode(-1*atof(CurrentToken->Lexeme.c_str()),r,c);
         }else
         {
             e=new SimpleVariableNode(CurrentToken->Lexeme,r,c);

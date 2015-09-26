@@ -2,6 +2,17 @@
 #include "../../Semantic/semanticexception.h"
 #include "../../helper.h"
 
+StatementAbrirArchivoNode::~StatementAbrirArchivoNode()
+{
+	delete Expression;
+	delete Variable;
+	delete Operators;
+}
+
+void StatementAbrirArchivoNode::Interpret()
+{
+}
+
 StatementAbrirArchivoNode::StatementAbrirArchivoNode(ExpressionNode *expr, VariableNode *var, list<string> *op, int row, int column)
 {
     this->Expression=expr;

@@ -47,3 +47,10 @@ Type *CaseNode::ValidateSemantic()
 	return t;
 }
 
+void CaseNode::Interpret()
+{
+	for (int j = 0; j < Statements->size(); j++)
+	{
+		Helper::GetElementStatementNode(Statements, j)->Interpret();
+	}
+}

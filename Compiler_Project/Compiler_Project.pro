@@ -102,7 +102,15 @@ SOURCES += main.cpp \
     Semantic/Type/registervariabletype.cpp \
     Semantic/Type/functiontype.cpp \
     Semantic/Type/proceduretype.cpp \
-    Semantic/Type/archivotype.cpp
+    Semantic/Type/archivotype.cpp \
+    value.cpp \
+    enterovalue.cpp \
+    cadenavalue.cpp \
+    caractervalue.cpp \
+    realvalue.cpp \
+    booleanovalue.cpp \
+    arreglovalue.cpp \
+    negativenumbervalue.cpp
 
 HEADERS += \
     helper.h \
@@ -191,5 +199,13 @@ HEADERS += \
     Semantic/Type/registervariabletype.h \
     Semantic/Type/functiontype.h \
     Semantic/Type/proceduretype.h \
-    Semantic/Type/archivotype.h
+    Semantic/Type/archivotype.h \
+    value.h \
+    enterovalue.h \
+    cadenavalue.h \
+    caractervalue.h \
+    realvalue.h \
+    booleanovalue.h \
+    arreglovalue.h \
+    negativenumbervalue.h
 

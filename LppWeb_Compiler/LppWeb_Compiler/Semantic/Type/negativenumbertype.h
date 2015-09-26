@@ -6,12 +6,12 @@
 class NegativeNumberType : public Type
 {
 public:
-    ExpressionNode * Expression;
+	~NegativeNumberType() override;
+	Value* DefaultValue() override;
+	ExpressionNode * Expression;
     NegativeNumberType(ExpressionNode * exp);
 
-    // Type interface
-public:
-    string GetName();
+    string GetName() override;
 };
 
 #endif // NEGATIVENUMBERTYPE_H

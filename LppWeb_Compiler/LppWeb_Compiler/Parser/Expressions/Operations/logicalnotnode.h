@@ -5,16 +5,14 @@
 class LogicalNotNode : public ExpressionNode
 {
 public:
-    ExpressionNode *Expression;
+	~LogicalNotNode() override;
+	Value* Interpret() override;
+	ExpressionNode *Expression;
     LogicalNotNode(ExpressionNode* expression, int row,int column);
 
-    // ExpressionNode interface
-public:
-    string ToXML(int i);
+    string ToXML(int i) override;
 
-    // ExpressionNode interface
-public:
-    Type *ValidateSemantic();
+    Type *ValidateSemantic() override;
 };
 
 #endif // LOGICALNOTNODE_H

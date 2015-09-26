@@ -7,14 +7,14 @@ using namespace std;
 class ArregloType : public Type
 {
 public:
-    Type *ArrayType;
+	~ArregloType() override;
+	Value* DefaultValue() override;
+	Type *ArrayType;
     list<int>* Dimention;
     ArregloType(Type *type, list<int>* dim);
     ArregloType();
 
-    // Type interface
-public:
-    string GetName();
+    string GetName() override;
 };
 
 #endif // ARREGLOTYPE_H

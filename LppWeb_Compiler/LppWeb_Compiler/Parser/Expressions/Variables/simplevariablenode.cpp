@@ -3,6 +3,15 @@
 #include "../../../helper.h"
 #include "../../../Semantic/Type/simplevariabletype.h"
 
+SimpleVariableNode::~SimpleVariableNode()
+{
+}
+
+Value* SimpleVariableNode::Interpret()
+{
+	return SymbolTable::GetInstance()->GetVariableValue(ID);
+}
+
 SimpleVariableNode::SimpleVariableNode(string id, int row, int column)
 {
     this->ID=id;

@@ -6,16 +6,14 @@
 class StatementReturnNode : public StatementNode
 {
 public:
-    ExpressionNode* Expression;
+	~StatementReturnNode() override;
+	void Interpret() override;
+	ExpressionNode* Expression;
     StatementReturnNode(ExpressionNode* expr,int row,int column);
 
-    // StatementNode interface
-public:
-    string ToXML(int i);
+    string ToXML(int i) override;
 
-    // StatementNode interface
-public:
-    void ValidateSemantic();
+    void ValidateSemantic() override;
 };
 
 #endif // STATEMENTRETURNNODE_H

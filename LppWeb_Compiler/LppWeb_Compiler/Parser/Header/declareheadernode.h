@@ -7,7 +7,9 @@ using namespace std;
 class DeclareHeaderNode : public ProgramHeaderNode
 {
 public:
-    list<DeclareVariableNode*>* DeclareVariables;
+	~DeclareHeaderNode() override;
+	void Interpret() override;
+	list<DeclareVariableNode*>* DeclareVariables;
     DeclareHeaderNode(list<DeclareVariableNode*>* var,int row,int column);
     string ToXML(int i) override;
 

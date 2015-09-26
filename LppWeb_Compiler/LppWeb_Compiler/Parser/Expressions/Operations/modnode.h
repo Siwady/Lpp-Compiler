@@ -7,16 +7,14 @@
 class ModNode : public ExpressionNode
 {
 public:
-    ExpressionNode* LeftNode;
+	~ModNode() override;
+	::Value* Interpret() override;
+	ExpressionNode* LeftNode;
     ExpressionNode* RightNode;
     ModNode(ExpressionNode* left,ExpressionNode* right, int row,int column);
 
-    // ExpressionNode interface
-public:
     string ToXML(int i) override;
 
-    // ExpressionNode interface
-public:
     Type* ValidateSemantic() override;
 };
 

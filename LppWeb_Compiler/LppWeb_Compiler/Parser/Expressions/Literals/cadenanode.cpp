@@ -1,5 +1,16 @@
 #include "cadenanode.h"
 #include "../../../helper.h"
+#include "../../../Interpret/Values/cadenavalue.h"
+
+Value* CadenaNode::Interpret()
+{
+	CadenaValue * v = new CadenaValue(Cadena);
+	return v;
+}
+
+CadenaNode::~CadenaNode()
+{
+}
 
 CadenaNode::CadenaNode(string cadena, int row, int column)
 {

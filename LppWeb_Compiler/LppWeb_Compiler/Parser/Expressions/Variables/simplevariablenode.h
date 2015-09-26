@@ -6,7 +6,8 @@ using namespace std;
 class SimpleVariableNode : public VariableNode
 {
 public:
-    string ID;
+	~SimpleVariableNode() override;
+	Value* Interpret() override;
     SimpleVariableNode(string id,int row,int column);
     string ToXML(int i) override;
 

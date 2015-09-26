@@ -8,18 +8,15 @@ using namespace std;
 class StatementSiNode : public StatementNode
 {
 public:
-    ExpressionNode* Expression;
+	void Interpret() override;
+	~StatementSiNode() override;
+	ExpressionNode* Expression;
     list<StatementNode*>* StatementsSi;
     list<StatementNode*>* StatementsSino;
     StatementSiNode(ExpressionNode* expr, list<StatementNode*>* statementSi, list<StatementNode*>* statementsSino,int row,int column);
+    string ToXML(int i) override;
 
-    // StatementNode interface
-public:
-    string ToXML(int i);
-
-    // StatementNode interface
-public:
-    void ValidateSemantic();
+    void ValidateSemantic() override;
 };
 
 #endif // STATEMENTSINODE_H

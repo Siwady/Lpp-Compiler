@@ -8,11 +8,11 @@ using namespace std;
 class RegisterVariableType : public Type
 {
 public:
-    list<DeclareVariableNode*>* Attributes;
+	~RegisterVariableType() override;
+	Value* DefaultValue() override;
+	list<DeclareVariableNode*>* Attributes;
     RegisterVariableType(list<DeclareVariableNode*> *atr);
 
-    // Type interface
-public:
     string GetName() override;
 };
 

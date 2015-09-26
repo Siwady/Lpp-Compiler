@@ -7,13 +7,13 @@ using namespace std;
 class CadenaType : public Type
 {
 public:
-    int Dim;
+	~CadenaType() override;
+	Value* DefaultValue() override;
+	int Dim;
     CadenaType(int dim);
     CadenaType();
 
-    // Type interface
-public:
-    string GetName();
+    string GetName() override;
 };
 
 #endif // CADENATYPE_H

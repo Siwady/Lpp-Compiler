@@ -9,14 +9,12 @@ using namespace std;
 class DeclareVariableNode:public ProgramHeaderNode
 {
 public:
-    TypeNode* Type;
+    TypeNode* Types;
     list<string>* IDs;
     DeclareVariableNode(TypeNode* type,list<string>* ids,int row,int column);
 
     string ToXML(int i) override;
 
-    // ProgramHeaderNode interface
-public:
     void ValidateSemantic() override;
 };
 

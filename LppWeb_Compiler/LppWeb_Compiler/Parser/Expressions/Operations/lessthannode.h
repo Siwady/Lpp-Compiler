@@ -7,17 +7,15 @@
 class LessThanNode : public ExpressionNode
 {
 public:
-    ExpressionNode* LeftNode;
+	~LessThanNode() override;
+	::Value* Interpret() override;
+	ExpressionNode* LeftNode;
     ExpressionNode* RightNode;
     LessThanNode(ExpressionNode* left,ExpressionNode* right,int row,int column);
 
-    // ExpressionNode interface
-public:
-    string ToXML(int i);
+    string ToXML(int i) override;
 
-    // ExpressionNode interface
-public:
-    Type* ValidateSemantic();
+    Type* ValidateSemantic() override;
 };
 
 #endif // LESSTHANNODE_H

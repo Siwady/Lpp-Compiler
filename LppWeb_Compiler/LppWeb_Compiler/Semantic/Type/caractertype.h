@@ -5,11 +5,11 @@
 class CaracterType : public Type
 {
 public:
-    CaracterType();
+	~CaracterType() override;
+	Value* DefaultValue() override;
+	CaracterType();
 
-    // Type interface
-public:
-    string GetName();
+    string GetName() override;
 };
 
 #endif // CARACTERTYPE_H

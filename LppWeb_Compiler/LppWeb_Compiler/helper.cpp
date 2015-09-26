@@ -1,4 +1,9 @@
 #include "helper.h"
+#include "Interpret/Values/enterovalue.h"
+#include "Interpret/Values/realvalue.h"
+#include "Interpret/Values/cadenavalue.h"
+#include "Interpret/Values/caractervalue.h"
+#include "Interpret/Values/booleanovalue.h"
 
 Helper::Helper()
 {
@@ -162,4 +167,46 @@ string Helper::ToLower(string str)
 		i++;
 	}
 	return newWord;
+}
+
+bool Helper::CompareValues(Value* a, Value* b)
+{
+	if (Helper::ToLower(a->Name) == "entero")
+	{
+		EnteroValue* v = dynamic_cast<EnteroValue*>(a);
+		if (Helper::ToLower(b->Name) == "entero")
+		{
+			EnteroValue* v2 = dynamic_cast<EnteroValue*>(b);
+			return v->value == v2->value;
+		}
+		else if (Helper::ToLower(b->Name) == "real")
+		{
+			RealValue* v2 = dynamic_cast<RealValue*>(b);
+			return v->value == v2->value;
+		}
+	}
+	else if (Helper::ToLower(a->Name) == "real")
+	{
+		RealValue* v = dynamic_cast<RealValue*>(a);
+		RealValue* v2 = dynamic_cast<RealValue*>(b);
+		return v->value == v2->value;
+	}
+	else if (Helper::ToLower(a->Name) == "cadena")
+	{
+		CadenaValue* v = dynamic_cast<CadenaValue*>(a);
+		CadenaValue* v2 = dynamic_cast<CadenaValue*>(b);
+		return v->value == v2->value;
+	}
+	else if (Helper::ToLower(a->Name) == "caracter")
+	{
+		CaracterValue* v = dynamic_cast<CaracterValue*>(a);
+		CaracterValue* v2 = dynamic_cast<CaracterValue*>(b);
+		return v->value == v2->value;
+	}
+	else if (Helper::ToLower(a->Name) == "booleano")
+	{
+		BooleanoValue* v = dynamic_cast<BooleanoValue*>(a);
+		BooleanoValue* v2 = dynamic_cast<BooleanoValue*>(b);
+		return v->value == v2->value;
+	}
 }

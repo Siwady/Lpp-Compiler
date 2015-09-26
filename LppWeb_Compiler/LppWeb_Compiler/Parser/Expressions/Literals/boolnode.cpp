@@ -1,5 +1,25 @@
 #include "boolnode.h"
 #include "../../../helper.h"
+#include "../../../Interpret/Values/booleanovalue.h"
+
+
+Value* BoolNode::Interpret()
+{
+	
+	BooleanoValue * b; 
+	if (Helper::ToLower(Booolean).compare("verdadero") == 0){
+		b = new BooleanoValue(true);
+	}
+	else
+	{
+		b = new BooleanoValue(false);
+	}
+	return b;
+}
+
+BoolNode::~BoolNode()
+{
+}
 
 BoolNode::BoolNode(string boolean, int row, int column)
 {

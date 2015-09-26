@@ -80,6 +80,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="helper.h" />
+    <ClInclude Include="Interpret\Values\arreglovalue.h" />
+    <ClInclude Include="Interpret\Values\booleanovalue.h" />
+    <ClInclude Include="Interpret\Values\cadenavalue.h" />
+    <ClInclude Include="Interpret\Values\caractervalue.h" />
+    <ClInclude Include="Interpret\Values\enterovalue.h" />
+    <ClInclude Include="Interpret\Values\negativenumbervalue.h" />
+    <ClInclude Include="Interpret\Values\realvalue.h" />
+    <ClInclude Include="Interpret\Values\value.h" />
     <ClInclude Include="Lexer\lexer.h" />
     <ClInclude Include="Lexer\lexicalexception.h" />
     <ClInclude Include="Lexer\token.h" />
@@ -170,6 +178,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="helper.cpp" />
+    <ClCompile Include="Interpret\Values\arreglovalue.cpp" />
+    <ClCompile Include="Interpret\Values\booleanovalue.cpp" />
+    <ClCompile Include="Interpret\Values\cadenavalue.cpp" />
+    <ClCompile Include="Interpret\Values\caractervalue.cpp" />
+    <ClCompile Include="Interpret\Values\enterovalue.cpp" />
+    <ClCompile Include="Interpret\Values\negativenumbervalue.cpp" />
+    <ClCompile Include="Interpret\Values\realvalue.cpp" />
+    <ClCompile Include="Interpret\Values\value.cpp" />
     <ClCompile Include="Lexer\lexer.cpp" />
     <ClCompile Include="Lexer\lexicalexception.cpp" />
     <ClCompile Include="Lexer\token.cpp" />

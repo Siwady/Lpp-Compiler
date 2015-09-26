@@ -4,9 +4,30 @@
 #include "../../Semantic/Type/functiontype.h"
 #include "../../helper.h"
 
+ExpressionFunctionNode::~ExpressionFunctionNode()
+{
+	delete Expressions;
+}
+
+Value* ExpressionFunctionNode::Interpret()
+{
+	Type* t=SymbolTable::GetInstance()->GetVariableType(ID);
+	FunctionType* f = dynamic_cast<FunctionType*>(t);
+	SymbolTable::SetInFunction(ID);
+	for (int j = 0; j < Expressions->size(); j++){
+		f->LocalValues[Helper::GetElementParameterNode(f->Params, j)->ID] = Helper::GetElementExpressionNode(Expressions,j)->Interpret();
+	}
+	for (int i = 0; i < f->Statements->size(); i++)
+	{
+		Helper::GetElementStatementNode(f->Statements, i)->Interpret();
+	}
+	SymbolTable::SetInFunction("");
+	return SymbolTable::GetInstance()->ReturnValue;
+}
+
 ExpressionFunctionNode::ExpressionFunctionNode()
 {
-
+	delete Expressions;
 }
 
 ExpressionFunctionNode::ExpressionFunctionNode(string id, list<ExpressionNode *> *expressions, int row, int column)
@@ -48,12 +69,14 @@ Type *ExpressionFunctionNode::ValidateSemantic()
     }
 
 	ExpressionNode *e;
+	string c;
 	for (int i = 0; i < Expressions->size();i++){
 		e = Helper::GetElementExpressionNode(Expressions, i);
-		if (e->NameType.compare(Helper::GetElementParameterNode(type->Params,i)->Type->OfType) != 0)
+		c = Helper::GetElementParameterNode(type->Params, i)->Type->OfType;
+		if (Helper::ToLower(e->NameType).compare(Helper::ToLower(c)) != 0)
         {
             throw SemanticException("Se esperaba tipo de dato entero,Fila:"+to_string(e->Row)+",Columna:"+to_string(e->Column));
         }
     }
-    return dynamic_cast<FunctionType*>(IdType)->ReturnType;
+    return SymbolTable::GetInstance()->ReturnType;
 }

@@ -1,6 +1,17 @@
 #include "enteronode.h"
 #include "../../../Semantic/Type/enterotype.h"
 #include "../../../helper.h"
+#include "../../../Interpret/Values/enterovalue.h"
+
+Value* EnteroNode::Interpret()
+{
+	EnteroValue *v = new EnteroValue(Entero);
+	return v;
+}
+
+EnteroNode::~EnteroNode()
+{
+}
 
 EnteroNode::EnteroNode(int entero, int row, int column)
 {

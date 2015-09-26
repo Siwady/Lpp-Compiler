@@ -10,7 +10,9 @@ using namespace std;
 class LppProgram: public ProgramCodeNode
 {
 public:
-    ProgramHeaderNode* Header;
+	~LppProgram() override;
+	void Interpret() override;
+	ProgramHeaderNode* Header;
     list<StatementNode*>* Statements;
     LppProgram(ProgramHeaderNode* program, list<StatementNode*>* ls,int row,int column);
     virtual string ToXML(int i) override;

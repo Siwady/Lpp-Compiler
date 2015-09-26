@@ -8,16 +8,14 @@ using namespace std;
 class StatementEscribaNode : public StatementNode
 {
 public:
-    list<ExpressionNode*>*Expressions;
+	~StatementEscribaNode() override;
+	void Interpret() override;
+	list<ExpressionNode*>*Expressions;
     StatementEscribaNode(list<ExpressionNode*>*expressions,int row,int column);
 
-    // StatementNode interface
-public:
-    string ToXML(int i);
+    string ToXML(int i) override;
 
-    // StatementNode interface
-public:
-    void ValidateSemantic();
+    void ValidateSemantic() override;
 };
 
 #endif // STATEMENTESCRIBANODE_H

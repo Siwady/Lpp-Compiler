@@ -1,6 +1,7 @@
 #ifndef EXPRESSIONNODE_H
 #define EXPRESSIONNODE_H
 #include <string>
+class Value;
 class Type;
 using namespace std;
 
@@ -17,6 +18,7 @@ public:
     string NameType;
     virtual string ToXML(int i);
     virtual Type* ValidateSemantic();
+	virtual Value* Interpret();
 };
 
 #endif // EXPRESSIONNODE_H

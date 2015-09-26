@@ -1,5 +1,44 @@
 #include "statementescribanode.h"
 #include "../../helper.h"
+#include "../../Interpret/Values/value.h"
+#include "../../Interpret/Values/enterovalue.h"
+#include "../../Interpret/Values/caractervalue.h"
+#include "../../Interpret/Values/booleanovalue.h"
+#include "../../Interpret/Values/realvalue.h"
+#include "../../Interpret/Values/cadenavalue.h"
+
+StatementEscribaNode::~StatementEscribaNode()
+{
+	delete Expressions;
+}
+
+void StatementEscribaNode::Interpret()
+{
+	Value* v;
+	for (int i = 0; i < Expressions->size();i++)
+	{
+		v = Helper::GetElementExpressionNode(Expressions, i)->Interpret();
+		if (v->Name == "Entero")
+		{
+			cout<<dynamic_cast<EnteroValue*>(v)->value;
+		}else if(v->Name == "Caracter")
+		{
+			cout << dynamic_cast<CaracterValue*>(v)->value;
+		}
+		else if (v->Name == "Booleano")
+		{
+			cout << dynamic_cast<BooleanoValue*>(v)->value;
+		}
+		else if (v->Name == "Real")
+		{
+			cout << dynamic_cast<RealValue*>(v)->value;
+		}
+		else if (v->Name == "Cadena")
+		{
+			cout << dynamic_cast<CadenaValue*>(v)->value;
+		}
+	}
+}
 
 StatementEscribaNode::StatementEscribaNode(list<ExpressionNode *> *expressions, int row, int column)
 {

@@ -1,5 +1,31 @@
 #include "modnode.h"
 #include "../../../helper.h"
+#include "../../../Interpret/Values/enterovalue.h"
+
+ModNode::~ModNode()
+{
+	delete LeftNode;
+	delete RightNode;
+}
+
+::Value* ModNode::Interpret()
+{
+	Value* leftNode = LeftNode->Interpret();
+	Value* righNode = RightNode->Interpret();
+	EnteroValue * b;
+
+	if (leftNode->Name.compare("Entero") == 0 && righNode->Name.compare("Entero") == 0)
+	{
+		int l = (dynamic_cast<EnteroValue*>(leftNode))->value;
+		int r = (dynamic_cast<EnteroValue*>(righNode))->value;
+		b = new EnteroValue(l % r);
+		return b;
+	}
+	else
+	{
+		throw SemanticException("Tipos de dato incompatibles " + leftNode->Name + "-" + righNode->Name + ",Fila:" + to_string(Row) + ",Columna:" + to_string(Column));
+	}
+}
 
 ModNode::ModNode(ExpressionNode *left, ExpressionNode *right, int row, int column)
 {

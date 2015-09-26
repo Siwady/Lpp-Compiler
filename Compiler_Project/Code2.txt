@@ -1,7 +1,8 @@
 <%
 	
 	funcion Potencia( entero base, entero expo): entero
-		DECLARAR entero i, resp
+		DECLARAR entero i, resp  
+		declarar hola ca
 	inicio
 		resp<- 1
 		para i <- 1 hasta expo haga
@@ -19,21 +20,20 @@
 	
 	DECLARAR Empleado emple
 	DECLARAR caracter resp
-	
+	DECLARAR entero a
 	repita
 		Escriba "Nombre del emnpleado..:"
 		
 		Escriba "Sueldo del empleado...:"
 		
 		Escriba "Edad..:"
-		
 		repita 
 			Escriba "Desea Continuar ..:"
 			
 		hasta (resp='S') o (resp='N')
 	hasta resp='N'
 	
-	DECLARAR entero a
+	
 	
 %>
 <body>
@@ -78,7 +78,7 @@
 		escriba "son distintos ",a," de:", 1
 		s<- -1
 		
-		sino si bull<> no Verdadero entonces
+		sino si bull<> no (a=1) entonces
 			escriba "es verdadero"
 		fin si
 	fin si

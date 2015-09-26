@@ -5,12 +5,12 @@
 class SimpleVariableType : public Type
 {
 public:
-    Type *OfType;
+	~SimpleVariableType() override;
+	Value* DefaultValue() override;
+	Type *OfType;
     SimpleVariableType(Type *t);
 
-    // Type interface
-public:
-    string GetName();
+    string GetName() override;
 };
 
 #endif // SIMPLEVARIABLETYPE_H

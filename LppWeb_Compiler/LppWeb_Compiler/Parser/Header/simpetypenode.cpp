@@ -2,6 +2,15 @@
 #include "../../Semantic/symboltable.h"
 #include "../../helper.h"
 
+SimpeTypeNode::~SimpeTypeNode()
+{
+	
+}
+
+void SimpeTypeNode::Interpret()
+{
+}
+
 SimpeTypeNode::SimpeTypeNode(string type, int row, int column)
 {
     this->OfType=type;

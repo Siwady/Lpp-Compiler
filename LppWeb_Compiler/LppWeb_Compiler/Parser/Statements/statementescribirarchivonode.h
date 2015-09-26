@@ -8,16 +8,14 @@ using namespace std;
 class StatementEscribirArchivoNode : public StatementNode
 {
 public:
-    list<ExpressionNode*>* Expressions;
+	~StatementEscribirArchivoNode() override;
+	void Interpret() override;
+	list<ExpressionNode*>* Expressions;
     StatementEscribirArchivoNode(list<ExpressionNode*>* ls,int row,int column);
 
-    // StatementNode interface
-public:
-    string ToXML(int i);
+    string ToXML(int i) override;
 
-    // StatementNode interface
-public:
-    void ValidateSemantic();
+    void ValidateSemantic() override;
 };
 
 #endif // STATEMENTESCRIBIRARCHIVO_H

@@ -1,6 +1,21 @@
 #include "lppprogram.h"
 #include "../helper.h"
 
+LppProgram::~LppProgram()
+{
+	delete Header;
+	delete Statements;
+}
+
+void LppProgram::Interpret()
+{
+	Header->Interpret();
+	for (int i = 0; i < Statements->size(); i++)
+	{
+		Helper::GetElementStatementNode(Statements, i)->Interpret();
+	}
+}
+
 LppProgram::LppProgram(ProgramHeaderNode *program, list<StatementNode *> *ls, int row, int column)
 {
     this->Header=program;

@@ -1,6 +1,7 @@
 #include "expressionnode.h"
 #include <string>
 #include "../../Semantic/Type/type.h"
+#include "../../Interpret/Values/value.h"
 using namespace std;
 
 ExpressionNode::ExpressionNode()
@@ -24,3 +25,8 @@ Type *ExpressionNode::ValidateSemantic()
     return e;
 }
 
+Value* ExpressionNode::Interpret()
+{
+	Value* v = new Value();
+	return v;
+}

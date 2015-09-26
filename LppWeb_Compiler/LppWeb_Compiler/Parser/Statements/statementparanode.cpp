@@ -1,6 +1,32 @@
 #include "statementparanode.h"
 #include "../../Semantic/semanticexception.h"
 #include "../../helper.h"
+#include "../../Semantic/symboltable.h"
+#include "../../Interpret/Values/enterovalue.h"
+
+StatementParaNode::~StatementParaNode()
+{
+	delete Variable;
+	delete FirstExpression;
+	delete SecondExpression;
+	delete Statements;
+}
+
+void StatementParaNode::Interpret()
+{
+	EnteroValue* i= dynamic_cast<EnteroValue*>(FirstExpression->Interpret());
+	EnteroValue* end = dynamic_cast<EnteroValue*>(SecondExpression->Interpret());
+	
+	SymbolTable::GetInstance()->SetVariableValue(Variable->ID, FirstExpression->Interpret());
+	for (i->value; i->value <= end->value; i->value++)
+	{
+		SymbolTable::GetInstance()->SetVariableValue(Variable->ID, i);
+		for (int j = 0; j < Statements->size(); j++)
+		{
+			Helper::GetElementStatementNode(Statements, j)->Interpret();
+		}
+	}
+}
 
 StatementParaNode::StatementParaNode(VariableNode *var, ExpressionNode *firstExp, ExpressionNode *secondExp, list<StatementNode *> *ls, int row, int column)
 {

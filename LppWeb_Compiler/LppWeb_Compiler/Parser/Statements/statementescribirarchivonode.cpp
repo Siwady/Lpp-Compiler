@@ -1,6 +1,16 @@
 #include "statementescribirarchivonode.h"
 #include "../../helper.h"
 
+StatementEscribirArchivoNode::~StatementEscribirArchivoNode()
+{
+	delete Expressions;
+}
+
+void StatementEscribirArchivoNode::Interpret()
+{
+
+}
+
 StatementEscribirArchivoNode::StatementEscribirArchivoNode(list<ExpressionNode *> *ls, int row, int column)
 {
     this->Expressions=ls;

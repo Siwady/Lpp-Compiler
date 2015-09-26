@@ -2,6 +2,39 @@
 #include "../../Semantic/semanticexception.h"
 #include "../../helper.h"
 
+StatementCasoNode::~StatementCasoNode()
+{
+	delete Variable;
+	delete Cases;
+	delete SinoCase;
+}
+
+void StatementCasoNode::Interpret()
+{
+	bool def = true;
+	Value* var = Variable->Interpret();
+	CaseNode* c;
+	for (int i = 0; i < Cases->size();i++) {
+		c=Helper::GetElementCaseNode(Cases, i);
+		for (int j = 0; j < c->Literals->size(); j++){
+			if (Helper::CompareValues(Helper::GetElementLiteralNode(c->Literals, j)->Interpret(),var))
+			{
+				def = false;
+				c->Interpret();
+			}
+		}
+	}
+
+	if (def)
+	{
+		for (int k = 0; k < SinoCase->size(); k++){
+			Helper::GetElementStatementNode(SinoCase, k)->Interpret();
+		}
+	}
+
+	
+}
+
 StatementCasoNode::StatementCasoNode(VariableNode *var, list<CaseNode *> *cases, list<StatementNode *> *sinocase, int row, int column)
 {
     this->Variable=var;
@@ -10,8 +43,6 @@ StatementCasoNode::StatementCasoNode(VariableNode *var, list<CaseNode *> *cases,
     this->Row=row;
     this->Column=column;
 }
-
-
 
 string StatementCasoNode::ToXML(int i)
 {

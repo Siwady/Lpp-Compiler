@@ -1,6 +1,29 @@
 #include "statementrepitanode.h"
 #include "../../Semantic/semanticexception.h"
 #include "../../helper.h"
+#include "../../Interpret/Values/enterovalue.h"
+#include "../../Interpret/Values/booleanovalue.h"
+
+StatementRepitaNode::~StatementRepitaNode()
+{
+	delete Expression;
+	delete Statements;
+}
+
+void StatementRepitaNode::Interpret()
+{
+	Value* v = Expression->Interpret();
+	bool j = dynamic_cast<BooleanoValue*>(v)->value;
+	do
+	{
+		for (int k = 0; k < Statements->size(); k++)
+		{
+			Helper::GetElementStatementNode(Statements, k)->Interpret();
+		}
+		v = Expression->Interpret();
+		j = dynamic_cast<BooleanoValue*>(v)->value;
+	} while (!j);
+}
 
 StatementRepitaNode::StatementRepitaNode(ExpressionNode *expr, list<StatementNode *> *ls, int row, int column)
 {

@@ -8,14 +8,13 @@ using namespace std;
 class ArrayVariableNode : public VariableNode
 {
 public:
-    string ID;
+	~ArrayVariableNode() override;
+	Value* Interpret() override;
     list<ExpressionNode*> *ExpressionList;
     ArrayVariableNode();
     ArrayVariableNode(list<ExpressionNode*> *ls,string id,int row,int column);
     string ToXML(int i) override;
 
-    // ExpressionNode interface
-public:
     Type* ValidateSemantic() override;
 };
 

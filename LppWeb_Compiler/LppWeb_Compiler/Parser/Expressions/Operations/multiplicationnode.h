@@ -7,7 +7,9 @@
 class MultiplicationNode : public ExpressionNode
 {
 public:
-    ExpressionNode* LeftNode;
+	~MultiplicationNode() override;
+	Value* Interpret() override;
+	ExpressionNode* LeftNode;
     ExpressionNode* RightNode;
     MultiplicationNode(ExpressionNode* left,ExpressionNode* right, int row,int column);
 

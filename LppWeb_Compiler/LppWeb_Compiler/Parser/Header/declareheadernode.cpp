@@ -2,6 +2,15 @@
 #include "../../Semantic/symboltable.h"
 #include "../../helper.h"
 
+DeclareHeaderNode::~DeclareHeaderNode()
+{
+	delete DeclareVariables;
+}
+
+void DeclareHeaderNode::Interpret()
+{
+}
+
 DeclareHeaderNode::DeclareHeaderNode(list<DeclareVariableNode *> *var, int row, int column)
 {
     this->DeclareVariables=var;
@@ -36,7 +45,13 @@ void DeclareHeaderNode::ValidateSemantic()
         for(iteratorStr=e->IDs->begin();iteratorStr!=e->IDs->end();++iteratorStr)
         {
             id=*iteratorStr;
-            SymbolTable::GetInstance()->DeclareVariable(id,Helper::GetTypeFromTypeNode(e->Type));
+			Type* t = Helper::GetTypeFromTypeNode(e->Types);
+			if (t->Name == "")
+			{
+				t->Name = e->Types->OfType;
+			}
+			SymbolTable::GetInstance()->ExistType(t->Name);
+            SymbolTable::GetInstance()->DeclareVariable(id,t);
         }
     }
 }

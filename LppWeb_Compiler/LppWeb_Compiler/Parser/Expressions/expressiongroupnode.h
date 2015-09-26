@@ -6,6 +6,7 @@ using namespace std;
 class ExpressionGroupNode : public ExpressionNode
 {
 public:
+	Value* Interpret() override;
 	~ExpressionGroupNode() override;
 	Type* ValidateSemantic() override;
 	list<ExpressionNode*> *Expressions;

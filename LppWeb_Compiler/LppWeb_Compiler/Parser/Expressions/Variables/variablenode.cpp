@@ -1,4 +1,15 @@
 #include "variablenode.h"
+#include "../../../Interpret/Values/value.h"
+
+VariableNode::~VariableNode()
+{
+}
+
+Value* VariableNode::Interpret()
+{
+	Value * v = new Value();
+	return v;
+}
 
 VariableNode::VariableNode()
 {

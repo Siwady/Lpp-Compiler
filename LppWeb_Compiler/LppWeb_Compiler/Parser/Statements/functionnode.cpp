@@ -50,6 +50,10 @@ string FunctionNode::ToXML(int i)
     return re;
 }
 
+void FunctionNode::Interpret()
+{
+}
+
 FunctionNode::~FunctionNode()
 {
 }
@@ -65,18 +69,20 @@ void FunctionNode::ValidateSemantic()
 
 	SymbolTable::GetInstance()->ExistType(ReturnType->OfType);
 
-	FunctionType * t = new FunctionType(Helper::GetTypeFromTypeNode(ReturnType), Params,Variables);
-
+	FunctionType * t = new FunctionType(Helper::GetTypeFromTypeNode(ReturnType), Params,Variables,Statements);
+	t->DefaultValue();
 	SymbolTable::GetInstance()->DeclareVariable(ID, t);
+	
 	SymbolTable::GetInstance()->DeclareFunctionVariable(ID, t);
 
 	list<StatementNode*>::const_iterator iterator2;
 	StatementNode* temp2;
 	SymbolTable::SetInFunction(ID);
-
+	SymbolTable::GetInstance()->ReturnType = Helper::GetTypeFromTypeNode(ReturnType);
 	for (iterator2 = Statements->begin(); iterator2 != Statements->end(); ++iterator2) {
 		temp2 = *iterator2;
 		temp2->ValidateSemantic();
 	}
 	SymbolTable::SetInFunction("");
+	SymbolTable::GetInstance()->ReturnType = nullptr;
 }

@@ -7,16 +7,14 @@
 class RegisterStructureNode : public StructureNode
 {
 public:
-    string ID;
+	~RegisterStructureNode() override;
+	void Interpret() override;
+	string ID;
     list<DeclareVariableNode*>* Attributes;
     RegisterStructureNode(string Id, list<DeclareVariableNode*>* attr,int row,int column);
 
-    // StructureNode interface
-public:
     string ToXML(int i) override;
 
-    // StructureNode interface
-public:
     void ValidateSemantc() override;
 };
 
