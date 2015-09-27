@@ -12,7 +12,7 @@ Value* LiteralCadena::DefaultValue()
 
 LiteralCadena::LiteralCadena()
 {
-
+	this->Name = "Cadena";
 }
 
 

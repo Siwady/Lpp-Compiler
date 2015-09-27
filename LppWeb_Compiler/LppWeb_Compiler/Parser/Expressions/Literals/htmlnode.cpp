@@ -1,6 +1,15 @@
 #include "htmlnode.h"
 #include "../../../helper.h"
 
+HtmlNode::~HtmlNode()
+{
+}
+
+void HtmlNode::Interpret()
+{
+	cout << HTML;
+}
+
 HtmlNode::HtmlNode(string html, int row, int column)
 {
     this->HTML=html;

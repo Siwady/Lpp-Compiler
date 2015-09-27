@@ -62,9 +62,9 @@ void FunctionNode::ValidateSemantic()
 {
 	list<ParameterNode*>::const_iterator iterator;
 	ParameterNode* temp;
-	for (iterator = Params->begin(); iterator != Params->end(); ++iterator) {
-		temp = *iterator;
-		temp->ValidateSemantic();
+	for (int i=0; i<Params->size(); i++) {
+		
+		Helper::GetElementParameterNode(Params,i)->ValidateSemantic();
 	}
 
 	SymbolTable::GetInstance()->ExistType(ReturnType->OfType);

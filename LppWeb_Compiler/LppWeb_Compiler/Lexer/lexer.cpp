@@ -86,7 +86,6 @@ Token *Lexer::GetHTMLToken()
                     state=1;
                 }else if(symbol=='\n')
                 {
-
                     token->Lexeme+=symbol;
                     this->Row++;
                     this->Column=-1;

@@ -35,7 +35,8 @@ void StatementEscribaNode::Interpret()
 		}
 		else if (v->Name == "Cadena")
 		{
-			cout << dynamic_cast<CadenaValue*>(v)->value;
+			string c = dynamic_cast<CadenaValue*>(v)->value;
+			cout << c.erase(0,1).substr(0,c.length()-2);
 		}
 	}
 }

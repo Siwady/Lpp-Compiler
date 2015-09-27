@@ -26,9 +26,7 @@
 		escribir archemple, emple.sexo
 		repita 
 			Escriba "Desea Continuar ..:"
-			
-			a.d.f.d.d.d.d.d[aass()]<- a.d.f.d.d.d.d.d
-			
+
 		hasta (resp='S') o (resp='N')
 	hasta resp='N'
 	

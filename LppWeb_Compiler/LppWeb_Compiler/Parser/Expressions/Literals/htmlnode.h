@@ -5,15 +5,13 @@
 class HtmlNode : public ProgramCodeNode
 {
 public:
-    string HTML;
+	~HtmlNode() override;
+	void Interpret() override;
+	string HTML;
     HtmlNode(string html,int row,int column);
 
-    // ProgramCodeNode interface
-public:
-    string ToXML(int i);
+    string ToXML(int i) override;
 
-    // ProgramCodeNode interface
-public:
     void ValidateSemantic() override;
 };
 

@@ -3,12 +3,65 @@
 		DECLARAR entero i, resp  
 		declarar hola ca
 	inicio
-		resp<- 1
-		para i <- 1 hasta expo haga
-			resp <- resp * base
-		fin para
-		
-		retorne resp
+		retorne base^expo
 	fin
-	escriba Potencia(2,8)
+	
+	registro Empleado
+		DECLARAR cadena[50] nombre
+		DECLARAR real sueldo
+		DECLARAR caracter sexo
+	fin registro
+	
+	declarar Empleado empl
+	
+	procedimiento ImprimirEmpleados( entero cant)
+		declarar entero I
+	inicio
+		para i <- 1 hasta cant haga
+			Escriba "Empleado",i,", "
+		fin para
+	fin
+	DECLARAR arreglo[10] de entero numero
 %>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title><% escriba "Bienvenidos a la potencia ",Potencia(5,3)%></title>
+</head>
+<body>
+
+	<%escriba "Esta es una simple pagina. "%>
+	<%declarar cadena[50] URL
+		URL<-"www.imagen.com/dasdsadsad"
+	%>
+	
+	<img src= <%escriba URL%>alt=<%escriba "Unicorn picture :)"+ "hola"%> />
+	
+	<div><%escriba "Empleados:"%>
+		<Emple <%llamar ImprimirEmpleados(5)%>>
+
+		
+		</Emple>			
+	</div>
+	
+<% declarar entero x
+declarar booleano b
+%>
+
+<%
+	repita
+		Escriba "entre "
+		x<-x+1
+	hasta x=3
+%> 
+
+<Div>
+	<%mientras no b haga
+		escriba "entre al mientras", x["s"]
+		b<-verdadero
+	fin mientras%>  </Div>
+
+</body>
+</html>
+		
